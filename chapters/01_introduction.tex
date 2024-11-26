@@ -1,0 +1,20 @@
+\section{Introduction}%
+\label{sec:introduction}
+
+\begin{itemize}
+\item Context: sometimes you have to edit RDF files: turtle, jsonld, or query it using hand written sparql queries.
+\item Problem: humans make mistakes, which may result in big problems (making a mistake in a prefix statement changes all related triples)
+\item Problem: difficult to learn new properties/ontologies. No autocompletion makes a user guessing
+\item Problem: iterating on documents is slow: 
+  \begin{itemize}
+    \item shacl violations need an extra step during iteration
+    \item inconsistent types
+  \end{itemize}
+\item related work: many iterations are already implemented for specialized use cases.
+  \begin{itemize}
+    \item \href{https://query.wikidata.org/}{wikidata}
+    \item \href{query.linkeddatafragments.org}{linkeddatafragments}
+    \item \href{https://docs.triply.cc/yasgui/}{yasgui} \cite{yasgui}
+  \end{itemize}
+\item Solution: semantic LSP
+\end{itemize}
