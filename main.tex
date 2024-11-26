@@ -1,0 +1,105 @@
+\documentclass[runningheads]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage{algpseudocode, algorithm, amsmath, amssymb}					% packages to get the fonts, symbols used in most math
+%\usepackage{dcolumn}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage{booktabs}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+\usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+\usepackage[dvipsnames,svgnames, table]{xcolor} % text color
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareMathSymbol{\bigtimes}{1}{mathx}{"91}
+
+
+
+\DeclareRobustCommand{\ojoin}{\rule[0.10ex]{.3em}{.4pt}\llap{\rule[1.40ex]{.3em}{.4pt}}}
+\newcommand{\leftouterjoin}{\mathrel{\ojoin\mkern-6.5mu\Join}}
+\newcommand{\rightouterjoin}{\mathrel{\Join\mkern-6.5mu\ojoin}}
+\newcommand{\fullouterjoin}{\mathrel{\ojoin\mkern-6.5mu\Join\mkern-6.5mu\ojoin}}
+
+
+\definecolor{eclipseStrings}{RGB}{42,0.0,255}
+\definecolor{eclipseKeywords}{RGB}{127,0,85}
+\definecolor{darkgreen}{RGB}{0,128,21}
+\colorlet{numb}{magenta!60!black}
+\setlength{\parskip}{0pt}
+
+\input{algccommands.tex}
+\input{listingslang.tex}
+\input{macro.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The following ensures that we have a (non-visible) table of contents embedded
+% in the PDF, which PDF readers can show and, thus, allows me to navigate the
+% document more easily.
+%                                    Olaf
+\setcounter{tocdepth}{2}
+\hypersetup{bookmarksopen=true, citecolor=blue}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}												% end of preamble and beginning of text that will be printed
+
+\title{Semantic Languages servers are cool}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Arthur Vercruysse\inst{1}\orcidID{0000-0000-0000-0000} \and
+Julian\inst{1}\orcidID{0000-0002-1741-2090} \and 
+Pieter Colpaert\inst{1}\orcidID{0000-0002-1741-2090}}
+%
+
+\authorrunning{A. Vercruysse et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{
+University of Ghent - imec, Ghent, Belgium \\
+\email{arthur.vercruysse@ugent.be}}
+%
+\maketitle              % typeset the header of the contribution
+%
+\input{00_abstract.tex}
+
+
+% \begin{credits}
+% \subsubsection{\ackname} A bold run-in heading in small font size at the end of the paper is
+% used for general acknowledgments, for example: This study was funded
+% by X (grant number Y).
+%
+% \subsubsection{\discintname}
+% It is now necessary to declare any competing interests or to specifically
+% state that the authors have no competing interests. Please place the
+% statement with a bold run-in heading in small font size beneath the
+% (optional) acknowledgments\footnote{If EquinOCS, our proceedings submission
+% system, is used, then the disclaimer can be provided directly in the system.},
+% for example: The authors have no competing interests to declare that are
+% relevant to the content of this article. Or: Author A has received research
+% grants from Company W. Author B has received a speaker honorarium from
+% Company X and owns stock in Company Y. Author C is a member of committee Z.
+% \end{credits}
+
+\bibliographystyle{splncs04}
+\bibliography{bibliography}
+
+\end{document}

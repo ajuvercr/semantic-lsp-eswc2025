@@ -1,0 +1,150 @@
+% Set symbols % 
+\newcommand{\symFragmentUniverse}{\mathcal{F}}
+\newcommand{\symAttrUniverse}{\mathcal{A}}
+\newcommand{\symTermUniverse}{\mathcal{T}}
+\newcommand{\symAllStrings}{\mathcal{S}} % the symbol for the set of all strings
+\newcommand{\symAllIRIs}{\mathcal{I}} % the symbol for the set of all IRIs
+\newcommand{\symAllLiterals}{\mathcal{L}} % the symbol for the set of all literals
+\newcommand{\symAllBNodes}{\mathcal{B}} % the symbol for the set of all blank nodes
+\newcommand{\symRMLGraph}{G}
+\newcommand{\symDataObjUni}{\mathcal{D}}
+\newcommand{\symDataAccUni}{\mathcal{Q}}
+\newcommand{\symDataSeqUni}{\bar{\mathcal{O}}}
+\newcommand{\symAttrSubSet}{A}
+\newcommand{\symProjSet}{P}
+\newcommand{\symMappingTupleSet}{M}
+\newcommand{\symRenamePFunc}{R}
+\newcommand{\bigDataObject}{D}
+\newcommand{\symSetDataset}{\mathcal{D}^\texttt{\tiny ds}\!}
+\newcommand{\symSetDatasetX}[1]{\mathcal{D}^\texttt{\tiny ds}_{#1}}
+\newcommand{\symSetContentA}{\mathcal{D}^\texttt{\tiny c1}}
+\newcommand{\symSetContentAX}[1]{\mathcal{D}^\texttt{\tiny c1}_{#1}}
+\newcommand{\symSetContentB}{\mathcal{D}^\texttt{\tiny c2}}
+\newcommand{\symSetContentBX}[1]{\mathcal{D}^\texttt{\tiny c2}_{#1}}
+\newcommand{\symDataAcc}{L}
+\newcommand{\symDataAccX}[1]{L_{#1}}
+\newcommand{\symDataSeqCard}[1]{D^{seq,#1}}
+\newcommand{\symAttrQueryMap}{\mathbb{P}}
+\newcommand{\symDataSeq}{\bar{O}}
+\newcommand{\symExtExprSet}{E}
+\newcommand{\symExtExprSeq}{\bar{\symExtExprSet}}
+\newcommand{\symExtPairs}{\symExtExprSet}
+\newcommand{\symTermSeqUniverse}{\bar{\symTermUniverse}}
+\newcommand{\symFragmentPFunc}{\bbbf}
+\newcommand{\symFragmentSet}{F}
+\newcommand{\symJoinAttrPairs}{\mathbb{J}}
+\newcommand{\symExtFuncUni}{\mathcal{E}}
+
+% Special values % 
+\newcommand{\card}{card}
+\newcommand{\fragAttr}{a_\mathrm{frag}}
+\newcommand{\fragDefault}{f_{0}}
+\newcommand{\attr}{a}
+\newcommand{\subjAttr}{\attr_\textrm{s}}
+\newcommand{\predAttr}{\attr_\textrm{p}}
+\newcommand{\objAttr}{\attr_\textrm{o}}
+\newcommand{\graphAttr}{\attr_\textrm{g}}
+\newcommand{\fragment}[0]{fragment}
+\newcommand{\error}{\epsilon}
+\newcommand{\mappingTuple}{t}
+\newcommand{\symMappingInst}{I}
+\newcommand{\mappingRel}{(\symAttrSubSet, \symMappingInst)}
+\newcommand{\mappingRelSpec}[1]{(\symAttrSubSet_{#1}, \symMappingInst_{#1})}
+\newcommand{\queryExpr}{q}
+\newcommand{\rootIt}{rit}
+\newcommand{\cobit}{cobit}
+\newcommand{\dataObject}{d}
+\newcommand{\eval}{\mathit{eval}}
+\newcommand{\evalX}[1]{\eval_{#1}}
+\newcommand{\cbeval}{\mathit{eval}'\!}
+\newcommand{\cbevalX}[1]{\eval_{#1}'}
+\newcommand{\sourceType}{type}
+\newcommand{\sourceTypeX}[1]{type_{#1}}
+\newcommand{\sourceTypeTuple}{(\symSetDataset, \symSetContentA\!, \symSetContentB\!, \symDataAcc, \symDataAcc'\!, \eval, \cbeval, \typeCast)}
+\newcommand{\sourceTypeTupleX}[1]{\sourceTypeTupleXXX{#1}{#1}{#1}}
+\newcommand{\sourceTypeTupleXXX}[3]{(\symSetDatasetX{#1}, \symSetContentAX{#2}, \symSetContentBX{#3}, \symDataAccX{#2}, \symDataAccX{#3}', \evalX{#2}, \cbevalX{#3}, \typeCastX{#1})}
+\newcommand{\dataSource}{s}
+\newcommand{\dataSourceTuple}{(\sourceType,\bigDataObject)}
+\newcommand{\iterConfig}{\bbbc}
+\newcommand{\sourceOp}[3]{\textrm{Source}^{(#1,#2,#3)}}
+\newcommand{\sourceOpDflt}{\sourceOp{\dataSource}{\queryExpr}{\symAttrQueryMap}}
+\newcommand{\sourceOpTuple}{(\dataSource, \iterConfig)}
+\newcommand{\attrQueryPair}{(\attr \rightarrow \queryExpr)}
+\newcommand{\typeCast}{cast}
+\newcommand{\typeCastX}[1]{\typeCast_{#1}}
+\newcommand{\length}{len}
+\newcommand{\var}{v}
+\newcommand{\indexSeq}{M}
+\newcommand{\extExpr}{\varphi}
+\newcommand{\extEval}{eval}
+\newcommand{\extPairsType}{(\symAttrUniverse \setminus \symAttrSubSet) \times \symExtExprSeqUni}
+\newcommand{\serdeAttr}{a_{serialized}}
+\newcommand{\bgp}{\bbbb}
+\newcommand{\extFunc}{f}
+\newcommand{\extFuncType}{(\symTermUniverse \cup \{\error\})}
+\newcommand{\extFuncTuple}{(\extFunc,\extExpr_1,\dots,\extExpr_n)}
+\newcommand{\extOp}{\text{Extend}_{\varphi}^{\attr}}
+\newcommand{\extOpAttr}[1]{\text{Extend}_{\varphi}^{#1}}
+\newcommand{\renameOp}{\text{Rename}^{\symRenamePFunc}}
+\newcommand{\equiJoinOp}{\text{Join}^{\symJoinAttrPairs}_{=}}
+\newcommand{\triplesMapIRI}{u}
+\newcommand{\triplesMapGraph}[2]{\symRMLGraph_{#1}^{#2}}
+\newcommand{\toIRI}{\texttt{toIRI}}
+\newcommand{\toBNode}{\texttt{toBNode}^{\LTB}}
+\newcommand{\toLiteral}{\texttt{toLiteral}}
+\newcommand{\template}{\texttt{template}^{\symAttrQueryMap}}
+\newcommand{\initSrc}{\texttt{initSrc}}
+\newcommand{\concat}{\texttt{concat}}
+\newcommand{\concatSeq}{\texttt{concatSeq}}
+\newcommand{\literal}{\ell}
+\newcommand{\lex}{\mathit{lex}}
+\newcommand{\dt}{\mathit{dt}}
+\newcommand{\literalTuple}{(\lex, \dt)}
+\newcommand{\LTB}{\mathit{L2B}}
+\newcommand{\tempSubStrs}{\texttt{tempSubStrs}}
+\newcommand{\substrSeq}{\bar{S}}
+\newcommand{\projectOp}[1]{\text{Project}^{#1}}
+\newcommand{\natJoin}{\text{NatJoin}}
+\newcommand{\union}{\text{Union}}
+
+% Functions % 
+\newcommand{\fctDom}[1]{\mathrm{dom}(#1)}
+\newcommand{\fctMappingTuple}[1]{\mappingTuple(#1)}
+\newcommand{\fctAttrs}[1]{\mathrm{attrs}(#1)}
+\newcommand{\fctCard}[2]{\card[#1](#2)}
+\newcommand{\fctRootIt}[2]{\rootIt(#1, #2)}
+\newcommand{\fctCobit}[3]{\cobit(#1, #2, #3)}
+\newcommand{\fctEval}[2]{\eval(#1,#2)}
+\newcommand{\fctEvalLang}[3]{\eval^{#3}(#1,#2)}
+\newcommand{\fctCbeval}[3]{\cbeval(#1,#2,#3)}
+\newcommand{\fctCbevalLang}[4]{\cbeval^{#4}(#1,#2,#3)}
+\newcommand{\fctTypeCast}[1]{\typeCast(#1)}
+\newcommand{\fctLength}[1]{\length(#1)}
+\newcommand{\fctRenameTuple}[2]{rename^{#1}(#2)}
+\newcommand{\fctSubst}[2]{subst^{#1}(#2)}
+\newcommand{\fctExtFuncEvalN}[2]{\extFunc(\fctEval{#1_1}{#2},\dots,\fctEval{#1_n}{#2})}
+\newcommand{\fctExtOp}[1]{\extOp(#1)}
+\newcommand{\fctExtOpBig}[1]{\extOp\bigl(#1\bigr)}
+\newcommand{\fctExtOpX}[3]{\text{Extend}^{#1}_{#2}(#3)}
+\newcommand{\fctExtOpXBig}[3]{\text{Extend}^{#1}_{#2}\bigl(#3\bigr)}
+\newcommand{\fctRenameOp}[1]{\renameOp(#1)}
+\newcommand{\fctRenameOpBig}[1]{\renameOp\bigl(#1\bigr)}
+\newcommand{\fctEquiJoinOp}[2]{\equiJoinOp(#1, #2)}
+\newcommand{\fctEquiJoinOpBig}[2]{\equiJoinOp\bigl(#1, #2\bigr)}
+\newcommand{\fctToIRI}[1]{\toIRI(#1)}
+\newcommand{\fctToBNode}[1]{\toBNode(#1)}
+\newcommand{\fctToLiteral}[1]{\toLiteral(#1)}
+\newcommand{\fctTemplate}[1]{\template(#1)}
+\newcommand{\fctImg}[1]{\mathrm{img}(#1)}
+\newcommand{\fctInitSrc}[1]{\initSrc(#1)}
+\newcommand{\fctConcat}[2]{\concat(#1, #2)}
+\newcommand{\fctConcatSeq}[1]{\concatSeq(#1)}
+\newcommand{\fctTempSubStrs}[1]{\tempSubStrs(#1)}
+\newcommand{\fctProjectOpDflt}[1]{\fctProjectOp{\symProjSet}{#1}}
+\newcommand{\fctProjectOp}[2]{\projectOp{#1}(#2)}
+\newcommand{\fctProjectOpBig}[2]{\projectOp{#1}\bigl(#2\bigr)}
+\newcommand{\fctNatJoin}[2]{\natJoin(#1,#2)}
+\newcommand{\fctUnion}[2]{\union(#1,#2)}
+
+% Layout %
+\newcommand{\ttl}[1]{\texttt{\small #1}}  % for conrete IRIs, etc. used in examples and in formulas

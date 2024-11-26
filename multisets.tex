@@ -1,0 +1,43 @@
+\section{Preliminaries}%
+\label{sec:preliminaries}
+Since we defined $\mappingInst$ as a multiset, there is a
+notion of cardinalities of the mapping tuples~$\mappingTuple$ inside
+$\mappingInst$.
+
+
+\begin{definition}
+	\label{def:cardinality}
+	Given a cardinality function $\card$.
+	The cardinality function~$\card$ applied on a mapping
+	tuple~$\mappingTuple$, in a multiset of mapping tuples~$\mappingInst$, as
+	$\fctCard{\mappingInst}{\mappingTuple}$, gives us the number of occurrences
+	of mapping tuple~$\mappingTuple$ in
+	$\mappingInst$.
+\end{definition}
+
+
+Naturally, when we restrict the domain of the mapping tuple~$\mappingTuple$ in
+the multiset~$\mappingInst$, as defined in Definition~\ref{def:tuple_restrict},
+there can be a change in the cardinality of the resulting mapping
+tuple~$\mappingTuple'$ as an element of the resulting multiset of mapping
+tuples~$\mappingInst'$.
+This change in the cardinality can be calculated as follows:
+
+\begin{property}
+	\label{prop:cardinality_restriction}
+	Given a multiset of mapping tuples~$\mappingInst$ and its corresponding cardinality
+	function~$\card$, a set of attributes $A$ and $P \subseteq (A
+		\setminus \{\fragAttr\})$ where all mapping tuples~$\mappingTuple$ in
+	$\mappingInst$ has the domain $A$.
+	Restricting all the mapping tuples~$\mappingTuple$ in $\mappingInst$ to the
+	attributes $P \cup \{\fragAttr\}$ such that the restricted mapping tuples
+	$\mappingTuple' = \mappingTuple[P \cup \{\fragAttr\}]$ forms the multiset
+	of restricted mapping tuples called~$\mappingInst'$.
+    The cardinality function, $\card'$, applied on mapping
+    tuple~$\mappingTuple'$, $\card'(\mappingTuple')$, is the summation of
+    $\card(\mappingTuple)$ for all $\mappingTuple \in \mappingInst$ such that
+    $\mappingTuple[P \cup \{\fragAttr\}]  = \mappingTuple'$, \break (i.e,
+    $\card(\mappingTuple') = \sum\limits_{\mappingTuple \in \mappingInst}
+    \card(t) \ | \ \mappingTuple[P \cup \{\fragAttr\}] = \mappingTuple'$). 
+\end{property}
+
