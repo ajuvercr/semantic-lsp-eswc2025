@@ -8,6 +8,14 @@
 \usepackage{latexsym}
 \usepackage{listings}
 \usepackage{booktabs}
+\usepackage{tabularx} % For dynamic table width
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\renewcommand{\arraystretch}{1.5}
+\usepackage{pifont} % For check and cross symbols
+\newcommand{\cmark}{\textcolor{darkgreen}{\ding{51}}}  % Checkmark
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}  % Cross
+\newcommand{\mmark}{\textcolor{orange}{\ding{106}}}  % Cross
+
 % T1 fonts will be used to generate the final print and online PDFs,
 % so please use T1 fonts in your manuscript whenever possible.
 % Other font encondings may result in incorrect characters.

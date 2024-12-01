@@ -1,16 +1,70 @@
 \section{Related Work}%
 \label{sec:related_work}
 
-\subsection{Features}
-In the state of the art, there are implementations that handle three different aspects to improving developer experience.
+In this section we look at the related state of the art.
+The state of the art is full of different implementations that handle some specific part of the semantic web.
+From ontology designers like protege to Yasgui's sparql query editors.
+This section covers the different IDE functionalities that can be implemented for the semantic web, Table 1 provides details on current and open-source implementations that implement parts of these functionalities.
 
-\subsection*{Highlighting}
+\paragraph*{Highlighting}
 
-\subsection*{Syntax checking}
+Highlighting helps human brains parse data more easily.
+There are two different parts of highlighting: syntactic highlighting and semantic highlighting.
+The former only concerns itself with the syntax of a document. A lexer can handle this highlighting very effectively and allows for example to hightlight strings as green and namednodes as red.
+Semnatic highlighting on the other hand can use document semantics. Semantics can be for example the term kind of a term, only inferable by extracting the actual triples or marking the type of an object in a different colour.
 
-\subsection*{Completion}
+Please note that undefined properties etc should not be highlighed differently by the semantic highlighter, undefined properties should be handled as diagnostics.
 
-\subsection*{feature comparison to state of the art}
+
+\paragraph*{Diagnostics}
+
+Diagnostics are of utmost importance, nothing is more draining than to check whether or not some data is correctly written at runtime.
+The editor should be able to notify the user that the current document would not be parsed by parsers following the standard.
+
+Other diagnostics are also very relevant and can inform the user that the current data may not be what they expect.
+For example the editor can notify the user when an undefined property is used, alerting the user that it could be a typo.
+The editor can also notify the user about reasoning mistakes, when creating an ontology or creating data that should adhere to an ontology or to a SHACL shape.
+
+
+\paragraph*{Formatting}
+
+It is expected that an IDE helps the developer to keep a consistent format over different documents, again helping the user parse the data more effectively.
+Formatting however is a subjective matter and should be configurable by the user or codebase.
+
+\paragraph*{Renaming}
+Often an editor allows the user to rename identifiers as a quality of life improvemt.
+This allows the user to more easily iterate over data and aliviating the writer's block.
+
+
+\paragraph*{Completion}
+
+Completion comes again in two flavours: completing keywords and already defined tokens and semantic completion.
+Semantic completion can complete with defined properties and defined classes and can check the current context of the completion, answering the question "Is the user current writing a class or a property?".
+
+Naive completion can suggest all defined properties and defined classes but this is not always wanted, the editor should also be able to derive the type of the current subject for example and only suggest properties that are defined with that type as domain.
+On the other hand when the user is writing an object, the editor can also suggest already defined entities that have the correct type checking the range of the property.
+
+
+
+\begin{table}[h!]
+    \centering
+  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|}
+\hline
+    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
+      LSP implementation                                  & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic}
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ } 
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Naieve} & \rotatebox{90}{Typed}
+                                        & \rotatebox{90}{Formatting} 
+                                        & \rotatebox{90}{Renaming} \\ \hline
+Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \mmark\\
+Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark\\
+Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark\\
+Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark\\
+\hline
+\end{tabularx}
+    \caption{Table without predefining column count explicitly.}
+\end{table}
+
 
 \subsection*{Some words on ontology designing tools}
 Their main helping functions\cite{ComparingOntologyBuildingTools}.
@@ -19,4 +73,68 @@ Their main helping functions\cite{ComparingOntologyBuildingTools}.
 
 Language Servers using the Language Server Protocol\cite{IntroToLsp} 
 are cool \cite{GLSPFlexibility}.
+
+
+
+%% GPT
+
+\section{Related Work}%
+\label{sec:related_work}
+
+This section examines the state of the art in tools and functionalities for semantic web development. 
+Current implementations address various aspects of semantic web technologies, ranging from ontology modeling tools like Protégé to SPARQL query editors such as YASGUI.
+While these tools provide specialized capabilities, the integration of features typical of Integrated Development Environments (IDEs) remains limited. 
+Table~\ref{tab:current_implementations} summarizes open-source tools that implement selected IDE functionalities for semantic web technologies.
+
+\paragraph*{Highlighting} enhances readability by leveraging visual cues, which assist developers in parsing complex data. 
+
+There are two primary types of highlighting: \textbf{syntactic} and \textbf{semantic}.
+\begin{itemize}
+    \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers. For example, strings might appear in green, while named nodes are highlighted in red. This type of highlighting does not require knowledge of the document’s meaning.
+    \item \textbf{Semantic highlighting}, in contrast, uses document semantics to differentiate terms based on their roles. For instance, the type of an object could be highlighted in a unique color, or terms inferred from triples could be visually distinguished.
+\end{itemize}
+Semantic highlighters should avoid overloading the user with unnecessary information. Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.
+
+
+\paragraph*{Diagnostics} are essential for identifying issues early in the development process. 
+Rather than deferring error detection to runtime, an IDE should provide immediate feedback on data validity.
+
+Examples of valuable diagnostics include:
+\begin{itemize}
+    \item \textbf{Standard compliance}: Notifying users if the current document is incompatible with parsers adhering to semantic web standards.
+    \item \textbf{Undefined properties}: Alerting users to potential typos or incorrect terms when undefined properties are detected.
+    \item \textbf{Reasoning errors}: Highlighting logical inconsistencies in ontologies or data that deviate from expected SHACL shapes or OWL reasoning.
+\end{itemize}
+
+These features enable developers to maintain data accuracy and reduce time spent debugging.
+
+
+\paragraph*{Formatting}
+
+Consistent formatting across documents enhances readability and maintainability.
+An IDE should assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.
+
+\paragraph*{Renaming} identifiers, such as classes or properties, is a critical feature for iterative development.
+This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.
+
+\paragraph*{Completion} features, like highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
+
+\begin{itemize}
+    \item \textbf{Syntactic completion} involves suggesting keywords or tokens already defined in the document.
+    \item \textbf{Semantic completion} provides context-aware suggestions, such as properties or classes relevant to the current position. For example:
+    \begin{itemize}
+        \item When writing a property, the IDE can suggest those defined for the subject's type.
+        \item When completing an object, it can suggest entities consistent with the property's range.
+    \end{itemize}
+\end{itemize}
+
+Naive completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
+
+
+\subsection*{Ontology Design Tools}
+
+Ontology design tools, such as Protégé, serve as the foundation for many semantic web development workflows. 
+Their primary functions include visualizing ontologies, defining classes and properties, and validating logical consistency.
+These tools provide essential support but often lack the integrated functionality of modern IDEs, such as context-aware diagnostics or advanced refactoring capabilities~\cite{ComparingOntologyBuildingTools}.
+
 
