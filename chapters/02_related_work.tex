@@ -46,23 +46,28 @@ On the other hand when the user is writing an object, the editor can also sugges
 
 
 
+% we might want to transpose the headers
 \begin{table}[h!]
     \centering
-  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|}
+  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|C|}
 \hline
-    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
-      LSP implementation                                  & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic}
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ } 
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Naieve} & \rotatebox{90}{Typed}
+    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
+
+      LSP implementation                & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic} %highlighting
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ }  %diagnostics
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Naieve} & \rotatebox{90}{Typed} % completion
                                         & \rotatebox{90}{Formatting} 
-                                        & \rotatebox{90}{Renaming} \\ \hline
-Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \mmark\\
-Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark\\
-Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark\\
-Afghanistan & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \cmark & \xmark & \xmark\\
+                                        & \rotatebox{90}{Renaming}
+                                        & \rotatebox{90}{Polyglot} \\ \hline
+Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cmark & \cmark & \mmark & \xmark & \xmark & \xmark & \cmark \\
+RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
+query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+Protege                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
+rdf-vocabularies-autocomplete & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
 \hline
 \end{tabularx}
-    \caption{Table without predefining column count explicitly.}
+    \caption{\label{tab:current_implementations}Table without predefining column count explicitly. Stardog simple completion is based on a fixed list of items. RDFox syntax completion only works for SPARQL functions.}
 \end{table}
 
 

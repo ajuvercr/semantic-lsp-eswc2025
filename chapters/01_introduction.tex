@@ -1,20 +1,72 @@
 \section{Introduction}%
 \label{sec:introduction}
 
-\begin{itemize}
-\item Context: sometimes you have to edit RDF files: turtle, jsonld, or query it using hand written sparql queries.
-\item Problem: humans make mistakes, which may result in big problems (making a mistake in a prefix statement changes all related triples)
-\item Problem: difficult to learn new properties/ontologies. No autocompletion makes a user guessing
-\item Problem: iterating on documents is slow: 
-  \begin{itemize}
-    \item shacl violations need an extra step during iteration
-    \item inconsistent types
-  \end{itemize}
-\item related work: many iterations are already implemented for specialized use cases.
-  \begin{itemize}
-    \item \href{https://query.wikidata.org/}{wikidata}
-    \item \href{query.linkeddatafragments.org}{linkeddatafragments}
-    \item \href{https://docs.triply.cc/yasgui/}{yasgui} \cite{yasgui}
-  \end{itemize}
-\item Solution: semantic LSP
-\end{itemize}
+% Enhancing semantic web adoption by lowering the barrier to learn (ref Two Decades On)
+% In this paper we introduce Semantic LSP, a language server to bring enhanced editing linked data documents, including turtle, jsonld and sparql.
+
+% Focus not only on semantic engineers, people that work daily with semantic data
+% But also focus on data engineers that create intriguing sparql queries over the precious semantic data
+% Focus also on the domain experts, sometimes installing extra software is too big a hurdle
+% These people we call 'end users' (cite  10.1145/1922649.1922658)
+
+% End users should focus on the following steps
+% - Requirements: How the software should behave in the world
+% - Design and specifications: How the software behaves internally to achieve the requirements
+% - Reuse: Using preexisting code to save time and avoid errors (including integration, extension, and other perfective maintenance)
+% - Testing and Verification: Gaining confidence about correctness and identifying failures.
+% - Debugging: Repairing known failures by locating and correcting errors.
+% Language servers help the end user with design and reuse by bringing autocompletion to the editor. 
+% Design is more fluent for the domain experts because writing OWL and RDFS is faster and less error prone.
+% Reuse is stimulated by already suggesting defined properties when writing turtle.
+% Testing and verification is enhanced by using SHACL shapes to valide user data on the fly and ensuring correct syntax.
+
+% A language server also serves to lowering the barrier to active learning. Users in the study ... et al attested to the complexity of creating sparql queryies for wikidata.
+% Autocompletion on properties and suggesting properties with plain texts help the students explore the ontology and lets them create more intriguing queries.
+
+
+% There is already a lot of related work, even in the area of the semantic web (cite yasgui).
+% Yasgui showed that lowering the barrier to entry indeed does encourage more usage and raised the semantic literacie quite quickly.
+% We believe that taking those concepts and expanding on them to support more semantic languages and focussing on a easy to use design that promotes extensibily is a great oportunity to advance the state of the art.
+
+
+The semantic web has matured over the past two decades, yet its adoption remains limited due to significant barriers to usability and accessibility \cite{10.3233/SW-190387}. 
+Complexities in working with semantic languages like Turtle, JSON-LD, and SPARQL, coupled with a lack of intuitive tooling, make it challenging for users across varying levels of expertise to effectively create, manage, and query semantic data. 
+To address these challenges, we introduce Semantic LSP, a language server designed to enhance the editing experience for linked data documents. 
+By leveraging features such as autocompletion, diagnostics, and real-time validation, Semantic LSP aims to lower the barriers to semantic web adoption while improving productivity and reducing common errors.
+
+The need for such a tool becomes evident when considering the distinct challenges faced by key user groups:
+
+\begin{enumerate}
+  \item \textbf{Semantic Power Users}\\
+    Experienced semantic engineers require advanced tools to efficiently manage large datasets, develop ontologies, and perform reasoning tasks.
+    While proficient, even these users benefit from features that reduce cognitive overhead, minimize manual errors, and accelerate routine operations.
+    Tools like Semantic LSP provide real-time feedback, context-aware autocompletion, and error diagnostics, significantly streamlining their workflows.
+
+  \item \textbf{Newcomers and Casual Users}\\
+    Beginners, including students and hobbyists, often struggle with the intricacies of semantic technologies\cite{EvensteinSigalov2023,Turki2021RepresentingCI}. 
+    Writing valid RDF documents or crafting correct SPARQL queries can be overwhelming without proper guidance. 
+    Semantic LSP supports active learning by offering user-friendly features such as syntax highlighting, contextual autocompletion, and hover-based documentation, empowering newcomers to experiment confidently and overcome the steep learning curve.
+
+
+\item \textbf{Domain Experts Creating Ontologies}\\
+    Domain experts typically rely on tools like Protégé for ontology creation. 
+    However, such tools can introduce bottlenecks, particularly for smaller projects, due to setup complexity and steep learning curves. 
+    Semantic LSP offers a lightweight alternative by enabling ontology creation directly within text editors using Turtle.
+    This approach is especially beneficial for quick iterations and avoids the overhead of additional software installation and configuration.
+
+  \item \textbf{Data Engineers Crafting SPARQL Queries}\\
+    Data engineers frequently face challenges in exploring unfamiliar ontologies and writing sophisticated queries. 
+    Semantic LSP facilitates these tasks with intelligent autocompletion, which suggests properties and classes based on context, and hover-based explanations that help users understand ontology structures.
+    These features reduce errors, improve query quality, and promote deeper engagement with semantic data.
+\end{enumerate}
+
+Integrated Development Environments (IDEs) are widely recognized for their ability to improve developer productivity, streamline workflows, and reduce common mistakes across various domains \cite{javaEngineer}. 
+Features like syntax highlighting and diagnostics are not merely conveniences; they are essential tools for ensuring accuracy and maintaining consistency. 
+Despite these benefits, such productivity-enhancing features are underrepresented in semantic web tooling.
+Semantic LSP bridges this gap, extending the advantages of modern IDEs to semantic web technologies.
+
+Previous efforts, such as YASGUI for SPARQL query editing, have shown the value of lowering entry barriers by improving usability \cite{10.3233/SW-150197,10.1007/978-3-642-41242-4_7}. 
+Semantic LSP builds on these successes, expanding support to multiple semantic languages and emphasizing a user-friendly, extensible design. 
+By addressing the unique needs of these user groups, we aim to advance the state of the art in semantic web tooling and encourage broader adoption.
+
+
