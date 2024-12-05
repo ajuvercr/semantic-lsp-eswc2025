@@ -39,7 +39,8 @@ Supers:
 
 Next: LSP impact on languages
 
-- [Merlin: A Language Server for OCaml (Experience Report)](https://dl.acm.org/doi/10.1145/3236798) 10.1145/3236798
+
+- [Merlin: A Language Server for OCaml (Experience Report)](https://dl.acm.org/doi/10.1145/3236798) Bour_2018
 > Proponents of a new or niche programming language wish to provide language support for all major IDEs and editors, and the only practical way to do this is to build tools to share the language-awareness logic among many different editors. We use the term language server to refer to a tool providing this language-aware logic
 > The main technical piece required to build a language server is a language frontend (as found in typical language implementations: parsing and static analysis) that is reasonably incremental (for responsiveness) and supports partial programs with missing or erroneous program fragments.
 > Merlin supports editing several file buffers at once, but each buffer belongs to an independent session, with no cross-session communication. Merlin never tries to synchronize or share partial information from several files being edited simultaneously. In practice this heuristic simplification works very well, for at least two reasons. First, each session typically has access to a mostly-correct interface for the other files coming from an old build. Second, programmers typically spend time editing implementation files foo.ml without breaking the interface file foo.mli, allowing new builds to create correct a foo.cmi even if the whole build fails on partial files.

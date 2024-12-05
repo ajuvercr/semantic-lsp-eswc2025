@@ -1,84 +1,61 @@
-\section{Related Work}%
-\label{sec:related_work}
-
-In this section we look at the related state of the art.
-The state of the art is full of different implementations that handle some specific part of the semantic web.
-From ontology designers like protege to Yasgui's sparql query editors.
-This section covers the different IDE functionalities that can be implemented for the semantic web, Table 1 provides details on current and open-source implementations that implement parts of these functionalities.
-
-\paragraph*{Highlighting}
-
-Highlighting helps human brains parse data more easily.
-There are two different parts of highlighting: syntactic highlighting and semantic highlighting.
-The former only concerns itself with the syntax of a document. A lexer can handle this highlighting very effectively and allows for example to hightlight strings as green and namednodes as red.
-Semnatic highlighting on the other hand can use document semantics. Semantics can be for example the term kind of a term, only inferable by extracting the actual triples or marking the type of an object in a different colour.
-
-Please note that undefined properties etc should not be highlighed differently by the semantic highlighter, undefined properties should be handled as diagnostics.
-
-
-\paragraph*{Diagnostics}
-
-Diagnostics are of utmost importance, nothing is more draining than to check whether or not some data is correctly written at runtime.
-The editor should be able to notify the user that the current document would not be parsed by parsers following the standard.
-
-Other diagnostics are also very relevant and can inform the user that the current data may not be what they expect.
-For example the editor can notify the user when an undefined property is used, alerting the user that it could be a typo.
-The editor can also notify the user about reasoning mistakes, when creating an ontology or creating data that should adhere to an ontology or to a SHACL shape.
-
-
-\paragraph*{Formatting}
-
-It is expected that an IDE helps the developer to keep a consistent format over different documents, again helping the user parse the data more effectively.
-Formatting however is a subjective matter and should be configurable by the user or codebase.
-
-\paragraph*{Renaming}
-Often an editor allows the user to rename identifiers as a quality of life improvemt.
-This allows the user to more easily iterate over data and aliviating the writer's block.
-
-
-\paragraph*{Completion}
-
-Completion comes again in two flavours: completing keywords and already defined tokens and semantic completion.
-Semantic completion can complete with defined properties and defined classes and can check the current context of the completion, answering the question "Is the user current writing a class or a property?".
-
-Naive completion can suggest all defined properties and defined classes but this is not always wanted, the editor should also be able to derive the type of the current subject for example and only suggest properties that are defined with that type as domain.
-On the other hand when the user is writing an object, the editor can also suggest already defined entities that have the correct type checking the range of the property.
-
-
-
-% we might want to transpose the headers
-\begin{table}[h!]
-    \centering
-  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|C|}
-\hline
-    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
-
-      LSP implementation                & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic} %highlighting
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ }  %diagnostics
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Naieve} & \rotatebox{90}{Typed} % completion
-                                        & \rotatebox{90}{Formatting} 
-                                        & \rotatebox{90}{Renaming}
-                                        & \rotatebox{90}{Polyglot} \\ \hline
-Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cmark & \cmark & \mmark & \xmark & \xmark & \xmark & \cmark \\
-RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
-query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
-yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
-Protege                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
-rdf-vocabularies-autocomplete & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
-\hline
-\end{tabularx}
-    \caption{\label{tab:current_implementations}Table without predefining column count explicitly. Stardog simple completion is based on a fixed list of items. RDFox syntax completion only works for SPARQL functions.}
-\end{table}
-
-
-\subsection*{Some words on ontology designing tools}
-Their main helping functions\cite{ComparingOntologyBuildingTools}.
-
-\subsection{Language Server Protocol}
-
-Language Servers using the Language Server Protocol\cite{IntroToLsp} 
-are cool \cite{GLSPFlexibility}.
-
+% \section{Related Work}%
+% \label{sec:related_work}
+%
+% In this section we look at the related state of the art.
+% The state of the art is full of different implementations that handle some specific part of the semantic web.
+% From ontology designers like protege to Yasgui's sparql query editors.
+% This section covers the different IDE functionalities that can be implemented for the semantic web, Table 1 provides details on current and open-source implementations that implement parts of these functionalities.
+%
+% \paragraph*{Highlighting}
+%
+% Highlighting helps human brains parse data more easily.
+% There are two different parts of highlighting: syntactic highlighting and semantic highlighting.
+% The former only concerns itself with the syntax of a document. A lexer can handle this highlighting very effectively and allows for example to hightlight strings as green and namednodes as red.
+% Semnatic highlighting on the other hand can use document semantics. Semantics can be for example the term kind of a term, only inferable by extracting the actual triples or marking the type of an object in a different colour.
+%
+% Please note that undefined properties etc should not be highlighed differently by the semantic highlighter, undefined properties should be handled as diagnostics.
+%
+%
+% \paragraph*{Diagnostics}
+%
+% Diagnostics are of utmost importance, nothing is more draining than to check whether or not some data is correctly written at runtime.
+% The editor should be able to notify the user that the current document would not be parsed by parsers following the standard.
+%
+% Other diagnostics are also very relevant and can inform the user that the current data may not be what they expect.
+% For example the editor can notify the user when an undefined property is used, alerting the user that it could be a typo.
+% The editor can also notify the user about reasoning mistakes, when creating an ontology or creating data that should adhere to an ontology or to a SHACL shape.
+%
+%
+% \paragraph*{Formatting}
+%
+% It is expected that an IDE helps the developer to keep a consistent format over different documents, again helping the user parse the data more effectively.
+% Formatting however is a subjective matter and should be configurable by the user or codebase.
+%
+% \paragraph*{Renaming}
+% Often an editor allows the user to rename identifiers as a quality of life improvemt.
+% This allows the user to more easily iterate over data and aliviating the writer's block.
+%
+%
+% \paragraph*{Completion}
+%
+% Completion comes again in two flavours: completing keywords and already defined tokens and semantic completion.
+% Semantic completion can complete with defined properties and defined classes and can check the current context of the completion, answering the question "Is the user current writing a class or a property?".
+%
+% Naive completion can suggest all defined properties and defined classes but this is not always wanted, the editor should also be able to derive the type of the current subject for example and only suggest properties that are defined with that type as domain.
+% On the other hand when the user is writing an object, the editor can also suggest already defined entities that have the correct type checking the range of the property.
+%
+%
+%
+%
+%
+% \subsection*{Some words on ontology designing tools}
+% Their main helping functions\cite{ComparingOntologyBuildingTools}.
+%
+% \subsection{Language Server Protocol}
+%
+% Language Servers using the Language Server Protocol\cite{IntroToLsp} 
+% are cool \cite{GLSPFlexibility}.
+%
 
 
 %% GPT
@@ -134,6 +111,30 @@ This functionality helps users manage data more efficiently and adapt to evolvin
 \end{itemize}
 
 Naive completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
+
+% we might want to transpose the headers
+\begin{table}[h!]
+    \centering
+  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|C|}
+\hline
+    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
+
+      LSP implementation                & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic} %highlighting
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ }  %diagnostics
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Naieve} & \rotatebox{90}{Typed} % completion
+                                        & \rotatebox{90}{Formatting} 
+                                        & \rotatebox{90}{Renaming}
+                                        & \rotatebox{90}{Polyglot} \\ \hline
+Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cmark & \cmark & \mmark & \xmark & \xmark & \xmark & \cmark \\
+RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
+query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+Protege                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
+rdf-vocabularies-autocomplete & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+\hline
+\end{tabularx}
+    \caption{\label{tab:current_implementations}Table without predefining column count explicitly. Stardog simple completion is based on a fixed list of items. RDFox syntax completion only works for SPARQL functions.}
+\end{table}
 
 
 \subsection*{Ontology Design Tools}
