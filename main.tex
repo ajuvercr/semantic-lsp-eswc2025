@@ -9,6 +9,8 @@
 \usepackage{listings}
 \usepackage{booktabs}
 \usepackage{tabularx} % For dynamic table width
+\usepackage{parcolumns}
+\usepackage{subcaption} % For sub-listings
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 \renewcommand{\arraystretch}{1.5}
 \usepackage{pifont} % For check and cross symbols
@@ -35,6 +37,17 @@
 \DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
 \DeclareMathSymbol{\bigtimes}{1}{mathx}{"91}
 
+% Define a style for the listings
+\lstset{
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    backgroundcolor=\color{lightgray!20},
+    frame=single,
+    captionpos=b,
+    numbersep=5pt, % Adjust space between numbers and code
+    % framexleftmargin=10pt,             % Extend frame margin for line numbers
+}
 
 
 \DeclareRobustCommand{\ojoin}{\rule[0.10ex]{.3em}{.4pt}\llap{\rule[1.40ex]{.3em}{.4pt}}}

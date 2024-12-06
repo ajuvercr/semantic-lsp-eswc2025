@@ -69,30 +69,29 @@ While these tools provide specialized capabilities, the integration of features 
 Table~\ref{tab:current_implementations} summarizes open-source tools that implement selected IDE functionalities for semantic web technologies.
 
 \paragraph*{Highlighting} enhances readability by leveraging visual cues, which assist developers in parsing complex data. 
-
+Note that semantic highlighters should avoid overloading the user with unnecessary information. 
+Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.
 There are two primary types of highlighting: \textbf{syntactic} and \textbf{semantic}.
+
 \begin{itemize}
     \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers. For example, strings might appear in green, while named nodes are highlighted in red. This type of highlighting does not require knowledge of the document’s meaning.
-    \item \textbf{Semantic highlighting}, in contrast, uses document semantics to differentiate terms based on their roles. For instance, the type of an object could be highlighted in a unique color, or terms inferred from triples could be visually distinguished.
+    \item \textbf{Semantic highlighting}, in contrast, uses document semantics to differentiate terms based on their roles. For instance, the type of an object or from a literal could be highlighted in a unique color, or keywords like JSONLD's \texttt{@id} or \texttt{@graph} can be visually distinguished from other keys.
 \end{itemize}
-Semantic highlighters should avoid overloading the user with unnecessary information. Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.
 
 
 \paragraph*{Diagnostics} are essential for identifying issues early in the development process. 
 Rather than deferring error detection to runtime, an IDE should provide immediate feedback on data validity.
+These features enable developers to maintain data accuracy and reduce time spent debugging. Examples include:
 
-Examples of valuable diagnostics include:
+% Examples of valuable diagnostics include:
 \begin{itemize}
     \item \textbf{Standard compliance}: Notifying users if the current document is incompatible with parsers adhering to semantic web standards.
     \item \textbf{Undefined properties}: Alerting users to potential typos or incorrect terms when undefined properties are detected.
     \item \textbf{Reasoning errors}: Highlighting logical inconsistencies in ontologies or data that deviate from expected SHACL shapes or OWL reasoning.
 \end{itemize}
 
-These features enable developers to maintain data accuracy and reduce time spent debugging.
 
-
-\paragraph*{Formatting}
-
+\paragraph*{Formatting} 
 Consistent formatting across documents enhances readability and maintainability.
 An IDE should assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.
 
@@ -100,6 +99,7 @@ An IDE should assist users in adhering to a defined style guide while allowing c
 This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.
 
 \paragraph*{Completion} features, like highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
+Simple semantic completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
 
 \begin{itemize}
     \item \textbf{Syntactic completion} involves suggesting keywords or tokens already defined in the document.
@@ -110,7 +110,6 @@ This functionality helps users manage data more efficiently and adapt to evolvin
     \end{itemize}
 \end{itemize}
 
-Naive completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
 
 % we might want to transpose the headers
 \begin{table}[h!]
@@ -121,7 +120,7 @@ Naive completion might suggest all possible terms, but a sophisticated system sh
 
       LSP implementation                & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic} %highlighting
                                         & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ }  %diagnostics
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Naieve} & \rotatebox{90}{Typed} % completion
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Simple} & \rotatebox{90}{Typed} % completion
                                         & \rotatebox{90}{Formatting} 
                                         & \rotatebox{90}{Renaming}
                                         & \rotatebox{90}{Polyglot} \\ \hline
