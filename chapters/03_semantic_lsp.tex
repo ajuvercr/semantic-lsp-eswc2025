@@ -24,6 +24,36 @@ If an expected component is not present, the system will skip that entity, allow
 
 The parsing schedule is one of the most important schedules of the language server.
 It is activated whenever the user edits a document, the language server is notified with the textual changes.
+
+
+\begin{figure}[tb]
+ \centering
+ \makebox[\textwidth]{%
+    \includegraphics[width=1.2\textwidth]{./images/ParseSchedule.pdf}
+ }
+  \caption{Visual representation of the Parse schedule including tokenization, parsing, deriving prefixes, deriving triples, linking documents, fetching LOV documents, deriving properties and deriving classes. }\label{fig:Parse}
+\end{figure}
+
+We chose to let all semantic languages use the same \texttt{token} type, this allows for implementing token based systems only once.
+Note that each semantic language does it's own tokenization, not allowing for SPARQL tokens inside Turtle documents.
+In Figure \ref{fig:Parse}, \textit{tokenize} is the first sytem in the parsing schedule, this system is implemented for all supported semantic languages. \textit{Tokenize} also report on tokenization errors.
+
+The next system is \textit{parsing}, also implemented for each semantic language, transforming the tokens into actual objects, and reporting on syntactic errors. 
+When the objects are parsed, systems are issued that derive prefixes and triples. 
+Prefixes contain information about how to expand and shorten iri's for the current document.
+Deriving triples does not only derive actual triples, but in the case for SPARQL also bindings, which can be thought of as \textit{triples}.
+
+After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked some way to this document.
+Prefixes are one way, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also linkes that other document with the current document.
+Prefixes are also used to load the correct LOV defined ontologies, setting up documents containing property and class definitions.
+
+When the triples are derived, a system will derive properties and classes.
+In most documents this will result in no properties or classes, but a document linked from LOV will contain many.
+The power of the entity component system is that all documents are handled exactly the same.
+This allows to cover a use case where a domain expert is writing the ontology and creating SPARQL queries to see how the ontology \textit{feels}, just by importing a local ontology file.
+
+\paragraph{Some words on parsing}
+
 With the language server protocol the server can specify wether or not it requires only the (minimal) changes or entire document every time.
 Earlier versions of the semantic lsp required the entire document every time, because documents arae relatively small and reprasing the entire document brings an acceptable performance.
 However, we noticed that this hampered the implementation, in turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
@@ -37,51 +67,47 @@ An example is shown in \ref{lst:GroupedListing}.
   Adding partial parsing eliminates these issues as the language server understand which tokens are new and leaving the original interpretation of the surrounding tokens in touch.
 
 
-\begin{figure}[htb]
+\begin{figure}[tb]
     \centering
     % code1
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option1.ttl}
       \caption{User types \texttt{<b>}}
       \label{code1}
     \end{subfigure}
     \hfill
     % code 2
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option2.ttl}
       \caption{User types \texttt{<c>}}
       \label{code2}
     \end{subfigure}
     \hfill
     % code 3
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option3.ttl}
       \caption{User types \texttt{<a>}}
       \label{code3}
     \end{subfigure}
     \hfill
     % code 4
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option4.ttl}
       \caption{User types \texttt{<b>}}
       \label{code4}
     \end{subfigure}
-    \caption{Grouped code listings for demonstration purposes.}\label{lst:GroupedListing}
+    \caption{Different code samples showing that it is the indentation/intent of the user that dictates how tokens should be parsed. (a) and (b) show five terms that result in different triples. (c) and (d) show four terms, triples with subject \texttt{<a>} and \texttt{<b>} and both triples with subject \texttt{<a>} resulting in different semantics.    }\label{lst:GroupedListing}
 \end{figure}
 
-
-\begin{figure}[!ht]
- \centering
- \makebox[\textwidth]{%
-    \includegraphics[width=1.2\textwidth]{./images/ParseSchedule.pdf}
- }
-  \caption{Visual representation of our example pipeline, 
-      loading sensor data from The Things Network into a triple store}\label{fig:Parse}
-\end{figure}
 
 
 \subsubsection*{Completion}
 
+Completion is one of the most important features that actively interacts with the user.
+In the Langauge Server Protocol, the langauge server is issed a completion event that contains the current location of the user.
+The server should then answer with a list of completions, including the textual operations, a title and potentially some documentation.
+It's the responsibility of the editor to sort and filter the completions and show the user the most relevant information.
+How editors do this is not specified, which makes it difficult to create comprehensive testing suite.
 
 \begin{figure}[!ht]
  \centering
@@ -91,6 +117,21 @@ An example is shown in \ref{lst:GroupedListing}.
   \caption{Visual representation of our example pipeline, 
       loading sensor data from The Things Network into a triple store}\label{fig:Completion}
 \end{figure}
+
+Figure \ref{fig:Completion} shows a schematic overview of the different systems in the completion schedule and their interactions.
+First the server will create a \texttt{CompletionRequest} object, currently containing no completions.
+Systems add their relevant completions to the request which is then returned to the user.
+
+The location the user at the moment of the request is not enough information to derive comprehensive completions, 
+the first systems will extract more information that is then used by the systems that create the actual completions.
+
+\texttt{GetCurrentToken} expands the current location to the current token, then \texttt{GetCurrentTriple} tries to find the triple that this token corresponds to also indicating whether the user is typing a subject, predicate or object.
+If \texttt{GetCurrentToken} fails, the entity lacks a TokenComponent and results in \texttt{GetCurrentTriple} not being issued.
+
+The language server has enough information with only the current token to complete based on defined subjects with the \texttt{SubjectCompletion} system.
+The server also completed on already defined prefixes (with \texttt{CompletePrefix}), this system is language agnostic as the Prefixes component is already defined.
+To import new prefixes from LOV, each language has to implement a \texttt{CompleteLOVPrefix}, because how to add the import statement is language specific.
+
 
 \subsubsection*{Diagnostics}
 
