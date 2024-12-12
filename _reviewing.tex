@@ -1,0 +1,42 @@
+% Packages
+\usepackage[normalem]{ulem} % wavy underlines
+\makeatletter
+\def\uwave{\bgroup \markoverwith{\lower3.5\p@\hbox{\sixly \textcolor{red}{\char58}}}\ULon}
+\font\sixly=lasy6 % does not re-load if already loaded, so no memory problem.
+\makeatother
+
+% Comments
+%\newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO}: #1{\bf \}}}}
+\newcommand{\TODO}[1]{\todo{#1}}
+\newcommand{\citeneeded}{\textcolor{red}{{\bf [?!]}}}
+\newenvironment{draft}{\color{gray}}{\color{black}}
+\newenvironment{changed}{\color{black}}{\color{black}}
+
+% todonotes
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+\newcommandx{\todoi}[2][1=]{\todo[inline,size=\small,linecolor=Plum,backgroundcolor=Periwinkle!25,#1]{#2}}
+\newcommandx{\todoCite}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Periwinkle!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\todoDef}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Periwinkle!25,bordercolor=Plum,#1]{Def.: #2}}
+
+
+
+% Reviewers
+\newcommand\olaf[1]{{\color{RoyalBlue}\textbf{Olaf}: #1}}
+
+
+% Annotations
+\makeatletter
+\font\uwavefont=lasyb10 scaled 700
+\def\spelling{\bgroup\markoverwith{\lower3.5\p@\hbox{\uwavefont\textcolor{Red}{\char58}}}\ULon}
+\def\grammar{\bgroup\markoverwith{\lower3.5\p@\hbox{\uwavefont\textcolor{LimeGreen}{\char58}}}\ULon}
+\def\phrasing{\bgroup\markoverwith{\lower3.5\p@\hbox{\uwavefont\textcolor{blue}{\char58}}}\ULon}
+\let\rephrase\phrasing
+\newcommand\ins{\markoverwith{\textcolor{LimeGreen}{\rule[-0.5ex]{2pt}{0.4pt}}}\ULon}
+\newcommand\remove{\bgroup\markoverwith{\textcolor{red}{\rule[0.5ex]{2pt}{0.4pt}}}\ULon}
+\makeatother
