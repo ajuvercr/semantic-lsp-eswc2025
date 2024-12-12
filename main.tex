@@ -55,6 +55,7 @@
 \newcommand{\rightouterjoin}{\mathrel{\Join\mkern-6.5mu\ojoin}}
 \newcommand{\fullouterjoin}{\mathrel{\ojoin\mkern-6.5mu\Join\mkern-6.5mu\ojoin}}
 
+\newcommand{\cormark}[1]{\textsuperscript{#1}}
 
 \definecolor{eclipseStrings}{RGB}{42,0.0,255}
 \definecolor{eclipseKeywords}{RGB}{127,0,85}
@@ -62,6 +63,7 @@
 \colorlet{numb}{magenta!60!black}
 \setlength{\parskip}{0pt}
 
+\input{_reviewing.tex}
 \input{algccommands.tex}
 \input{listingslang.tex}
 \input{macro.tex}
@@ -72,7 +74,7 @@
 % in the PDF, which PDF readers can show and, thus, allows me to navigate the
 % document more easily.
 %                                    Olaf
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 \hypersetup{bookmarksopen=true, citecolor=blue}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,27 +82,30 @@
 
 \begin{document}												% end of preamble and beginning of text that will be printed
 
-\title{Semantic Languages servers are cool}
+\title{The Semantic Web Language Server: Towards an enhanced developer experience for Semantic Web practitioners}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{Arthur Vercruysse\inst{1}\orcidID{0000-0000-0000-0000} \and
-Julian\inst{1}\orcidID{0000-0002-1741-2090} \and 
-Pieter Colpaert\inst{1}\orcidID{0000-0002-1741-2090}}
+\author{Arthur Vercruysse\inst{1}\orcidID{0000-0003-3467-9755} \and
+Julián {Rojas Meléndez}\inst{1}\orcidID{0000-0002-6645-1264} \and 
+Pieter Colpaert\inst{1}\orcidID{0000-0001-6917-2167}}
 %
 
+\titlerunning{The Semantic Web Language Server}
 \authorrunning{A. Vercruysse et al.}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
 \institute{
-University of Ghent - imec, Ghent, Belgium \\
-\email{arthur.vercruysse@ugent.be}}
+IDLab, Department of Electronics and Information Systems, Ghent University -- imec \\
+\email{firstname.lastname@ugent.be}}
 %
 \maketitle              % typeset the header of the contribution
 %
+\todo{Rename Semantic LSP to SLS or Semantic Language Server}
+\todo{Create/host monica? editor}
 \input{./chapters/00_abstract.tex}
 \input{./chapters/01_introduction.tex}
 \input{./chapters/02_related_work.tex}
