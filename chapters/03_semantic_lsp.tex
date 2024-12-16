@@ -1,4 +1,4 @@
-\section{Semantic LSP}%
+\section{The Semantic Language Server}%
 \label{sec:semantic_lsp}
 
 During the development of the Semantic Language Server (SLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
@@ -12,7 +12,7 @@ Systems are functions designed to process specific components and are grouped in
 For example, the \textit{Parse} schedule includes systems responsible for tokenization, parsing, and triple extraction.
 Semantic languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
 
-As noted by Bour et al., "No spec, no tests" highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation\cite{Bour_2018}. 
+As noted by Bour et al., “No spec, no tests” highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation\cite{Bour_2018}. 
 To address this, SLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various semantic web languages.
 By adopting this approach, SLS delivers uniform features, while maintaining flexibility for language-specific extensions.
 
@@ -31,7 +31,7 @@ Similarly, adding a feature to display type hierarchies would involve creating a
 This approach allows for scalable and focused development of language server features.
 
 
-\subsection{Langauge Server schedules}
+\subsection{Language Server schedules}
 
 This section details the systems implemented within each schedule of the Semantic Language Server (SLS).
 Some systems are designed primarily to generate components, which are then utilized by other systems, potentially across different schedules.
@@ -217,5 +217,3 @@ The most notable are as follows:
 
 These schedules, while smaller in scale, significantly enhance the language server’s utility by making semantic documents more intuitive and easier to work with.
 They represent the \textit{polish} that transforms SLS into a complete tool for semantic web practitioners.
-
-
