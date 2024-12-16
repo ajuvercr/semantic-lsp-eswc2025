@@ -1,22 +1,22 @@
-\section{Semantic LSP}%
+\section{The Semantic Web Language Server}%
 \label{sec:semantic_lsp}
 
-During the development of the Semantic Language Server (SLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
-Unlike traditional architectures, SLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}\cite{10.1145/3550355.3552452}.
+During the development of the Semantic Web Language Server (SWLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
+Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}\cite{10.1145/3550355.3552452}.
 
 \todo{Add information about Resources}
 An ECS is a software design pattern that organizes a program into four key elements: Entities, Components, Systems, and Resources. 
-In SLS, entities represent documents that are composed of various components. 
+In SWLS, entities represent documents that are composed of various components. 
 Components store data associated with the entity, such as the document's contents, file location, or derived RDF triples. 
 Systems are functions designed to process specific components and are grouped into schedules to achieve distinct tasks. 
 For example, the \textit{Parse} schedule includes systems responsible for tokenization, parsing, and triple extraction.
 Semantic languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
 
-As noted by Bour et al., "No spec, no tests" highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation\cite{Bour_2018}. 
-To address this, SLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various semantic web languages.
-By adopting this approach, SLS delivers uniform features, while maintaining flexibility for language-specific extensions.
+As noted by Bour et al., “No spec, no tests” highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation\cite{Bour_2018}. 
+To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various semantic web languages.
+By adopting this approach, SWLS delivers uniform features, while maintaining flexibility for language-specific extensions.
 
-SLS is implemented in Rust and leverages Bevy’s Entity Component System (ECS) to maintain a highly modular and efficient architecture.
+SWLS is implemented in Rust and leverages Bevy’s Entity Component System (ECS) to maintain a highly modular and efficient architecture.
 Features are typically added in two steps:
   first, extracting the necessary data from RDF triples and attaching it to relevant entities; 
   second, using this data to implement language server functionalities such as diagnostics or autocompletion.
@@ -31,9 +31,9 @@ Similarly, adding a feature to display type hierarchies would involve creating a
 This approach allows for scalable and focused development of language server features.
 
 
-\subsection{Langauge Server schedules}
+\subsection{Language Server schedules}
 
-This section details the systems implemented within each schedule of the Semantic Language Server (SLS).
+This section details the systems implemented within each schedule of the Semantic Web Language Server.
 Some systems are designed primarily to generate components, which are then utilized by other systems, potentially across different schedules.
 This decoupled design ensures flexibility and modularity. 
 If a system expects a component that is not present for a given entity, the system simply skips that entity.
@@ -153,7 +153,7 @@ To import new prefixes from LOV, each language has to implement a \texttt{Comple
 
 \subsubsection{Diagnostics}
 
-The Diagnostics component of the Semantic Language Server (SLS) comprises several focused systems that analyze parsed data to identify issues and provide feedback to users.
+The Diagnostics component of the Semantic Web Language Server comprises several focused systems that analyze parsed data to identify issues and provide feedback to users.
 Diagnostics differ fundamentally from other language server functionalities because they are push-based: the server actively notifies the editor of errors and warnings.
 This allows for timely feedback, ensuring that users can quickly identify and address problems in their semantic documents.
 
@@ -186,7 +186,7 @@ This modular approach ensures that diagnostics remain lightweight yet powerful, 
 
 \subsubsection{Varia}
 
-Beyond core functionalities, the Semantic Language Server (SLS) offers additional schedules that enhance the user experience and round out its capabilities.
+Beyond core functionalities, SWLS offers additional schedules that enhance the user experience and round out its capabilities.
 These schedules are smaller in scope, generally focusing on presentation or user interaction rather than deriving new information.
 
 The most notable are as follows:
@@ -194,12 +194,12 @@ The most notable are as follows:
   \item \textit{Formatting:}
     A consistent document structure improves readability and reduces the cognitive load required to parse data visually.
     As a formatter, the language server ensures uniformity across documents, promoting best practices and easing collaboration.
-    Currently, the SLS includes an opinionated formatter for Turtle, which automatically applies a standardized layout to documents.
+    Currently, the SWLS includes an opinionated formatter for Turtle, which automatically applies a standardized layout to documents.
 
   \item \textit{Hover:}
     Hover functionality provides contextual insights about symbols in the document, offering users additional information without disrupting their workflow,
     allowing for users to explore semantic relationships and documentation seamlessly.
-    The SLS’s hover implementation includes three key features:
+    The SWLS’s hover implementation includes three key features:
     \begin{itemize}
       \item Type Information: For a node with an inferred type, the hover popup displays the type alongside its hierarchy, including subclasses and superclasses.
       \item Class Details: Hovering over a class reveals its \texttt{rdfs:description}.
@@ -208,7 +208,7 @@ The most notable are as follows:
 
   \item \textit{Highlighting:}
     Highlighting improves document readability by visually distinguishing between elements.
-    The SLS implements both syntax highlighting and semantic highlighting through a two-step process:
+    The SWLS implements both syntax highlighting and semantic highlighting through a two-step process:
         An initial system maps all tokens to their basic semantic types.
         Subsequent systems refine the types based on additional information.
     For example, in JSON-LD, all keys are initially highlighted as strings.
@@ -216,6 +216,4 @@ The most notable are as follows:
 \end{enumerate}
 
 These schedules, while smaller in scale, significantly enhance the language server’s utility by making semantic documents more intuitive and easier to work with.
-They represent the \textit{polish} that transforms SLS into a complete tool for semantic web practitioners.
-
-
+They represent the \textit{polish} that transforms SWLS into a complete tool for semantic web practitioners.
