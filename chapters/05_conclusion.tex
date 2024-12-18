@@ -1,16 +1,52 @@
 \section{Conclusion and Future Work}%
 \label{sec:conclusion}
 
-SWLS is not static software: its extensible design ensures that new features and improvements can be easily incorporated. 
-The current implementation provides a robust foundation for further exploration of user needs and iterative enhancement.
+SWLS is not static software; its extensible design ensures that new features and improvements can be seamlessly integrated.
+The current implementation provides a solid foundation for iterative enhancements and the exploration of diverse user needs, making it a valuable tool for semantic web developers at all levels of expertise.
 
-For examples,
-users that interact with ComponentsJS (CJS) configurations have a difficult time\cite{CJS}, often checking the correctness of their configuration at runtime.
-Normal JSON-LD editors have difficulties to handle CJS configuration because of the used Linked Software Dependencies\cite{CJS2}, that should be resolved to the local \texttt{node\_modules} folders.
-By adding two things to SWLS, CJS users can use the same powerful IDE support as other semantic web developers.
-\begin{enumerate}
-  \item Add a new way to resolve JSON-LD contexts, by looking for the write configuration files in the \texttt{node\_modules}.
-  \item Derive properties from CJS component definitions
-  \item Validate configuration by using the checking if all parameters are defined and have the correct range.
+We believe SWLS is now poised to address more specialized scenarios, such as its potential integration with ComponentsJS (CJS).
+Users working with CJS configurations often encounter challenges when validating their configurations, frequently resorting to runtime checks for correctness\cite{01GPAWNQ5ZS2DAY0J9JMPQHM9C}.
+Standard JSON-LD editors struggle with CJS configurations due to their reliance on Linked Software Dependencies\cite{CJS2}, which need to be resolved against local \texttt{node\_modules} directories.
+By extending SWLS with the following capabilities, CJS users could benefit from the same powerful IDE support already available to semantic web developers:
 
-\end{enumerate}
+\begin{itemize}
+    \item Implementing a mechanism to resolve JSON-LD contexts by referencing configuration files in \texttt{node\_modules}.
+    \item Deriving properties directly from CJS component definitions to streamline autocompletion.
+    \item Validating configurations by ensuring all parameters are defined and conform to the correct data types and ranges.
+\end{itemize}
+
+While this functionality would require significant development effort, 
+the extensible architecture of SWLS ensures a high return on investment compared to building a CJS-specific editor or plugin from scratch.
+
+Beyond these targeted enhancements, SWLS can also be improved by refining its existing systems.
+For example, the current type inference mechanism relies solely on the \texttt{rdf:type} predicate to determine entity types.
+Expanding this capability with reasoning support would enhance the accuracy of autocompletions and hover information, making the language server even more effective for users.
+
+The SWLS can be further enhanced by expanding its support for additional semantic languages.
+For instance, incorporating Trig support would require minimal effort, as it mainly involves extending the existing Turtle tokenizer and parser.
+Once this extension is in place, the majority of SWLS’s current functionality would work seamlessly with Trig.
+
+In contrast, adding support for a language like N3 presents a more significant challenge.
+N3’s parser is notably more complex than simpler formats such as Turtle, and users of SWLS would naturally expect the editor to support basic reasoning tasks inherent to the N3 language.
+Implementing such reasoning capabilities opens a vast field of possibilities, limited only by the scope of future development efforts.
+
+However, SWLS does not exist in isolation but benefits from a collaborative ecosystem.
+Just as SWLS leverages the \texttt{rudof} crate for SHACL and SHEX validation, it is anticipated that other semantic web libraries will emerge.
+The design of SWLS should ensure that these new tools can be easily integrated, enabling the system to evolve alongside the broader semantic web landscape.
+By building on existing tools and fostering compatibility with new ones, SWLS can continue to meet the diverse needs of its users and maintain its relevance in this rapidly advancing field.
+
+
+\subsection{Conclusion}
+
+SWLS bridges the gap between semantic technologies and their practical application by offering a versatile, editor-agnostic tool tailored to diverse user groups.
+By providing features like autocompletion, syntax and semantic validation, and contextual documentation, SWLS enhances productivity, improves the quality of semantic documents, and lowers the barrier to entry for newcomers.
+Its integration of foundational editors for ontology creation, SHACL shape design, SPARQL query writing, and sample data modeling allows users to experience the full spectrum of semantic workflows in an intuitive and accessible environment.
+
+Through its ability to streamline domain exploration, improve semantic understanding, and foster confidence in document quality, SWLS demonstrates its potential to support both beginners and seasoned experts in semantic web technologies.
+Its modular design, which builds upon existing semantic web libraries such as \texttt{rudof}, ensures that it is not only a powerful standalone tool but also a platform capable of evolving with advancements in the field.
+
+Future work aims to expand SWLS’s language support and integrate emerging tools from the semantic web ecosystem.
+These efforts will solidify its role as an essential resource for semantic web practitioners, providing a robust foundation for tackling increasingly complex data modeling and reasoning tasks.
+By continuing to adapt and grow, SWLS has the potential to become a cornerstone in the adoption and development of semantic technologies.
+
+
