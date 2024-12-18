@@ -1,8 +1,8 @@
 \section{The Semantic Web Language Server}%
 \label{sec:semantic_lsp}
 
-During the development of the Semantic Web Language Server (SWLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
-Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}\cite{10.1145/3550355.3552452}.
+During the development of the Semantic Web Language Server (SWLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
+Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}~\cite{10.1145/3550355.3552452}.
 
 \todo{Add information about Resources}
 An ECS is a software design pattern that organizes a program into four key elements: Entities, Components, Systems, and Resources. 
@@ -12,7 +12,7 @@ Systems are functions designed to process specific components and are grouped in
 For example, the \textit{Parse} schedule includes systems responsible for tokenization, parsing, and triple extraction.
 Semantic languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
 
-As noted by Bour et al., “No spec, no tests” highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation\cite{Bour_2018}. 
+As noted by Bour et al., ``No spec, no tests'' highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation~\cite{Bour_2018}. 
 To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various semantic web languages.
 By adopting this approach, SWLS delivers uniform features, while maintaining flexibility for language-specific extensions.
 
@@ -53,12 +53,12 @@ The parsing schedule is one of the most important schedules of the language serv
 It is activated whenever the user edits a document, the language server is notified with the textual changes.
 
 We chose to let all semantic languages use the same \texttt{token} type, this allows for implementing token based systems only once.
-Note that each semantic language does it's own tokenization, not allowing for SPARQL tokens inside Turtle documents.
+Note that each semantic language does its own tokenization, not allowing for SPARQL tokens inside Turtle documents.
 In Figure \ref{fig:Parse}, \textit{tokenize} is the first sytem in the parsing schedule, this system is implemented for all supported semantic languages. \textit{Tokenize} also report on tokenization errors.
 
 The next system is \textit{parsing}, also implemented for each semantic language, transforming the tokens into actual objects, and reporting on syntactic errors. 
 When the objects are parsed, systems are issued that derive prefixes and triples. 
-Prefixes contain information about how to expand and shorten iri's for the current document.
+Prefixes contain information about how to expand and shorten IRIs for the current document.
 Deriving triples does not only derive actual triples, but in the case for SPARQL also bindings, which can be thought of as \textit{triples}.
 
 After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked some way to this document.
@@ -70,19 +70,19 @@ In most documents this will result in no properties or classes, but a document l
 The power of the entity component system is that all documents are handled exactly the same.
 This allows to cover a use case where a domain expert is writing the ontology and creating SPARQL queries to see how the ontology \textit{feels}, just by importing a local ontology file.
 
-\paragraph{Some words on parsing}
+%\paragraph{About parsing} → you already have a heading parse?
 
-With the language server protocol the server can specify wether or not it requires only the (minimal) changes or entire document every time.
+With the language server protocol\todo{just use an acronym at all time here?} the server can specify wether or not it requires only the (minimal) changes or entire document every time.
 Earlier versions of the semantic lsp required the entire document every time, because documents arae relatively small and reprasing the entire document brings an acceptable performance.
 However, we noticed that this hampered the implementation, in turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
 An example is shown in \ref{lst:GroupedListing}.
   The user at \ref{code1} types named node \texttt{<b>}, the language server should not be confused: triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>}. The language server should suggest objects that fulfill the domain of predicate \texttt{<b>}. 
   The user at \ref{code2} types named node \texttt{<c>}, the language server should not be confused: the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}, however tokenwise the documents are the same. Resulting in the language server suggesting a semi colon.
   
-  The user at \ref{code3} just wrote a subject, invocing the subject completion defined in the next section. The language server might incorrect suggest to add a comma after \texttt{<c>} to build a syntactically correct document.
+  The user at \ref{code3} just wrote a subject, invoking the subject completion defined in the next section. The language server might incorrect suggest to add a comma after \texttt{<c>} to build a syntactically correct document.
   The user at \ref{code4} is typing a predicate for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at \ref{code3}, where \texttt{<b>} is subject thus not invocing the property completion as explained in the next section.
 
-  Adding partial parsing eliminates these issues as the language server understand which tokens are new and leaving the original interpretation of the surrounding tokens in touch.
+  Adding partial parsing eliminates these issues as the language server understand which tokens are new and leaving the original interpretation of the surrounding tokens in touch. \todo{PC: please check this last sentence and rewrite it}
 
 
 \begin{figure}[tb]
@@ -122,9 +122,9 @@ An example is shown in \ref{lst:GroupedListing}.
 \subsubsection{Completion}
 
 Completion is one of the most important features that actively interacts with the user.
-In the Langauge Server Protocol, the langauge server is issed a completion event that contains the current location of the user.
+In the Langauge Server Protocol, the langauge server is issued a completion event that contains the current location of the user.
 The server should then answer with a list of completions, including the textual operations, a title and potentially some documentation.
-It's the responsibility of the editor to sort and filter the completions and show the user the most relevant information.
+It is the responsibility of the editor to sort and filter the completions and show the user the most relevant information.
 How editors do this is not specified, which makes it difficult to create comprehensive testing suite.
 
 \begin{figure}[!ht]
