@@ -150,6 +150,10 @@ The language server has enough information with only the current token to comple
 The server also completed on already defined prefixes (with \texttt{CompletePrefix}), this system is language agnostic as the Prefixes component is already defined.
 To import new prefixes from LOV, each language has to implement a \texttt{CompleteLOVPrefix}, because how to add the import statement is language specific.
 
+\todo{Add class and property completion + mention domain alignment}
+% The suggested properties first show the properties that align with the domain of the property definition.
+% It is not incorrect to use properties when the domain does not align, so these properties are shown as well.
+% If the domain property aligns, the completion kind is \texttt{FIELD} otherwise just \texttt{PROPERTY}.
 
 \subsubsection{Diagnostics}
 
