@@ -1,2 +1,16 @@
-\section{Conclusion}%
+\section{Conclusion and Future Work}%
 \label{sec:conclusion}
+
+SWLS is not static software: its extensible design ensures that new features and improvements can be easily incorporated. 
+The current implementation provides a robust foundation for further exploration of user needs and iterative enhancement.
+
+For examples,
+users that interact with ComponentsJS (CJS) configurations have a difficult time\cite{CJS}, often checking the correctness of their configuration at runtime.
+Normal JSON-LD editors have difficulties to handle CJS configuration because of the used Linked Software Dependencies\cite{CJS2}, that should be resolved to the local \texttt{node\_modules} folders.
+By adding two things to SWLS, CJS users can use the same powerful IDE support as other semantic web developers.
+\begin{enumerate}
+  \item Add a new way to resolve JSON-LD contexts, by looking for the write configuration files in the \texttt{node\_modules}.
+  \item Derive properties from CJS component definitions
+  \item Validate configuration by using the checking if all parameters are defined and have the correct range.
+
+\end{enumerate}

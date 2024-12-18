@@ -1,14 +1,26 @@
-\section{Impact Across User Groups}%
+\section{Usage and Potential Impact Across User Groups}%
 \label{sec:usage}
 
-The Semantic Web Language Server (SWLS) was designed to address the diverse needs of practitioners engaging with semantic web technologies. This section reflects on the challenges faced by the user groups introduced in Section \ref{sec:introduction} and demonstrates how the SWLS alleviates these through its features. A live demo of SWLS, available at \url{swls.ajuvercr.be}, showcases its capabilities across four editor interfaces:
+This section explores how the Semantic Web Language Server (SWLS) can be used and the expected impact it has across different user groups.
+As a language server, SWLS provides functionality that is independent of specific editors, making it highly versatile.
+Some editors, such as NeoVim, treat language servers as first-class citizens, offering seamless integration.
+Others, like Visual Studio Code and Monaco, require additional glue code to enable effective interaction.
+Regardless of the editor, SWLS delivers a consistent set of features that enhance the user experience across all supported platforms.
 
+All code is under a MIT licence available on github\footnote{\url{https://github.com/ajuvercr/semantic-web-lsp}}.
+There are currently three ways to interact with SWLS:
 \begin{enumerate}
-  \item Turtle Editor for data management
-  \item OWL Editor for ontology creation
-  \item SHACL Editor for shape constraints
-  \item SPARQL Editor for crafting queries
+  \item Download the VSCode extension from the market place\footnote{\url{https://marketplace.visualstudio.com/items?itemName=ajuvercr.semantic-web-lsp}}.
+  \item Download and compile the binary locally and integrate it into NeoVim\footnote{Installation instruction are available in the README \url{https://github.com/ajuvercr/semantic-web-lsp}}.
+  \item Go to the only demo available on \url{https://swls.ajuvercr.be}.
 \end{enumerate}
+
+\todo{Maybe add a screenshot of the editors}
+In the demo, users are presented with four distinct editors, each tailored to a specific use case.
+A toy ontology and its accompanying SHACL shapes serve as foundational resources for the other editors.
+One editor is designed for creating small sample data based on the toy ontology, allowing users to explore how semantic concepts can be applied in practice.
+Another editor showcases a simple SPARQL query, which, when executed, provides insights derived from data structured according to the ontology.
+This setup allows users to immerse themselves in different personas, gaining hands-on experience with various aspects of semantic data workflows.
 
 While all editors, except for the SPARQL editor, are functionally the same, 
 the visual seperation improves the realism of the tasks at hand.
@@ -102,70 +114,4 @@ For these users, SWLS provides critical support by offering autocompletion for c
 These features significantly enhance productivity by reducing the time spent debugging queries and ensuring accurate results. 
 By streamlining the querying process, SWLS enables data engineers to focus on deriving insights rather than resolving technical challenges.
 
-% \subsection*{Semantic Power Users}
-% Power users, who frequently interact with RDF datasets, ontologies, and queries, benefit from SWLS’s seamless diagnostics, real-time autocompletion, and syntax highlighting. 
-% These features ensure a smoother workflow and fewer errors in their day-to-day tasks.
-% For example, in the demo’s Turtle editors, 
-%   the power user uses autocompletion to improve development efficiency while writing sample data and OWL definitions, this is shown in Figure \ref{class_completion} and \ref{property_completion}.
-% The suggested properties first show the properties that align with the domain of the property definition.
-% It is not incorrect to use properties when the domain does not align, so these properties are shown as well.
-% If the domain property aligns, the completion kind is \texttt{FIELD} otherwise just \texttt{PROPERTY}.
-%
-% - Semantic power user -> often, interacts with semantic web technologies
-% - user knows common properties, effienct use of autocomplete (knows what to expect)
-% - user is challenged by new domains (just like newcomer can use autocompletion to explore doamins)
-% - user knows common pitfals in domain and uses SWLS to more easily verify the quality of the semantic web document (punning, ...)
-%
-%
-% \subsection*{Newcomers to the Semantic Web}
-% New users often struggle with understanding semantic web standards and crafting accurate queries.
-% The demo illustrates how SWLS aims to lower the barrier to entry by providing autocompletions and hover-based explanations for properties and classes. 
-% These features aims to help users to explore ontologies dynamically, fostering learning and confidence, an examples is shown in Figure \ref{hover}.
-% SWLS also validating the data, aiming to increase confidence in the users data. 
-% An undefined prefix error is shown in Figure \ref{undefined_prefix} and a SHACL validation error is shown in Figure \ref{shacl_validation}.
-%
-% - Dables maybe for the first time in semantic web technologies, which is quite confusing
-% - Wants to get to know the technologies, bumping into the syntax, semantics and validation.
-% - SWLS helps these users by giving instant feedback on syntax, helps find the most fitting properties, 
-%   but also help the confidence of the user by trigging SHACL validation errors (which the user might even do on purpose to know how to make a document faulty)
-%
-% \subsection*{Domain Experts}
-% For domain experts who typically rely on tools like Protégé for ontology development, SWLS offers a streamlined alternative. 
-% In the Demo, the domain expert can write the ontology in the Ontology editor and get a feeling of how users would use that ontology by creating sample data and sample queries.
-% This approach is particularly useful for smaller or ad-hoc projects.
-%
-%
-% \subsection*{Data Engineers}
-% Data engineers rely on tools to simplify complex SPARQL query creation and optimize ontology integration. 
-% The SPARQL editor in the demo exemplifies SWLS’s ability to provide meaningful assistance. 
-% Context-aware autocompletions, hover-based information, and diagnostics for undefined properties enable engineers to craft queries with greater precision.
-%
-
-\subsection{Continuous Development}
-
-SWLS is not static software: its extensible design ensures that new features and improvements can be easily incorporated. 
-The current implementation provides a robust foundation for further exploration of user needs and iterative enhancement.
-
-For examples,
-users that interact with ComponentsJS (CJS) configurations have a difficult time\cite{CJS}, often checking the correctness of their configuration at runtime.
-Normal JSON-LD editors have difficulties to handle CJS configuration because of the used Linked Software Dependencies\cite{CJS2}, that should be resolved to the local \texttt{node\_modules} folders.
-By adding two things to SWLS, CJS users can use the same powerful IDE support as other semantic web developers.
-\begin{enumerate}
-  \item Add a new way to resolve JSON-LD contexts, by looking for the write configuration files in the \texttt{node\_modules}.
-  \item Derive properties from CJS component definitions
-  \item Validate configuration by using the checking if all parameters are defined and have the correct range.
-
-\end{enumerate}
-
-
-\subsection{IDE integration}
-
-\subsubsection{Monaco online demo}
-\subsubsection{Visual Studio Code}
-\subsubsection{Neo Vim}
-
-% How does ecs scale for new features?
-% How can the LSP be integrated in the setup for the end user.
-% Maybe some performance metrics? Cost to run it
-% Running in the browser, this tool might be integrated in new/existing sparql query tools
 
