@@ -1,8 +1,8 @@
 \section{The Semantic Web Language Server}%
 \label{sec:semantic_lsp}
 
-During the development of the Semantic Web Language Server (SWLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
-Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}\cite{10.1145/3550355.3552452}.
+During the development of the Semantic Web Language Server (SWLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
+Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}~\cite{10.1145/3550355.3552452}.
 
 \todo{Add information about Resources}
 An ECS is a software design pattern that organizes a program into four key elements: Entities, Components, Systems, and Resources. 
@@ -12,7 +12,7 @@ Systems are functions designed to process specific components and are grouped in
 For example, the \textit{Parse} schedule includes systems responsible for tokenization, parsing, and triple extraction.
 Semantic languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
 
-As noted by Bour et al., “No spec, no tests” highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation\cite{Bour_2018}. 
+As noted by Bour et al., “No spec, no tests” highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation~\cite{Bour_2018}. 
 To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various semantic web languages.
 By adopting this approach, SWLS delivers uniform features, while maintaining flexibility for language-specific extensions.
 
