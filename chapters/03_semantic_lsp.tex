@@ -1,19 +1,19 @@
 \section{The Semantic Web Language Server}%
 \label{sec:semantic_lsp}
 
-During the development of the Semantic Web Language Server (SWLS), we adhered to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
+The architectural design of the Semantic Web Language Server (SWLS) adheres to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
 Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}~\cite{10.1145/3550355.3552452}.
 
 \todo{Add information about Resources}
 An ECS is a software design pattern that organizes a program into four key elements: Entities, Components, Systems, and Resources. 
-In SWLS, entities represent documents that are composed of various components. 
-Components store data associated with the entity, such as the document's contents, file location, or derived RDF triples. 
-Systems are functions designed to process specific components and are grouped into schedules to achieve distinct tasks. 
+In SWLS, \textit{entities} represent documents that are composed of various components. 
+\textit{Components} store data associated with the entity, such as the document's contents, file location, or derived RDF triples. 
+\textit{Systems} are functions designed to process specific components and are grouped into schedules to achieve distinct tasks. 
 For example, the \textit{Parse} schedule includes systems responsible for tokenization, parsing, and triple extraction.
-Semantic languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
+Semantic Web languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
 
 As noted by Bour et al., ``No spec, no tests'' highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation~\cite{Bour_2018}. 
-To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various semantic web languages.
+To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various Semantic Web languages.
 By adopting this approach, SWLS delivers uniform features, while maintaining flexibility for language-specific extensions.
 
 SWLS is implemented in Rust and leverages Bevy’s Entity Component System (ECS) to maintain a highly modular and efficient architecture.
@@ -22,21 +22,21 @@ Features are typically added in two steps:
   second, using this data to implement language server functionalities such as diagnostics or autocompletion.
 
 Bevy ECS facilitates this process by allowing the creation of isolated components and systems, enabling new features to be developed without impacting existing functionality.
-This modularity ensures that only the minimal required data is extracted for each task, avoiding the complexity and overhead of constructing a complete digital twin of the dataset.
+This modularity ensures that only the minimal required data is extracted for each task, avoiding the complexity and overhead of constructing a complete digital twin of the document at hand.
 
 For example, to implement autocompletion based on defined classes, two small systems are added:
   one to extract information about defined classes and their descriptions,
   and another to incorporate this information into autocompletion requests. 
-Similarly, adding a feature to display type hierarchies would involve creating a system to extract data specific to the rdfs:subclassOf relation, without interfering with other systems.
+Similarly, adding a feature to display type hierarchies would involve creating a system to extract data specific to the \texttt{rdfs:subClassOf} relation, without interfering with other systems.
 This approach allows for scalable and focused development of language server features.
 
 
 \subsection{Language Server schedules}
 
-This section details the systems implemented within each schedule of the Semantic Web Language Server.
+This section details the systems implemented within each schedule of SWLS.
 Some systems are designed primarily to generate components, which are then utilized by other systems, potentially across different schedules.
 This decoupled design ensures flexibility and modularity. 
-If a system expects a component that is not present for a given entity, the system simply skips that entity.
+If a system expects a component that is not present for a given entity, the system simply skips that entity.~\info{Can you add an example of this for clarity?}
 This behavior supports asynchronous execution of systems, allowing for independent processing and reducing bottlenecks in the language server’s operation.
 
 \subsubsection{Parse}
@@ -49,40 +49,40 @@ This behavior supports asynchronous execution of systems, allowing for independe
   \caption{Visual representation of the Parse schedule including tokenization, parsing, deriving prefixes, deriving triples, linking documents, fetching LOV documents, deriving properties and deriving classes. }\label{fig:Parse}
 \end{figure}
 
-The parsing schedule is one of the most important schedules of the language server.
-It is activated whenever the user edits a document, the language server is notified with the textual changes.
+The \textit{Parse} schedule is one of the most important schedules of SWLS.
+It is activated whenever the user edits a document, notifying the language server of the textual changes.
 
-We chose to let all semantic languages use the same \texttt{token} type, this allows for implementing token based systems only once.
-Note that each semantic language does its own tokenization, not allowing for SPARQL tokens inside Turtle documents.
-In Figure \ref{fig:Parse}, \textit{tokenize} is the first sytem in the parsing schedule, this system is implemented for all supported semantic languages. \textit{Tokenize} also report on tokenization errors.
+We chose to let all semantic languages use the same \texttt{token} type. 
+This allows for implementing token-based systems only once.
+Note that each Semantic Web language does its own tokenization, not allowing for SPARQL tokens inside Turtle documents.~\unsure{Not sure if this is good or bad. Can you rephrase to clarify your point?}
+In Figure~\ref{fig:Parse}, \textit{tokenize} is the first system in the parsing schedule, this system is implemented for all supported languages. \textit{Tokenize} also reports on tokenization errors.
 
-The next system is \textit{parsing}, also implemented for each semantic language, transforming the tokens into actual objects, and reporting on syntactic errors. 
-When the objects are parsed, systems are issued that derive prefixes and triples. 
+The next system is \textit{parsing}\info{Can we adjust Figure 1 so that the System is called parsing and differentiate from the Schedule called Parse?}, also implemented for each semantic language, transforming the tokens into actual objects and reporting on syntactic errors. 
+When the objects are parsed, systems are issued to derive prefixes and triples. 
 Prefixes contain information about how to expand and shorten IRIs for the current document.
-Deriving triples does not only derive actual triples, but in the case for SPARQL also bindings, which can be thought of as \textit{triples}.
+Deriving triples does not only derive actual RDF triples, but in the case of SPARQL, also bindings~\info{By bindings you mean triple patterns? If so better say triple patterns. Bindings sounds more like the results of executing a query}, which can be thought of as \textit{triples}.
 
-After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked some way to this document.
-Prefixes are one way, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also linkes that other document with the current document.
-Prefixes are also used to load the correct LOV defined ontologies, setting up documents containing property and class definitions.
+After deriving prefixes, other systems~\info{Which ones?} will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
+Prefixes are one way, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also allows linking that other document with the current document.
+Prefixes are also used to load the correct LOV~\cite{LOV2017} defined ontologies, setting up documents containing property and class definitions.~\info{this comes out of the blue. We need to properly describe that LOV is used internally used to support a richer set of ontologies and specially those that are not dereferenceable.}
 
-When the triples are derived, a system will derive properties and classes.
-In most documents this will result in no properties or classes, but a document linked from LOV will contain many.
+When the triples are derived, a dedicated system will derive properties and classes.
+In most documents this will result in no properties or classes, but a document linked \unsure{is from the right word here?}from LOV will contain many.~\info{Perhaps mention an example?}
 The power of the entity component system is that all documents are handled exactly the same.
-This allows to cover a use case where a domain expert is writing the ontology and creating SPARQL queries to see how the ontology \textit{feels}, just by importing a local ontology file.
+This allows to cover for example, the use case where a domain expert can create an ontology in a local document, and at the same time define some SPARQL queries that import the ontology file (e.g., by using a \texttt{PREFIX}) to assess the complexity of the data model.
 
 %\paragraph{About parsing} → you already have a heading parse?
 
-With the language server protocol\todo{just use an acronym at all time here?} the server can specify wether or not it requires only the (minimal) changes or entire document every time.
-Earlier versions of the semantic lsp required the entire document every time, because documents arae relatively small and reprasing the entire document brings an acceptable performance.
+The language server protocol\todo{just use an acronym at all time here?} allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
+Earlier versions of the SWLS required the entire document every time, given that documents are usually small and reprasing the entire document could be done with an acceptable performance.
 However, we noticed that this hampered the implementation, in turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
-An example is shown in \ref{lst:GroupedListing}.
-  The user at \ref{code1} types named node \texttt{<b>}, the language server should not be confused: triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>}. The language server should suggest objects that fulfill the domain of predicate \texttt{<b>}. 
-  The user at \ref{code2} types named node \texttt{<c>}, the language server should not be confused: the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}, however tokenwise the documents are the same. Resulting in the language server suggesting a semi colon.
-  
-  The user at \ref{code3} just wrote a subject, invoking the subject completion defined in the next section. The language server might incorrect suggest to add a comma after \texttt{<c>} to build a syntactically correct document.
-  The user at \ref{code4} is typing a predicate for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at \ref{code3}, where \texttt{<b>} is subject thus not invocing the property completion as explained in the next section.
+An example is shown in Figure~\ref{lst:GroupedListing}.
+  (i) The user at figure \ref{code1} types the named node \texttt{<b>}. The language server should determine that triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>} and should suggest objects that fulfill the range of predicate \texttt{<b>}. 
+  (ii) The user at figure \ref{code2} types the named node \texttt{<c>}. The language server should identify that the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}. Although token-wise documents in figures~\ref{code1} and \ref{code2} are the same, in this case the suggestion should result in a semicolon.
+  (iii) The user at figure \ref{code3} just wrote subject \texttt{<c>}, invoking the subject completion defined in the next section. The language server might incorrectly suggest to add a comma after \texttt{<c>} to build a syntactically correct document.~\info{Maybe explain what should be the correct outcome?}
+  (iv) The user at figure \ref{code4} is typing a predicate for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at figure~\ref{code3}, where \texttt{<b>} is subject thus not suggesting the property completion as explained in the next section.
 
-  Adding partial parsing eliminates these issues as the language server understand which tokens are new and leaving the original interpretation of the surrounding tokens in touch. \todo{PC: please check this last sentence and rewrite it}
+  Adding partial parsing can deal with these issues as the language server understand which tokens are new and leaving the original interpretation of the surrounding tokens untouched. \todo{PC: please check this last sentence and rewrite it. Update by JR: I adjusted it a bit based on my interpretation, but do check if rephrasing is needed.}
 
 
 \begin{figure}[tb]
@@ -121,11 +121,11 @@ An example is shown in \ref{lst:GroupedListing}.
 
 \subsubsection{Completion}
 
-Completion is one of the most important features that actively interacts with the user.
-In the Langauge Server Protocol, the langauge server is issued a completion event that contains the current location of the user.
+\textit{Completion} is one of the most important features that actively interacts with the user.
+In LSP, the server receives a completion event that contains the current cursor location of the user.
 The server should then answer with a list of completions, including the textual operations, a title and potentially some documentation.
 It is the responsibility of the editor to sort and filter the completions and show the user the most relevant information.
-How editors do this is not specified, which makes it difficult to create comprehensive testing suite.
+How editors do this is not specified, which makes it difficult to create comprehensive and cross-IDE testing suites.
 
 \begin{figure}[!ht]
  \centering
@@ -136,19 +136,19 @@ How editors do this is not specified, which makes it difficult to create compreh
       loading sensor data from The Things Network into a triple store}\label{fig:Completion}
 \end{figure}
 
-Figure \ref{fig:Completion} shows a schematic overview of the different systems in the completion schedule and their interactions.
+Figure~\ref{fig:Completion}\todo{Fix caption of this figure as is copied from another paper} shows a schematic overview of the different systems involved in the completion schedule and their interactions.
 First the server will create a \texttt{CompletionRequest} object, currently containing no completions.
-Systems add their relevant completions to the request which is then returned to the user.
+Systems will proceed to add their relevant completions to the request which is then returned to the user.
 
-The location the user at the moment of the request is not enough information to derive comprehensive completions, 
-the first systems will extract more information that is then used by the systems that create the actual completions.
+The location the user is at the moment of the request, is not enough information to derive comprehensive completions. 
+The first systems will extract more information\info{Like what?} that is then used by the systems that create the actual completions.
 
-\texttt{GetCurrentToken} expands the current location to the current token, then \texttt{GetCurrentTriple} tries to find the triple that this token corresponds to also indicating whether the user is typing a subject, predicate or object.
-If \texttt{GetCurrentToken} fails, the entity lacks a TokenComponent and results in \texttt{GetCurrentTriple} not being issued.
+\texttt{GetCurrentToken} expands the current location to the current token, then \texttt{GetCurrentTriple} tries to find the triple that this token belogns to, and also to identify whether the user is typing a subject, predicate or object.
+If \texttt{GetCurrentToken} fails, the entity lacks a TokenComponent and results in \texttt{GetCurrentTriple} not being issued.\info{Why could this happen? Example?}
 
 The language server has enough information with only the current token to complete based on defined subjects with the \texttt{SubjectCompletion} system.
-The server also completed on already defined prefixes (with \texttt{CompletePrefix}), this system is language agnostic as the Prefixes component is already defined.
-To import new prefixes from LOV, each language has to implement a \texttt{CompleteLOVPrefix}, because how to add the import statement is language specific.
+The server also completes on already defined prefixes (with \texttt{CompletePrefix}), this system is language agnostic as the Prefixes component is already defined.\unsure{Already defined where?}
+To import new prefixes from LOV, each language has to implement a \texttt{CompleteLOVPrefix} system, because the way to add the import statement is language specific.
 
 \todo{Add class and property completion + mention domain alignment}
 % The suggested properties first show the properties that align with the domain of the property definition.
@@ -157,11 +157,11 @@ To import new prefixes from LOV, each language has to implement a \texttt{Comple
 
 \subsubsection{Diagnostics}
 
-The Diagnostics component of the Semantic Web Language Server comprises several focused systems that analyze parsed data to identify issues and provide feedback to users.
+The \textit{Diagnostics} component of SWLS comprises several focused systems that analyze parsed data to identify issues and provide feedback to users.
 Diagnostics differ fundamentally from other language server functionalities because they are push-based: the server actively notifies the editor of errors and warnings.
-This allows for timely feedback, ensuring that users can quickly identify and address problems in their semantic documents.
+This allows for timely feedback, ensuring that users can quickly identify and address problems in their documents.
 
-Diagnostics are triggered with two different schedules: on edit and on save.
+Diagnostics are triggered with two different schedules: \textit{on-edit} and \textit{on-save}.
 
 \begin{enumerate}
   \item \textit{On edit} diagnostics provide fast, real-time feedback to users, enabling them to fix errors as they type. 
@@ -175,20 +175,20 @@ To demonstrate the capabilities of the diagnostics system, we highlight three ke
 \begin{enumerate}
   \item \textit{Syntax Diagnostics:}
     During the tokenization and parsing phases, errors such as syntax mismatches or malformed input are detected and recorded, along with their locations.
-    These errors are immediately passed to the diagnostics publisher resource, making this part of the on edit schedule, as the necessary data is already generated during parsing.
+    These errors are immediately passed to the diagnostics publisher resource, making this part of the on-edit schedule, as the necessary data is already generated during parsing.
   \item \textit{SHACL Validation:} 
-    With the on save schedule, the server uses the Rudof library to validate the current document against SHACL shapes.
-    Shapes are dynamically extracted from the document itself, as well as from prefix links and owl:imports statements.
-    This system ensures that the semantic data conforms to expected structural and logical constraints, enabling robust validation for ontologies and linked data documents.
+    With the on save schedule, the server uses the Rudof library\todoCite{add link or citation if any} to validate the current RDF document against SHACL shapes.
+    Shapes are dynamically extracted from the document itself (if present), as well as from prefix links and owl:imports statements.
+    This system ensures that the semantic data conforms to expected structural constraints, enabling robust validation for ontologies and RDF documents.
   \item \textit{Basic Validation:}
     This system identifies common issues, such as undefined prefixes or unused declarations.
-    By flagging such problems, it helps users maintain consistency and avoid errors that might lead to interoperability issues.
+    By flagging such problems, users can better maintain consistency and avoid errors that might lead to interoperability issues.
 \end{enumerate}
 
 Together, these systems provide comprehensive diagnostic support, catering to both immediate feedback needs and more in-depth validation processes.
-This modular approach ensures that diagnostics remain lightweight yet powerful, accommodating the diverse requirements of semantic web practitioners.
+This modular approach ensures that diagnostics remain lightweight yet powerful, accommodating the diverse requirements of Semantic Web practitioners.
 
-\subsubsection{Varia}
+\subsubsection{Others}
 
 Beyond core functionalities, SWLS offers additional schedules that enhance the user experience and round out its capabilities.
 These schedules are smaller in scope, generally focusing on presentation or user interaction rather than deriving new information.
@@ -213,11 +213,11 @@ The most notable are as follows:
   \item \textit{Highlighting:}
     Highlighting improves document readability by visually distinguishing between elements.
     The SWLS implements both syntax highlighting and semantic highlighting through a two-step process:
-        An initial system maps all tokens to their basic semantic types.
-        Subsequent systems refine the types based on additional information.
+        (i) An initial system maps all tokens to their basic semantic types.
+        (ii) Subsequent systems refine the types based on additional information.
     For example, in JSON-LD, all keys are initially highlighted as strings.
     However, keys starting with the \texttt{@} symbol are reclassified as keywords, enhancing clarity and usability for JSON-LD documents.
 \end{enumerate}
 
 These schedules, while smaller in scale, significantly enhance the language server’s utility by making semantic documents more intuitive and easier to work with.
-They represent the \textit{polish} that transforms SWLS into a complete tool for semantic web practitioners.
+They represent the \textit{polish} that transforms SWLS into a complete tool for Semantic Web practitioners.

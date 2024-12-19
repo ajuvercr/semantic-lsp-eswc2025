@@ -64,54 +64,57 @@
 \label{sec:related_work}
 
 %PC: I’d consider renaming related work state of the art then!
-This section examines the state of the art in tools and functionalities for developing for the Semantic Web. 
-Current implementations address various aspects of Semantic Web technologies, ranging from ontology modeling tools like Protégé to SPARQL query editors such as YASGUI.
-% PC: This is something you’d like the reader to accept indeed when you introduced the SOTA entirely. I’d put this sentence at the end.
-While these tools provide specialized capabilities, the integration of features typical of Integrated Development Environments (IDEs) remains limited. 
-Table~\ref{tab:current_implementations} summarizes open-source tools that implement selected IDE functionalities for semantic web technologies.
+This section examines the state of the art in tools and functionalities that support developement and interaction with Semantic Web technologies. 
+Current implementations address various aspects of Semantic Web technologies, including for example, ontology modeling tools (e.g., Protégé) and SPARQL query editors (e.g., YASGUI).
+Next we describe a set of common IDE functionalities\todoCite{Is there a citation or citations for this?} and discuss existing tools that (partially) cover them for Semantic Web-related formats.
 
-\paragraph*{Highlighting} enhances readability by leveraging visual cues, which assist developers in parsing complex data. 
-Note that semantic highlighters should avoid overloading the user with unnecessary information. 
-Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.
+\paragraph*{Highlighting} enhances readability by leveraging visual cues, which assist developers in understanding complex data.
+For example by colouring differently reserved keywords (e.g., \texttt{a}, \texttt{@prefix} in the RDF Turtle syntax) and data types (e.g., strings, numbers, etc.).  
+Semantic highlighters should avoid overloading the user with unnecessary information. 
+Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.~\todoCite{This needs to be backed by a citation. Otherwise just limit to explain what is highlighting and why is important.}
 There are two primary types of highlighting: \textbf{syntactic} and \textbf{semantic}.
 
 \begin{itemize}
-    \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers. For example, strings might appear in green, while named nodes are highlighted in red. This type of highlighting does not require knowledge of the document’s meaning.
-    \item \textbf{Semantic highlighting}, in contrast, uses document semantics to differentiate terms based on their roles. For instance, the type of an object or from a literal could be highlighted in a unique color, or keywords like JSONLD's \texttt{@id} or \texttt{@graph} can be visually distinguished from other keys.
+    \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers (i.e. \todo{explain in a few words what is a lexer}). For example in RDF Turtle, strings might appear in green, while named nodes are highlighted in red. This type of highlighting does not require knowledge of the document's meaning.~\info{I would expect to see a description (if it is the first time, otherwise a simple mention) + citation (if any) of the tools that support this}
+    \item \textbf{Semantic highlighting}, in contrast, uses the local (and externally linked) semantics referenced in the document to differentiate terms based on their roles. For instance, the type of an object or that of a literal could be highlighted in a unique color. Also keywords like JSON-LD's \texttt{@id} or \texttt{@graph}~\unsure{Isn't this more like sytactic highlighting?} can be visually distinguished from other keys.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
 \end{itemize}
 
 
 \paragraph*{Diagnostics} are essential for identifying issues early in the development process. 
-Rather than deferring error detection to runtime, an IDE should provide immediate feedback on data validity.
-These features enable developers to maintain data accuracy and reduce time spent debugging. Examples include:
+Rather than deferring error detection to runtime, an IDE should provide immediate feedback on data validity and correctness.
+These features enable developers to maintain data accuracy and reduce time spent debugging. Examples include:\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
 
 % Examples of valuable diagnostics include:
 \begin{itemize}
-    \item \textbf{Standard compliance}: Notifying users if the current document is incompatible with parsers adhering to semantic web standards.
-    \item \textbf{Undefined properties}: Alerting users to potential typos or incorrect terms when undefined properties are detected.
-    \item \textbf{Reasoning errors}: Highlighting logical inconsistencies in ontologies or data that deviate from expected SHACL shapes or OWL reasoning.
+    \item \textbf{Standard compliance}: Notifying users if the current document is incompatible with parsers adhering to Semantic Web standards.
+    \item \textbf{Undefined properties}: Alerting users to potential typing mistakes or incorrect terms when undefined properties are detected.
+    \item \textbf{Reasoning errors}: Highlighting logical inconsistencies in ontologies or data that deviate from expected SHACL shapes or OWL reasoning constraints.
 \end{itemize}
 
 
 \paragraph*{Formatting} 
-Consistent formatting across documents enhances readability and maintainability.
-An IDE should assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.
+Consistent formatting across documents can help enhancing readability and maintainability.~\todoCite{any citation for this?}
+IDEs assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
 
-\paragraph*{Renaming} identifiers, such as classes or properties, is a critical feature for iterative development.
-This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.
+\paragraph*{Renaming} identifiers, such as classes or properties, is an important feature for iterative development.
+This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
 
-\paragraph*{Completion} features, like highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
-Simple semantic completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
+\paragraph*{Completion} features, similar to highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
+Simple semantic completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
 
 \begin{itemize}
     \item \textbf{Syntactic completion} involves suggesting keywords or tokens already defined in the document.
     \item \textbf{Semantic completion} provides context-aware suggestions, such as properties or classes relevant to the current position. For example:
     \begin{itemize}
-        \item When writing a property, the IDE can suggest those defined for the subject's type.
-        \item When completing an object, it can suggest entities consistent with the property's range.
+        \item When writing a property in an RDF document, the IDE can suggest those that define the subject's type as their \texttt{rdfs:domain}.
+        \item When completing an object, it can suggest entities consistent with the property's \texttt{rdfs:range}.
     \end{itemize}
 \end{itemize}
 
+In Table~\ref{tab:current_implementations}~\todo{Complete the information of tools in the table caption} we show a summary of exisiting open-source tools that implement at least one of the aforementioned IDE functionalities for Semantic Web technologies.
+% PC: This is something you’d like the reader to accept indeed when you introduced the SOTA entirely. I’d put this sentence at the end.
+While these tools provide specialized capabilities, the integration of features typical of IDEs remains limited.
+With SWLS we aim on addressing this gap and in general, support the broader adoption of Semantic Web technologies. 
 
 % we might want to transpose the headers
 \begin{table}[h!]
@@ -133,11 +136,11 @@ yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xm
 Protege                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
 rdf-vocabularies-autocomplete & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
 JSON-LD LSP                   & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
-semantic-web LS               & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+SWLS                          & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
 \hline
 \end{tabularx}
     \caption{\label{tab:current_implementations}
-    Table listing IDE features of different semantic web tools.
+    Table listing IDE features of different Semantic Web tools.
     Stardog simple completion is based on a fixed list of items. 
     RDFox syntax completion only works for SPARQL functions.}
 \end{table}
@@ -145,8 +148,8 @@ semantic-web LS               & \cmark & \cmark & \cmark & \cmark & \cmark & \cm
 
 \subsection*{Ontology Design Tools}
 
-Ontology design tools, such as Protégé, serve as the foundation for many semantic web development workflows. 
-Their primary functions include visualizing ontologies, defining classes and properties, and validating logical consistency.
+Ontology design tools, such as Protégé~\cite{protege2015}, serve as the foundation for many Semantic Web development workflows. 
+Their primary functions include visualizing ontologies, defining classes and properties, and validating logical consistency through reaoning.
 These tools provide essential support but often lack the integrated functionality of modern IDEs, such as context-aware diagnostics or advanced refactoring capabilities~\cite{ComparingOntologyBuildingTools}.
 
 
