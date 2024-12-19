@@ -1,25 +1,35 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.186 Electron/32.2.6 Safari/537.36" version="24.7.17">
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.7 Safari/537.36" version="25.0.2">
   <diagram name="Page-1" id="AgtVjQQF4dttvK-721lR">
-    <mxGraphModel dx="3386" dy="703" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2177" dy="290" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="a8kl2HL8a7ygywKHlYWj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="a8kl2HL8a7ygywKHlYWj-1">
+        <mxCell id="a8kl2HL8a7ygywKHlYWj-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="FRHr4R5hyBdtW-nUGnN2-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a8kl2HL8a7ygywKHlYWj-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="FRHr4R5hyBdtW-nUGnN2-18">
+        <mxCell id="AD_0-axb7mO7pQ5nwTjk-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="a8kl2HL8a7ygywKHlYWj-1" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-645" y="180" />
-              <mxPoint x="-855" y="180" />
+              <mxPoint x="-745" y="250" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="a8kl2HL8a7ygywKHlYWj-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="FRHr4R5hyBdtW-nUGnN2-5">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="AD_0-axb7mO7pQ5nwTjk-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="FRHr4R5hyBdtW-nUGnN2-18" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-745" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AD_0-axb7mO7pQ5nwTjk-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="FRHr4R5hyBdtW-nUGnN2-19" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-745" y="240" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="FRHr4R5hyBdtW-nUGnN2-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GetCurrentToken&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Tokens&lt;br&gt;-&amp;nbsp;PositionComponent&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- DynLang&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ Token&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-740" y="47.5" width="190" height="112.5" as="geometry" />
+          <mxGeometry x="-840" y="47.5" width="190" height="112.5" as="geometry" />
         </mxCell>
         <mxCell id="FRHr4R5hyBdtW-nUGnN2-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="FRHr4R5hyBdtW-nUGnN2-5" target="FRHr4R5hyBdtW-nUGnN2-11" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -28,25 +38,22 @@
           <mxGeometry x="-520" y="53.75" width="190" height="100" as="geometry" />
         </mxCell>
         <mxCell id="FRHr4R5hyBdtW-nUGnN2-11" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Complete Classes&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Triple&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Prefixes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Linked Documents&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Classes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- CompletionRequest&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-520" y="210" width="190" height="140" as="geometry" />
+          <mxGeometry x="-520" y="193.75" width="190" height="140" as="geometry" />
         </mxCell>
         <mxCell id="FRHr4R5hyBdtW-nUGnN2-16" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Complete Properties&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Triple&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Prefixes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Linked Documents&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Properties&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- CompletionRequest&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-310" y="210" width="190" height="140" as="geometry" />
+          <mxGeometry x="-310" y="193.75" width="190" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="FRHr4R5hyBdtW-nUGnN2-18" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Complete Prefix&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Prefixes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- CompletionRequest&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-950" y="210" width="190" height="100" as="geometry" />
+        <mxCell id="FRHr4R5hyBdtW-nUGnN2-18" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Complete Defined Prefix&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Prefixes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- CompletionRequest&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="-730" y="193.75" width="190" height="100" as="geometry" />
         </mxCell>
         <mxCell id="FRHr4R5hyBdtW-nUGnN2-19" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Subject Completion&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Prefixes&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- CompletionRequest&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-980" y="57.5" width="190" height="102.5" as="geometry" />
+          <mxGeometry x="-950" y="193.75" width="190" height="102.5" as="geometry" />
         </mxCell>
         <mxCell id="FRHr4R5hyBdtW-nUGnN2-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.549;entryY=0.007;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="FRHr4R5hyBdtW-nUGnN2-5" target="FRHr4R5hyBdtW-nUGnN2-16" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a8kl2HL8a7ygywKHlYWj-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Complete LOV Prefix&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- LOV&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- Turtle/JSONLD&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- CompletionRequest&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="-740" y="210" width="190" height="110" as="geometry" />
-        </mxCell>
-        <mxCell id="a8kl2HL8a7ygywKHlYWj-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.992;entryY=0.45;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="FRHr4R5hyBdtW-nUGnN2-2" target="FRHr4R5hyBdtW-nUGnN2-19">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="a8kl2HL8a7ygywKHlYWj-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Complete Prefix.cc Prefix&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&amp;nbsp;- Token&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- Turtle/JSONLD&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- CompletionRequest&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="-840" y="310" width="190" height="100" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

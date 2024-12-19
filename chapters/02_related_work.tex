@@ -66,23 +66,30 @@
 %PC: I’d consider renaming related work state of the art then!
 This section examines the state of the art in tools and functionalities that support developement and interaction with Semantic Web technologies. 
 Current implementations address various aspects of Semantic Web technologies, including for example, ontology modeling tools (e.g., Protégé) and SPARQL query editors (e.g., YASGUI).
-Next we describe a set of common IDE functionalities\todoCite{Is there a citation or citations for this?} and discuss existing tools that (partially) cover them for Semantic Web-related formats.
+Next we describe a set of common IDE functionalities~\cite{HowAreJava} and discuss existing tools that (partially) cover them for Semantic Web-related formats.
 
 \paragraph*{Highlighting} enhances readability by leveraging visual cues, which assist developers in understanding complex data.
 For example by colouring differently reserved keywords (e.g., \texttt{a}, \texttt{@prefix} in the RDF Turtle syntax) and data types (e.g., strings, numbers, etc.).  
-Semantic highlighters should avoid overloading the user with unnecessary information. 
-Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.~\todoCite{This needs to be backed by a citation. Otherwise just limit to explain what is highlighting and why is important.}
+% Semantic highlighters should avoid overloading the user with unnecessary information. 
+% Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.~\todoCite{This needs to be backed by a citation. Otherwise just limit to explain what is highlighting and why is important.}
 There are two primary types of highlighting: \textbf{syntactic} and \textbf{semantic}.
 
 \begin{itemize}
-    \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers (i.e. \todo{explain in a few words what is a lexer}). For example in RDF Turtle, strings might appear in green, while named nodes are highlighted in red. This type of highlighting does not require knowledge of the document's meaning.~\info{I would expect to see a description (if it is the first time, otherwise a simple mention) + citation (if any) of the tools that support this}
-    \item \textbf{Semantic highlighting}, in contrast, uses the local (and externally linked) semantics referenced in the document to differentiate terms based on their roles. For instance, the type of an object or that of a literal could be highlighted in a unique color. Also keywords like JSON-LD's \texttt{@id} or \texttt{@graph}~\unsure{Isn't this more like sytactic highlighting?} can be visually distinguished from other keys.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
+    \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers (i.e. software that transforms text into tokens: keyswords, IRIs, blanknode identifiers, etc.).
+      For example in RDF Turtle, strings might appear in green, while named nodes are highlighted in red.
+      This type of highlighting does not require knowledge of the document's meaning.
+      Syntactic highlighting is enabled on all software we considered, except for the 
+      \textit{rdf-vocabularies-autocomplete} VSCode extension, VSCode handles syntactic highlighting already with the Tree-sitter project\footnote{\url{https://tree-sitter.github.io/tree-sitter/}}.
+    \item \textbf{Semantic highlighting}, in contrast, uses the local (and externally linked) semantics referenced in the document to differentiate terms based on their roles. 
+      For instance, terms declared in an ontology can be highlighted differently compared to locally defined terms.
+      We found no semantic web tooling that implemented this feature.
 \end{itemize}
 
 
 \paragraph*{Diagnostics} are essential for identifying issues early in the development process. 
 Rather than deferring error detection to runtime, an IDE should provide immediate feedback on data validity and correctness.
-These features enable developers to maintain data accuracy and reduce time spent debugging. Examples include:\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
+These features enable developers to maintain data accuracy and reduce time spent debugging. 
+The stardog language servers and the Yasgui query editor notify the users of syntax errors.
 
 % Examples of valuable diagnostics include:
 \begin{itemize}
@@ -93,14 +100,18 @@ These features enable developers to maintain data accuracy and reduce time spent
 
 
 \paragraph*{Formatting} 
-Consistent formatting across documents can help enhancing readability and maintainability.~\todoCite{any citation for this?}
-IDEs assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
+Consistent formatting across documents can help enhancing readability and maintainability.
+IDEs assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.
+We found no semantic web tooling that implemented this feature.
 
 \paragraph*{Renaming} identifiers, such as classes or properties, is an important feature for iterative development.
-This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
+This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.
+We found no semantic web tooling except for our previous work~\cite{JSONLD-LSP}, that handles renaming identifiers.
 
 \paragraph*{Completion} features, similar to highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
-Simple semantic completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.~\info{Same as previous comment: description/mention of the tools supporting this. If there is none mention it too.}
+Simple semantic completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
+All semantic web tooling we considered, included some kind of completion mechanism, none however applied typed completion.
+
 
 \begin{itemize}
     \item \textbf{Syntactic completion} involves suggesting keywords or tokens already defined in the document.
@@ -133,16 +144,19 @@ Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cm
 RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
 query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
 yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
-Protege                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
-rdf-vocabularies-autocomplete & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+Protégé                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
+rdf-vocabularies-autocomplete & N/A    & N/A    & N/A    & N/A    & N/A    & \xmark & \xmark & \cmark & \xmark & N/A    & N/A    & \xmark \\
 JSON-LD LSP                   & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
 SWLS                          & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
 \hline
 \end{tabularx}
     \caption{\label{tab:current_implementations}
+    \mmark Stardog simple completion is based on a fixed list of items. 
+    \mmark RDFox syntax completion is only based on predefined for SPARQL functions.
     Table listing IDE features of different Semantic Web tools.
-    Stardog simple completion is based on a fixed list of items. 
-    RDFox syntax completion only works for SPARQL functions.}
+    All eligable software supports both highlighting and completion in one form of another, 
+    while no software supports formatting or renaming except for Protégé and JSONLD-LSP. 
+  }
 \end{table}
 
 

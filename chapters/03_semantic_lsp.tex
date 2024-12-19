@@ -4,13 +4,14 @@
 The architectural design of the Semantic Web Language Server (SWLS) adheres to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}.
 Unlike traditional architectures, SWLS leverages an entity component system (ECS), which offers greater separation of concerns compared to the widely recognized \textit{Layered Architecture}~\cite{10.1145/3550355.3552452}.
 
-\todo{Add information about Resources}
 An ECS is a software design pattern that organizes a program into four key elements: Entities, Components, Systems, and Resources. 
 In SWLS, \textit{entities} represent documents that are composed of various components. 
 \textit{Components} store data associated with the entity, such as the document's contents, file location, or derived RDF triples. 
 \textit{Systems} are functions designed to process specific components and are grouped into schedules to achieve distinct tasks. 
 For example, the \textit{Parse} schedule includes systems responsible for tokenization, parsing, and triple extraction.
 Semantic Web languages integrate seamlessly by introducing their systems into these predefined schedules to provide language-specific functionality.
+\textit{Resources} are global components that are not linked to a specific entity.
+For example, SWLS uses a resource to keep track of the hierarchy of discovered types, as types are not document specific.
 
 As noted by Bour et al., ``No spec, no tests'' highlights the challenge of developing test suites for user-facing applications like language servers, where specifications can be open to interpretation~\cite{Bour_2018}. 
 To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various Semantic Web languages.
@@ -36,8 +37,11 @@ This approach allows for scalable and focused development of language server fea
 This section details the systems implemented within each schedule of SWLS.
 Some systems are designed primarily to generate components, which are then utilized by other systems, potentially across different schedules.
 This decoupled design ensures flexibility and modularity. 
-If a system expects a component that is not present for a given entity, the system simply skips that entity.~\info{Can you add an example of this for clarity?}
-This behavior supports asynchronous execution of systems, allowing for independent processing and reducing bottlenecks in the language server’s operation.
+If a system expects a component that is not present for a given entity, the system simply skips that entity.
+For example, when parsing fails, a \texttt{Dirty} component is added to that entity.
+Systems can then filter on all documents that do not have a \texttt{Dirty} componet and execute their logic on them.
+This greatly improves performance as when the user types the document is often broken.
+This architecture supports asynchronous execution of systems, allowing for independent processing and reducing bottlenecks in the language server’s operation.
 
 \subsubsection{Parse}
 
@@ -54,64 +58,68 @@ It is activated whenever the user edits a document, notifying the language serve
 
 We chose to let all semantic languages use the same \texttt{token} type. 
 This allows for implementing token-based systems only once.
-Note that each Semantic Web language does its own tokenization, not allowing for SPARQL tokens inside Turtle documents.~\unsure{Not sure if this is good or bad. Can you rephrase to clarify your point?}
+Note, that this does not mean SPARQL specific tokens (i.e. \texttt{?variable} or SPARQL keywords) are introduced into the Turtle language:  each language does their own tokenization, merging all tokens into one \texttt{token} type.
 In Figure~\ref{fig:Parse}, \textit{tokenize} is the first system in the parsing schedule, this system is implemented for all supported languages. \textit{Tokenize} also reports on tokenization errors.
 
-The next system is \textit{parsing}\info{Can we adjust Figure 1 so that the System is called parsing and differentiate from the Schedule called Parse?}, also implemented for each semantic language, transforming the tokens into actual objects and reporting on syntactic errors. 
+The next system is \textit{parsing}, also implemented for each semantic language, transforming the tokens into actual objects and reporting on syntactic errors. 
 When the objects are parsed, systems are issued to derive prefixes and triples. 
 Prefixes contain information about how to expand and shorten IRIs for the current document.
-Deriving triples does not only derive actual RDF triples, but in the case of SPARQL, also bindings~\info{By bindings you mean triple patterns? If so better say triple patterns. Bindings sounds more like the results of executing a query}, which can be thought of as \textit{triples}.
+Deriving triples does not only derive actual RDF triples, but in the case of SPARQL, also triple patterns with variables, which can be thought of as \textit{triples}.
 
-After deriving prefixes, other systems~\info{Which ones?} will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
+After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
 Prefixes are one way, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also allows linking that other document with the current document.
-Prefixes are also used to load the correct LOV~\cite{LOV2017} defined ontologies, setting up documents containing property and class definitions.~\info{this comes out of the blue. We need to properly describe that LOV is used internally used to support a richer set of ontologies and specially those that are not dereferenceable.}
 
 When the triples are derived, a dedicated system will derive properties and classes.
 In most documents this will result in no properties or classes, but a document linked \unsure{is from the right word here?}from LOV will contain many.~\info{Perhaps mention an example?}
 The power of the entity component system is that all documents are handled exactly the same.
 This allows to cover for example, the use case where a domain expert can create an ontology in a local document, and at the same time define some SPARQL queries that import the ontology file (e.g., by using a \texttt{PREFIX}) to assess the complexity of the data model.
 
-%\paragraph{About parsing} → you already have a heading parse?
+\todo{help}
+SWLS uses LOV\cite{LOV2017} to access ontologies definitions that are imported as a prefix of a document.
+These ontology documents are loaded into the language server as normal editor documents
+This means that properties and classes are derived from ontology documents or local documents just the same.
+Prefixes are also used to load the correct LOV~\cite{LOV2017} defined ontologies, setting up documents containing property and class definitions.~\info{this comes out of the blue. We need to properly describe that LOV is used internally used to support a richer set of ontologies and specially those that are not dereferenceable.}
 
-The language server protocol\todo{just use an acronym at all time here?} allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
+The language server protocol allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
 Earlier versions of the SWLS required the entire document every time, given that documents are usually small and reprasing the entire document could be done with an acceptable performance.
-However, we noticed that this hampered the implementation, in turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
+However, we noticed that this hampered the implementation, in Turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
 An example is shown in Figure~\ref{lst:GroupedListing}.
   (i) The user at figure \ref{code1} types the named node \texttt{<b>}. The language server should determine that triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>} and should suggest objects that fulfill the range of predicate \texttt{<b>}. 
   (ii) The user at figure \ref{code2} types the named node \texttt{<c>}. The language server should identify that the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}. Although token-wise documents in figures~\ref{code1} and \ref{code2} are the same, in this case the suggestion should result in a semicolon.
-  (iii) The user at figure \ref{code3} just wrote subject \texttt{<c>}, invoking the subject completion defined in the next section. The language server might incorrectly suggest to add a comma after \texttt{<c>} to build a syntactically correct document.~\info{Maybe explain what should be the correct outcome?}
-  (iv) The user at figure \ref{code4} is typing a predicate for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at figure~\ref{code3}, where \texttt{<b>} is subject thus not suggesting the property completion as explained in the next section.
+  (iii) The user at figure \ref{code3} just wrote subject \texttt{<a>}, invoking the subject completion defined in the next section.
+     The language server might incorrectly suggest to add a comma after \texttt{<c>} to build a syntactically correct document. 
+     This however would be a mistake as triple \texttt{<b> <c> <d>} has \texttt{<b>} as subject, not \texttt{<c>}.
+  (iv) The user at figure \ref{code4} is typing the predicate \texttt{<b>} for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at figure~\ref{code3}, where \texttt{<b>} is subject thus not suggesting the property completion as explained in the next section.
 
-  Adding partial parsing can deal with these issues as the language server understand which tokens are new and leaving the original interpretation of the surrounding tokens untouched. \todo{PC: please check this last sentence and rewrite it. Update by JR: I adjusted it a bit based on my interpretation, but do check if rephrasing is needed.}
-
+  Adding partial parsing can deal with these issues as the language server understand which tokens are added or deleted and leaving the original interpretation of the surrounding tokens untouched.
 
 \begin{figure}[tb]
     \centering
     % code1
     \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option1.ttl}
-      \caption{User types \texttt{<b>}}
+      \caption{User types predicate \texttt{<b>}}
       \label{code1}
     \end{subfigure}
     \hfill
     % code 2
     \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option2.ttl}
-      \caption{User types \texttt{<c>}}
+      \caption{User types object \texttt{<c>}}
       \label{code2}
     \end{subfigure}
     \hfill
     % code 3
     \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option3.ttl}
-      \caption{User types \texttt{<a>}}
+      \caption{User types subject \texttt{<a>}}
       \label{code3}
     \end{subfigure}
     \hfill
     % code 4
     \begin{subfigure}{0.21\textwidth}
       \lstinputlisting{./code/option4.ttl}
-      \caption{User types \texttt{<b>}}
+      \caption{User types predicate \texttt{<b>}}
       \label{code4}
     \end{subfigure}
     \caption{Different code samples showing that it is the indentation/intent of the user that dictates how tokens should be parsed. (a) and (b) show five terms that result in different triples. (c) and (d) show four terms, triples with subject \texttt{<a>} and \texttt{<b>} and both triples with subject \texttt{<a>} resulting in different semantics.    }\label{lst:GroupedListing}
@@ -132,8 +140,7 @@ How editors do this is not specified, which makes it difficult to create compreh
  \makebox[\textwidth]{%
     \includegraphics[width=1.2\textwidth]{./images/Completion.pdf}
  }
-  \caption{Visual representation of our example pipeline, 
-      loading sensor data from The Things Network into a triple store}\label{fig:Completion}
+  \caption{Visual representation of the Completion schedule including GetCurrentToken, GetCurrentTriple, Subject Completion, Defined Prefix Completion, Prefix.cc Prefix Completion, Complete Classes and Complete Properties.}\label{fig:Completion}
 \end{figure}
 
 Figure~\ref{fig:Completion}\todo{Fix caption of this figure as is copied from another paper} shows a schematic overview of the different systems involved in the completion schedule and their interactions.
