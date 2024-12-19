@@ -39,7 +39,7 @@ Some systems are designed primarily to generate components, which are then utili
 This decoupled design ensures flexibility and modularity. 
 If a system expects a component that is not present for a given entity, the system simply skips that entity.
 For example, when parsing fails, a \texttt{Dirty} component is added to that entity.
-Systems can then filter on all documents that do not have a \texttt{Dirty} componet and execute their logic on them.
+Systems can then filter on all documents that do not have a \texttt{Dirty} component and execute their logic on them.
 This greatly improves performance as when the user types the document is often broken.
 This architecture supports asynchronous execution of systems, allowing for independent processing and reducing bottlenecks in the language server’s operation.
 
@@ -53,8 +53,8 @@ This architecture supports asynchronous execution of systems, allowing for indep
   \caption{Visual representation of the Parse schedule including tokenization, parsing, deriving prefixes, deriving triples, linking documents, fetching LOV documents, deriving properties and deriving classes. }\label{fig:Parse}
 \end{figure}
 
-The \textit{Parse} schedule is one of the most important schedules of SWLS.
-It is activated whenever the user edits a document, notifying the language server of the textual changes.
+The \textit{Parse} schedule %is one of the most important schedules of SWLS. It % → Aren’t they all?
+is activated whenever the user edits a document, notifying the language server of the textual changes.
 
 We chose to let all semantic languages use the same \texttt{token} type. 
 This allows for implementing token-based systems only once.
@@ -67,7 +67,10 @@ Prefixes contain information about how to expand and shorten IRIs for the curren
 Deriving triples does not only derive actual RDF triples, but in the case of SPARQL, also triple patterns with variables, which can be thought of as \textit{triples}.
 
 After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
-Prefixes are one way, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also allows linking that other document with the current document.
+Prefixes are one way, but the object value of the following triple also allows linking the document on the otherLocation with the current document.
+\begin{verbatim}
+  <> owl:imports <otherLocation>.
+\end{verbatim} 
 
 When the triples are derived, a dedicated system will derive properties and classes.
 In most documents this will result in no properties or classes, but a document linked \unsure{is from the right word here?}from LOV will contain many.~\info{Perhaps mention an example?}
@@ -77,7 +80,7 @@ This allows to cover for example, the use case where a domain expert can create 
 \todo{help}
 SWLS uses LOV\cite{LOV2017} to access ontologies definitions that are imported as a prefix of a document.
 These ontology documents are loaded into the language server as normal editor documents
-This means that properties and classes are derived from ontology documents or local documents just the same.
+This means that properties and classes are derived from ontology documents or local documents.
 Prefixes are also used to load the correct LOV~\cite{LOV2017} defined ontologies, setting up documents containing property and class definitions.~\info{this comes out of the blue. We need to properly describe that LOV is used internally used to support a richer set of ontologies and specially those that are not dereferenceable.}
 
 The language server protocol allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
@@ -129,7 +132,7 @@ An example is shown in Figure~\ref{lst:GroupedListing}.
 
 \subsubsection{Completion}
 
-\textit{Completion} is one of the most important features that actively interacts with the user.
+\textit{Completion} is one of the most prominent feature actively interacting with the user.
 In LSP, the server receives a completion event that contains the current cursor location of the user.
 The server should then answer with a list of completions, including the textual operations, a title and potentially some documentation.
 It is the responsibility of the editor to sort and filter the completions and show the user the most relevant information.
