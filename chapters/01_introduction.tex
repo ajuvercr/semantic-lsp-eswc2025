@@ -73,10 +73,17 @@ For domain experts, SWLS aims to offer a lightweight alternative to for example 
 This approach is especially beneficial for quick iterations and avoids the overhead of additional software installation and configuration.
 Lastly, for data engineers crafting SPARQL queries, SWLS intends to help them with intelligent autocompletion, which suggests properties and classes based on context, and hover-based explanations that help users understand ontology structures.
 These features are intended to reduce errors, reduce the learning curve and in general, promote a deeper engagement with Semantic Web technologies.
+Concretely SWLS supports:
+\begin{itemize}
+  \item Turtle, JSON-LD and SPARQL
+  \item Semantic and syntactic highlighting
+  \item Suggest autocompletions from properties (ordered on domain), classes, already defined prefixes and suggestions for new prefixes coming from Prefix.cc
+  \item Show diagnostics, including undefined prefixes, incorrect syntax and shape violations
+  \item Formatting and renaming
+  \item Hover functionality showing additional type information
+\end{itemize}
 
-%By leveraging features such as autocompletion, diagnostics, and real-time validation, Semantic LSP aims to lower the barriers to semantic web adoption while improving productivity and reducing common errors.
-
-Previous efforts, such as YASGUI for SPARQL query editing, have shown the value of lowering entry barriers by improving usability \cite{10.3233/SW-150197,10.1007/978-3-642-41242-4_7}. 
+Previous efforts, such as YASGUI for SPARQL query editing, have shown the value of lowering entry barriers by improving usability~\cite{10.3233/SW-150197,10.1007/978-3-642-41242-4_7}. 
 SWLS builds on these successes, expanding support to multiple Semantic Web languages and emphasizing a user-friendly, extensible design. 
 By addressing the needs of our user groups, we aim to advance the state of the art in Semantic Web tooling and foster its broader adoption.
 

@@ -17,7 +17,7 @@ As noted by Bour et al., ``No spec, no tests'' highlights the challenge of devel
 To address this, SWLS implements shared systems for common functionality, ensuring consistency and reducing redundancy across various Semantic Web languages.
 By adopting this approach, SWLS delivers uniform features, while maintaining flexibility for language-specific extensions.
 
-SWLS is implemented in Rust and leverages Bevy’s Entity Component System (ECS) to maintain a highly modular and efficient architecture.
+SWLS is implemented in Rust and leverages Bevy’s Entity Component System (ECS)\footnote{\url{https://bevyengine.org/}} to maintain a highly modular and efficient architecture.
 Features are typically added in two steps:
   first, extracting the necessary data from RDF triples and attaching it to relevant entities; 
   second, using this data to implement language server functionalities such as diagnostics or autocompletion.
@@ -40,8 +40,13 @@ This decoupled design ensures flexibility and modularity.
 If a system expects a component that is not present for a given entity, the system simply skips that entity.
 For example, when parsing fails, a \texttt{Dirty} component is added to that entity.
 Systems can then filter on all documents that do not have a \texttt{Dirty} component and execute their logic on them.
+
+% this 
 This greatly improves performance as when the user types the document is often broken.
 This architecture supports asynchronous execution of systems, allowing for independent processing and reducing bottlenecks in the language server’s operation.
+ %or this
+This greatly improves performance as documents are often broken when they are edited.
+The ECS architecture supports asynchronous execution of systems, allowing for independent processing and reducing bottlenecks in the language server’s operation.
 
 \subsubsection{Parse}
 
@@ -66,16 +71,23 @@ When the objects are parsed, systems are issued to derive prefixes and triples.
 Prefixes contain information about how to expand and shorten IRIs for the current document.
 Deriving triples does not only derive actual RDF triples, but in the case of SPARQL, also triple patterns with variables, which can be thought of as \textit{triples}.
 
+<<<<<<< HEAD
 After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
 Prefixes are one way, but the object value of the following triple also allows linking the document on the otherLocation with the current document.
 \begin{verbatim}
   <> owl:imports <otherLocation>.
 \end{verbatim} 
+=======
+When the triples are derived, the next systems will derive properties and classes.
+These properties and classes are later used to suggest autocompletions and derive type hierarchies.
+>>>>>>> f163990 (last changes)
 
-When the triples are derived, a dedicated system will derive properties and classes.
-In most documents this will result in no properties or classes, but a document linked \unsure{is from the right word here?}from LOV will contain many.~\info{Perhaps mention an example?}
-The power of the entity component system is that all documents are handled exactly the same.
-This allows to cover for example, the use case where a domain expert can create an ontology in a local document, and at the same time define some SPARQL queries that import the ontology file (e.g., by using a \texttt{PREFIX}) to assess the complexity of the data model.
+SWLS introduces the concept of linked documents, documents that are related to the current document, which should be used for features like autocompletion.
+Prefix statements are one way to link documents, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also allows linking that other document with the current document.
+To acquire useful properties and classes, SWLS looks for ontology files, however we noticed that dereferencing the location of a prefix statement and expecting an ontology file is actually quite rare, 
+so we introduced the LOV~\cite{LOV2017} service into SWLS.
+Given a prefered prefix, SWLS will try to retrieve an ontology file from LOV and insert it into the language server.
+This triggers the parsing schedule again for that document, deriving the actual properties and classes.
 
 \todo{help}
 SWLS uses LOV\cite{LOV2017} to access ontologies definitions that are imported as a prefix of a document.
@@ -127,6 +139,50 @@ An example is shown in Figure~\ref{lst:GroupedListing}.
     \end{subfigure}
     \caption{Different code samples showing that it is the indentation/intent of the user that dictates how tokens should be parsed. (a) and (b) show five terms that result in different triples. (c) and (d) show four terms, triples with subject \texttt{<a>} and \texttt{<b>} and both triples with subject \texttt{<a>} resulting in different semantics.    }\label{lst:GroupedListing}
 \end{figure}
+% The language server protocol allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
+% Earlier versions of the SWLS required the entire document every time, given that documents are usually small and reprasing the entire document could be done with an acceptable performance.
+% However, we noticed that this hampered the implementation, in Turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
+% An example is shown in Figure~\ref{lst:GroupedListing}.
+%   (i) The user at figure \ref{code1} types the named node \texttt{<b>}. The language server should determine that triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>} and should suggest objects that fulfill the range of predicate \texttt{<b>}. 
+%   (ii) The user at figure \ref{code2} types the named node \texttt{<c>}. The language server should identify that the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}. Although token-wise documents in figures~\ref{code1} and \ref{code2} are the same, in this case the suggestion should result in a semicolon.
+%   (iii) The user at figure \ref{code3} just wrote subject \texttt{<a>}, invoking the subject completion defined in the next section.
+%      The language server might incorrectly suggest to add a comma after \texttt{<c>} to build a syntactically correct document. 
+%      This however would be a mistake as triple \texttt{<b> <c> <d>} has \texttt{<b>} as subject, not \texttt{<c>}.
+%   (iv) The user at figure \ref{code4} is typing the predicate \texttt{<b>} for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at figure~\ref{code3}, where \texttt{<b>} is subject thus not suggesting the property completion as explained in the next section.
+%
+%   Adding partial parsing can deal with these issues as the language server understand which tokens are added or deleted and leaving the original interpretation of the surrounding tokens untouched.
+%
+% \begin{figure}[tb]
+%     \centering
+%     % code1
+%     \begin{subfigure}{0.21\textwidth}
+%       \lstinputlisting{./code/option1.ttl}
+%       \caption{User types predicate \texttt{<b>}}
+%       \label{code1}
+%     \end{subfigure}
+%     \hfill
+%     % code 2
+%     \begin{subfigure}{0.21\textwidth}
+%       \lstinputlisting{./code/option2.ttl}
+%       \caption{User types object \texttt{<c>}}
+%       \label{code2}
+%     \end{subfigure}
+%     \hfill
+%     % code 3
+%     \begin{subfigure}{0.21\textwidth}
+%       \lstinputlisting{./code/option3.ttl}
+%       \caption{User types subject \texttt{<a>}}
+%       \label{code3}
+%     \end{subfigure}
+%     \hfill
+%     % code 4
+%     \begin{subfigure}{0.21\textwidth}
+%       \lstinputlisting{./code/option4.ttl}
+%       \caption{User types predicate \texttt{<b>}}
+%       \label{code4}
+%     \end{subfigure}
+%     \caption{Different code samples showing that it is the indentation/intent of the user that dictates how tokens should be parsed. (a) and (b) show five terms that result in different triples. (c) and (d) show four terms, triples with subject \texttt{<a>} and \texttt{<b>} and both triples with subject \texttt{<a>} resulting in different semantics.    }\label{lst:GroupedListing}
+% \end{figure}
 
 
 
@@ -146,24 +202,29 @@ How editors do this is not specified, which makes it difficult to create compreh
   \caption{Visual representation of the Completion schedule including GetCurrentToken, GetCurrentTriple, Subject Completion, Defined Prefix Completion, Prefix.cc Prefix Completion, Complete Classes and Complete Properties.}\label{fig:Completion}
 \end{figure}
 
-Figure~\ref{fig:Completion}\todo{Fix caption of this figure as is copied from another paper} shows a schematic overview of the different systems involved in the completion schedule and their interactions.
-First the server will create a \texttt{CompletionRequest} object, currently containing no completions.
+Figure~\ref{fig:Completion} shows a schematic overview of the different systems involved in the completion schedule and their interactions.
+First the server will create a \texttt{CompletionRequest} object, at first containing no completions.
 Systems will proceed to add their relevant completions to the request which is then returned to the user.
 
 The location the user is at the moment of the request, is not enough information to derive comprehensive completions. 
-The first systems will extract more information\info{Like what?} that is then used by the systems that create the actual completions.
+The first systems will extract more information, with \texttt{GetCurrentToken} and \texttt{GetCurrentTriple}, which is then used by the systems that create the actual completions.
 
 \texttt{GetCurrentToken} expands the current location to the current token, then \texttt{GetCurrentTriple} tries to find the triple that this token belogns to, and also to identify whether the user is typing a subject, predicate or object.
-If \texttt{GetCurrentToken} fails, the entity lacks a TokenComponent and results in \texttt{GetCurrentTriple} not being issued.\info{Why could this happen? Example?}
+If \texttt{GetCurrentToken} fails, the entity lacks a TokenComponent and results in \texttt{GetCurrentTriple} not being issued. 
+This happens when the user issues a completion request, but the cursor is standing in whitespace.
+\texttt{GetCurrentTriple} might fail if the user is editing parts of the document that is not an actual triple, like a prefix statement.
 
-The language server has enough information with only the current token to complete based on defined subjects with the \texttt{SubjectCompletion} system.
-The server also completes on already defined prefixes (with \texttt{CompletePrefix}), this system is language agnostic as the Prefixes component is already defined.\unsure{Already defined where?}
-To import new prefixes from LOV, each language has to implement a \texttt{CompleteLOVPrefix} system, because the way to add the import statement is language specific.
+The language server has enough information with only the current token to complete based on defined subjects, which can be seen as entities defined in the document, with the \texttt{SubjectCompletion} system.
+The server also completes on already defined prefixes (with \texttt{Comlete Defined Prefix}), this system is language agnostic as the Prefixes component is already extracted during the Parse schedule.
+To suggest importing new prefixes, SWLS uses Prefix.cc\footnote{\url{https://prefix.cc}}, an online service that maps prefered prefixes to IRIs.
+This system is implemented for each language, as the actual edits that should be applied to the document is langauge specific.
 
-\todo{Add class and property completion + mention domain alignment}
-% The suggested properties first show the properties that align with the domain of the property definition.
-% It is not incorrect to use properties when the domain does not align, so these properties are shown as well.
-% If the domain property aligns, the completion kind is \texttt{FIELD} otherwise just \texttt{PROPERTY}.
+SWLS will also suggest properties, if \texttt{GetCurrentTriple} identified that the user is writing a predicate.
+To give the best suggestions, SWLS tries to determine the type of the current subject, currently SWLS only looks for the \texttt{rdf:type} predicate. 
+If a type is found, SWLS orders properties in such a way that properties with the correct domain are shown first,
+and visually distinguishes them from other properties.
+When the user is typing an object and the predicate of the current triple is \texttt{rdf:type}, SWLS suggests defined classes.
+
 
 \subsubsection{Diagnostics}
 
@@ -187,8 +248,8 @@ To demonstrate the capabilities of the diagnostics system, we highlight three ke
     During the tokenization and parsing phases, errors such as syntax mismatches or malformed input are detected and recorded, along with their locations.
     These errors are immediately passed to the diagnostics publisher resource, making this part of the on-edit schedule, as the necessary data is already generated during parsing.
   \item \textit{SHACL Validation:} 
-    With the on save schedule, the server uses the Rudof library\todoCite{add link or citation if any} to validate the current RDF document against SHACL shapes.
-    Shapes are dynamically extracted from the document itself (if present), as well as from prefix links and owl:imports statements.
+    With the on save schedule, the server uses the Rudof library\footnote{\url{https://github.com/rudof-project/rudof}} to validate the current RDF document against SHACL and SHEX shapes~\cite{labra2022rudof}.
+    Shapes are dynamically extracted from the document itself (if present), as well as other linked documents.
     This system ensures that the semantic data conforms to expected structural constraints, enabling robust validation for ontologies and RDF documents.
   \item \textit{Basic Validation:}
     This system identifies common issues, such as undefined prefixes or unused declarations.

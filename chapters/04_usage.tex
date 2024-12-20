@@ -3,8 +3,8 @@
 
 This section discusses how SWLS can be used and the expected impact it may have across different user groups.
 As a language server, SWLS provides functionality that is independent of specific editors, making it highly versatile.
-Some editors, such as NeoVim\info{Add footnote link}, treat language servers as first-class citizens, offering seamless integration.
-Others, like Visual Studio Code and Monaco\info{Add footnote links}, require additional glue code to enable effective interaction.
+Some editors, such as NeoVim\footnote{\url{https://neovim.io/}}, treat language servers as first-class citizens, offering seamless integration.
+Others, like Visual Studio Code\footnote{\url{https://code.visualstudio.com/}} and Monaco\footnote{\url{https://microsoft.github.io/monaco-editor/}}, require additional glue code to enable effective interaction.
 Regardless of the editor, SWLS delivers a consistent set of features that enhance the user experience across all supported platforms.
 
 All code is under a MIT licence available on github\footnote{\url{https://github.com/ajuvercr/semantic-web-lsp}}.
@@ -15,11 +15,11 @@ There are currently three ways to interact with SWLS:
   \item Go to the demo available on \url{https://ajuvercr.github.io/semantic-web-lsp/}.
 \end{enumerate}
 
-\todo{Maybe add a screenshot of the editors}
+% \todo{Maybe add a screenshot of the editors}
 In the demo, users are presented with four distinct editors, each tailored to a specific use case.
 A toy ontology and its accompanying SHACL shapes serve as foundational resources for the other editors.
 One editor is designed for creating a small data sample based on the toy ontology, allowing users to explore how semantic concepts can be applied in practice.
-Another editor showcases a simple SPARQL query, which, when executed\info{Is the query executed or the demo? Please clarify}, provides insights derived from data structured according to the ontology.
+Another editor showcases a simple SPARQL query, which, when executed using a SPARQL client, could provide insights from data structured according to the ontology.
 This setup allows users to immerse themselves in different personas, gaining hands-on experience with various aspects of semantic data workflows.
 
 While all editors, except for the SPARQL editor, are functionally the same, 
@@ -31,73 +31,55 @@ and how those users groups can be assisted by the SWLS.
 
 \subsection{Key Improvements by SWLS}
 
+\begin{figure}[tb]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[width=\textwidth]{./images/hover.png}
+      \caption{SWLS shows the user type information on hover as well as diagnostics}
+      \label{hover}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[width=\textwidth]{./images/class.png}
+      \caption{SWLS completes a class when the user wants to write a class}
+      \label{class_completion}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[width=\textwidth]{./images/property.png}
+      \caption{SWLS completes properties, first the properties with the correct domain}
+      \label{property_completion}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[width=\textwidth]{./images/undefined.png}
+      \caption{SWLS notifies the user of undefined prefixes}
+      \label{undefined_prefix}
+    \end{subfigure}
+    \caption{
+      Demo application that shows the usage of SWLS. Features include hover information, autocompletion and diagnostics.
+    }\label{lst:Demo}
+\end{figure}
+
 The SWLS can significantly enhance development efficiency by incorporating robust autocompletion features, as shown in Figure \ref{class_completion} and Figure \ref{property_completion}.
 These features streamline the creation of semantic documents, enabling users to work faster and with fewer errors. 
 Whether defining ontologies, creating SHACL shapes, or writing SPARQL queries, the ability to suggest appropriate classes and properties reduces repetitive tasks and minimizes the cognitive load on users, allowing them to focus on the substance of their work.
 Autocompletions also helps user explore the current domain by providing context-aware suggestions.
 
 SWLS also aims to improve comprehension by offering real-time feedback on semantic data.
-The hover feature (shown in Figure \ref{hover}), which displays detailed information such as associated classes, allows users to quickly grasp the structure and relationships within a document. 
-This instant access to contextual information reduces the need for external references and improves overall productivity.
-
-Finally, SWLS aims to increase user confidence in both syntax and semantics.
-Syntax validation ensures that documents adhere to the expected standards, catching common mistakes as they occur. This feature is shown in Figure \ref{undefined_prefix}.
-For semantic validation, the server highlights SHACL violations, helping users to align their documents with structural and logical constraints, shown in Figure \ref{shacl_validation}. 
-These validation features not only enhance document quality but also provide educational feedback, aiding users in their journey to master Semantic Web technologies.
-
-\begin{figure}[h!tb]
-    \centering
-    % code1
-    \begin{subfigure}{0.48\textwidth}
-      \includegraphics[width=\textwidth]{./images/class_complete.png}
-      \caption{SWLS completes a class when the user want to specify the class}
-      \label{class_completion}
-    \end{subfigure}
-    \hfill
-    % code 2
-    \begin{subfigure}{0.48\textwidth}
-      \includegraphics[width=\textwidth]{./images/property_complete.png}
-      \caption{SWLS completes properties, first the properties with the correct domain}
-      \label{property_completion}
-    \end{subfigure}
-    \hfill
-    % undefined prefix
-    % \todo{Actually add those screenshots}
-    \begin{subfigure}{0.48\textwidth}
-      \includegraphics[width=\textwidth]{./images/class_complete.png}
-      \caption{SWLS notifies the user of undefined prefixes}
-      \label{undefined_prefix}
-    \end{subfigure}
-    \hfill
-    % shacl validation
-    \begin{subfigure}{0.48\textwidth}
-      \includegraphics[width=\textwidth]{./images/property_complete.png}
-      \caption{SWLS notifies the user of SHACL violations}
-      \label{shacl_validation}
-    \end{subfigure}
-    \hfill
-    % shacl validation
-    \begin{subfigure}{0.48\textwidth}
-      \includegraphics[width=\textwidth]{./images/property_complete.png}
-      \caption{SWLS notifies the user of SHACL violations}
-      \label{hover}
-    \end{subfigure}
-    \hfill
-    \caption{
-      Demo application that shows the usage of SWLS.
-      It helps the user by providing autocompletion on classes and properties, taking into account the domain of the properties.
-      SWLS also notifies the user of issues like undefined prefixes and SHACL violations.
-    }\label{lst:Demo}
-\end{figure}
-
-\todo{Add missing screenshots}
+It improves confidence in both syntax and semantics, by marking undefiend prefixes as shown in Figure \ref{undefined_prefix}
+and alerting the user of shape violations as shown in Figure \ref{hover}.
+The hover feature (shown in Figure \ref{hover}), which displays detailed information such as associated classes,
+allows users to quickly grasp the structure and relationships within a document. 
+This instant access to contextual information and validation features reduces the need for external references and improves overall productivity,
+also providing educational feedback, aiding users in their journey to master Semantic Web technologies.
 
 \subsection{User groups}
 
 \paragraph{Power users,} who frequently interact with Semantic Web technologies, rely on their deep understanding of common properties and domain-specific knowledge to navigate tasks efficiently.
 SWLS enhances their workflows by providing robust autocompletion features that streamline document creation and reduce repetitive tasks.
 For these users, SWLS also offers a valuable tool for exploring new domains through property suggestions, enabling them to adapt to unfamiliar contexts more easily. 
-Additionally, the language server supports quality assurance by helping power users to identify common pitfalls such as punning\unsure{Is punning a pitfall? If you have a reference please add it, otherwise this is a dangerous claim} or poorly structured ontologies, ensuring their semantic documents are both accurate and high quality.
+Additionally, the language server supports quality assurance by helping power users identify invalid entities (using shape validation), ensuring their semantic documents are both accurate and high quality.
 
 \paragraph{For newcomers to the Semantic Web,} engaging with these technologies can be daunting due to challenges with syntax, semantics, and validation. 
 SWLS addresses these pain points by providing immediate feedback on syntax errors, which helps users learn the correct structure and minimize frustration.

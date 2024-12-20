@@ -1,8 +1,9 @@
 \section{Conclusion}%
-\label{sec:conclusion}\info{Something missing for me is a clear list of what is supported and what is not. From the text I understand that Turtle and JSON-LD are supported for RDF, but not N-Triples, RDF/XML, Trig, etc. Perhaps mention it either in the Introduction or in Section 3 and reiterate here?}
+\label{sec:conclusion}
+% \info{Something missing for me is a clear list of what is supported and what is not. From the text I understand that Turtle and JSON-LD are supported for RDF, but not N-Triples, RDF/XML, Trig, etc. Perhaps mention it either in the Introduction or in Section 3 and reiterate here?}
 
 In this paper we introduced SWLS to bridge the gap between semantic technologies and their practical application by offering an extensible and editor-agnostic tool tailored to diverse user groups.
-By providing autocompletion, syntax and semantic validation, and contextual documentation, SWLS aims on enhancing productivity, improving the quality of semantic documents, and lowering the entry barrier for newcomers.
+By providing autocompletion, validation, highlighting, and contextual documentation, SWLS aims on enhancing productivity, improving the quality of semantic documents, and lowering the entry barrier for newcomers.
 Its integration of foundational editors for creating ontologies, designing SHACL shapes, writing SPARQL queries, and authoring sample data allows users to experience the full spectrum of semantic workflows in an intuitive and accessible environment.
 
 Through its ability to streamline domain exploration, improve semantic understanding, and foster confidence in document quality, SWLS demonstrates its potential to support both beginners and seasoned experts in Semantic Web technologies.
@@ -10,11 +11,12 @@ Its modular design, which builds upon existing libraries such as \texttt{rudof},
 
 Thanks to the ECS design pattern, SWLS has an extensible architecture ensuring that new features and improvements can be integrated.
 SWLS is in this way ready for developers to tackle more specialized scenarios.
-This could include for example, writing configuration files for the RDF-based dependency injection framework ComponentsJS (CJS)~\cite{01GPAWNQ5ZS2DAY0J9JMPQHM9C}, authoring YARRRML knowledge graph construction files~\cite{Heyvaert2018Declarative}, or adding support for SHACL or ShEx compact syntaxes.\todoCite{Add citation or footnote}
+This could include for example, writing configuration files for the RDF-based dependency injection framework ComponentsJS (CJS)~\cite{01GPAWNQ5ZS2DAY0J9JMPQHM9C} or authoring YARRRML knowledge graph construction files~\cite{Heyvaert2018Declarative}.
 
 For example, users working with CJS configurations often encounter challenges when validating their configurations, frequently resorting to runtime checks for correctness.
 Standard JSON-LD editors struggle with CJS configurations due to their reliance on Linked Software Dependencies~\cite{CJS2}, which need to be resolved against local \texttt{node\_modules} directories.
-By extending SWLS with the following capabilities, CJS users could benefit from the same powerful IDE support already available to Semantic Web developers by: (i) implementing a mechanism to resolve JSON-LD contexts by referencing configuration files in \texttt{node\_modules}; (ii)deriving properties directly from CJS component definitions to streamline autocompletion; and (iii) validating configurations by ensuring all parameters are defined and conform to the correct data types and ranges.\todo{PC - I would leave this out. Update JR: Is a bit too detailed but not harmful IMO. Remove it if struggling for space.}
+By extending SWLS with the following capabilities, CJS users could benefit from the same powerful IDE support already available to Semantic Web developers by: (i) implementing a mechanism to resolve JSON-LD contexts by referencing configuration files in \texttt{node\_modules}; (ii)deriving properties directly from CJS component definitions to streamline autocompletion; and (iii) validating configurations by ensuring all parameters are defined and conform to the correct data types and ranges.
+% \todo{PC - I would leave this out. Update JR: Is a bit too detailed but not harmful IMO. Remove it if struggling for space.}
 
 Beyond these specialized enhancements, SWLS can also be improved by refining its existing systems.
 For example, the current type inference mechanism relies solely on the \texttt{rdf:type} predicate to determine entity types.
