@@ -5,6 +5,10 @@ main: $(PDF_FILES) ./images/*.drawio
 	echo $(PDF_FILES)
 	latexmk -use-make -lualatex -shell-escape -bibtex -pdf -interaction=nonstopmode main.tex
 
+demo: $(PDF_FILES) ./images/*.drawio
+	echo $(PDF_FILES)
+	latexmk -use-make -lualatex -shell-escape -bibtex -pdf -interaction=nonstopmode demo.tex
+
 alternative: $(PDF_FILES) ./images/*.drawio
 	pdflatex -pdf -interaction=nonstopmode main.tex
 	bibtex main
