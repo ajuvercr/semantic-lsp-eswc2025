@@ -31,6 +31,76 @@ For example, to implement autocompletion based on defined classes, two small sys
 Similarly, adding a feature to display type hierarchies would involve creating a system to extract data specific to the \texttt{rdfs:subClassOf} relation, without interfering with other systems.
 This approach allows for scalable and focused development of language server features.
 
+\subsection{Language Server Features}
+
+This section lists all possible language features, according the protocol.
+It also lists whether or not SWLS supports that feature and if that feature could be applied to semantic formats.
+
+\begin{table}[ht]
+  \centering
+\makebox[\textwidth][c]{
+\resizebox{1.5\textwidth}{!}{
+\begin{tabular}{||l l l||} 
+  \hline
+  Feature & Supported? & Note \\ [0.5ex]
+  \hline \hline
+  Goto Declaration & No & Might be useful to jump to triples where the current term is in the subject position.\\ & & But it is unclear if this should be limited to only the curent document in the case of a named node, otherwise a lot of targets could be found. \\
+  \hline
+  Goto Definition & No & Allows jumping to OWL class or RDF property definitions \\
+  \hline
+  Goto Type Definition & No & Allows jumping to the OWL class definition of the type of the current term. \\
+  \hline
+  Goto implementation & No & This does not make any sense. \\
+  \hline
+  Find References & No & For a named node, this can resolve all uses of that named node, project wide. Or for a blank node in the current file. \\
+  \hline
+  Call hierarchy & No & This does not make any sense. \\
+  \hline
+  Type Hierarchy & Yes & Allows for following the \texttt{rdfs:subClassOf} property. \\
+  \hline
+  Document Highlight & No & Highlights the all terms that are the same term of at the current position. \\
+  \hline
+  Document Link & No & I guess that each named node is a link, but the actual usefulness of this is not clear. \\ & &  However the named nodes in prefix declarations might point to the actual ontology files, instead of the URI. \\
+  \hline
+  Hover & Yes & Adds additional information about the given position. \\
+  \hline
+  Code Lens & No & Might allow for inlining blank nodes or converting blank nodes to named nodes. \\
+  \hline
+  Folding Range & No & Triples or blanknodes with multiple predicate objects can be folded. \\
+  \hline
+  Select Range & No & A selection is the token at the given position. \\
+  \hline
+  Document Symbols & No & Each triple or blank node could be it's own symbol. \\
+  \hline
+  Semantic Tokens & Yes & Adds color information to all token in the document. \\
+  \hline
+  Inline Values & No & Adds no benefit.\\
+  \hline
+  Inlay Hints & Yes & Adds type information to terms.\\
+  \hline
+  Monikers & No & idk \\ 
+  \hline
+  Completion & Yes & Suggests completions based on current ontology and infered type. \\
+  \hline
+  Publish Diagnostics & Yes & Notifies the editor of syntax errors and shape violations. \\
+  \hline
+  Signature Help & No & Might suggest signatures according to some shape, suggestion required or optional properties for an object. \\
+  \hline
+  Code Action & Yes & Is used to fix problems lik undefined prefixes. Other code actions might be to inline a blank node. \\
+  \hline
+  Document Color & No & Adds no benefit. \\
+  \hline
+  Formatting & Yes & Allows for automatic formatting. \\
+  \hline
+  Rename & Yes & Allows for renaming terms. \\
+  \hline
+\end{tabular}
+  }
+  }
+\end{table}
+
+
+
 
 \subsection{Language Server schedules}
 

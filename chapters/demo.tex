@@ -1,23 +1,13 @@
 
 \begin{abstract}
-% Context (What is needed to understand the "need"?)
-The Semantic Web has introduced a variety of syntaxes for e.g., serializing, querying, and validating linked data, such as Turtle, SPARQL, and SHACL.
-% Need (Why something needed to be done at all?)
-While these formats enable powerful interactions with data, they are highly sensitive to human error; even minor typos can disrupt the semantics of a document, rendering it invalid or non-interoperable.
-% Task (What was undertaken to address the need? It’s here that you write ‘in this paper, we …’)
-% In this paper, we study how the authoring experience of Semantic Web documents can be enhanced through the use of the Language Server Protocol (LSP) with for instance code completion, syntax highlighting and live validation output.
-% Object (What the present document does or covers)
-In this paper, we demonstrate the Semantic Web Language Server (SWLS), an LSP implementation with features such as real-time syntax validation, context-aware autocompletion, and SHACL-based diagnostics to notify users of potential mistakes when interacting with Semantic Web documents.
-% The language server is available as extensions for popular platforms like VS Code and Neovim, as well as in a standalone web-based interface (integrated into a Monaco editor).
-% Findings (What the work done yielded or revealed)
-By extending functionalities beyond what is already supported by the best-in-class YASGUI interface, our tool aims to further improve the development efficiency, precision, and confidence of power users, newcomers, domain experts, and data engineers.
-% Conclusion (What the findings mean for the audience)
-It integrates seamlessly into established Web-based and desktop development environments, and its layered architecture facilitates extending the code base to support new features in the future. 
-% PC: This is a main track resource paper, not a workshop paper. Don’t promise an evaluation in future work.
-% In future work, we will further extend feature support and perform user evaluations that allow us to identify improvement points. 
-% Perspectives (What the future holds, beyond this work)
-% This work not only addresses current limitations in semantic web tooling but also paves the way for broader adoption of semantic technologies by reducing barriers and improving usability.
-\keywords{Language Server, IDE, Tool, End User Software Engineering, Semantic Web}
+This demo paper accompanies an ESWC 2025 resource paper.
+Authoring Semantic Web documents is error-prone, often leading to interoperability issues, validation failures, or incorrect reasoning. 
+  To address these challenges, we present the Semantic Web Language Server (SWLS), a tool that integrates IDE-like functionalities such as real-time syntax validation, intelligent autocompletion, and SHACL-based diagnostics into modern code editors.
+  SWLS follows the Language Server Protocol (LSP), allowing seamless integration with editors like Visual Studio Code and NeoVim while supporting multiple formats, including Turtle, SPARQL, and JSON-LD.
+This demo showcases SWLS in an interactive web-based environment, where users can explore its features across four dedicated editor panes: an RDF data editor, an ontology editor, a SHACL constraint editor, and a SPARQL query editor.
+  The demo highlights SWLS's ability to detect errors, suggest completions based on ontology imports, and assist users in writing correct and interoperable Semantic Web documents.
+  By improving the development workflow and reducing common pitfalls, SWLS enhances the usability of Semantic Web technologies and facilitates broader adoption.
+\keywords{Language Server, IDE, Tool, Linked Open Vocabularies, Semantic Web}
 \end{abstract}
 
 \textbf{URL:} \url{https://github.com/ajuvercr/semantic-web-lsp} 
@@ -28,31 +18,48 @@ It integrates seamlessly into established Web-based and desktop development envi
 \section{Introduction}%
 \label{sec:introduction}
 
-The Semantic Web comprises a variety of syntaxes for expressing and querying data, including Turtle, JSON-LD, and SPARQL. While these formats enable structured data representation and interoperability, they are prone to human errors, which can lead to validation failures or incorrect reasoning outcomes. For instance, mistyping the URI of a prefix can alter the entire meaning of a document, rendering it non-interoperable with other datasets. 
+The Semantic Web comprises a variety of syntaxes for expressing and querying data, including Turtle, JSON-LD, and SPARQL. 
+While these formats enable representing semi-structured data in an interoperable way, they are prone to human errors, which can lead to non-interoperability, validation failures or incorrect reasoning outcomes.
+For instance, mistyping the URI of a prefix can alter the entire meaning of a document, rendering it non-interoperable with other datasets.
 
 However, open services such as Linked Open Vocabularies (LOV)\cite{LOV2017} provide exact definitions of predicates and classes, offering a reliable reference for avoiding such errors.
 
-In this paper, we introduce the \textbf{Semantic Web Language Server (SWLS)}, a language server designed to assist editors in handling semantic web documents. This demo paper accompanies an ESWC 2025 resource paper.
+In this paper, we introduce the \textbf{Semantic Web Language Server (SWLS)}, a language server designed to assist editors in handling semantic web documents.
+This demo paper accompanies an ESWC 2025 resource paper.
 
-SWLS is not the only software that introduces IDE-like functionalities for Semantic Web documents. While tools such as YASGUI\cite{yasgui,10.1007/978-3-642-41242-4_7} and Query.wikidata.org provide robust web-based functionalities, they do not integrate seamlessly into local development environments or support a broader range of Semantic Web formats. In contrast, SWLS runs locally, allowing for quick development cycles and seamless integration into the developer's workflow. Moreover, SWLS supports multiple formats beyond Turtle it supports SPARQL and JSON-LD, making it a more versatile solution.
+SWLS is not the only software that introduces IDE-like functionalities for Semantic Web documents.
+While tools such as YASGUI\cite{yasgui,10.1007/978-3-642-41242-4_7} and \href{https://query.wikidata.org/}{query.wikidata.org} provide robust web-based functionalities,
+they do not integrate seamlessly into local development environments or support a broader range of Semantic Web formats.
+In contrast, SWLS runs locally, allowing for quick development cycles and seamless integration into the developer's workflow. 
+Moreover, SWLS supports multiple formats beyond Turtle it supports SPARQL and JSON-LD, making it a more versatile solution.
 
 \section{Semantic Web Language Server}
 
-SWLS follows the Language Server Protocol (LSP)\cite{IntroToLsp}\footnote{\url{https://microsoft.github.io/language-server-protocol/}}, a protocol designed by Microsoft to allow one server implementation to interact with different editors, reducing complexity from $O(M*N)$ to $O(M+N)$, where $M$ is the number of existing editors and $N$ the number of supported language implementations.
+SWLS follows the Language Server Protocol (LSP)\cite{IntroToLsp}\footnote{\url{https://microsoft.github.io/language-server-protocol/}},
+a protocol designed by Microsoft to allow one server implementation to interact with different editors, reducing complexity from $O(M*N)$ to $O(M+N)$,
+where $M$ is the number of existing editors and $N$ the number of supported language implementations.
 
-The server communicates using JSON-RPC, enabling bidirectional messaging between the editor and server for handling features such as autocompletion, validation, and diagnostics. Most modern editors support LSP, including Visual Studio Code and NeoVim.
+The server communicates using JSON-RPC, enabling bidirectional messaging between the editor and server for handling features such as autocompletion, highlighting, and diagnostics.
+Most modern editors support LSP, including Visual Studio Code and NeoVim.
 
-SWLS is designed for flexibility, allowing support for multiple file formats with maximal code reuse. It uses an entity component system to build a layered architecture\cite{10.1145/3550355.3552452}, following a traditional \textit{Feature Execution Flow}. The ECS design enables reusing the \textit{Traverse} and \textit{Process} components across different languages, requiring only the \textit{Parse} step to be implemented separately per format.
+SWLS is designed for flexibility, allowing support for multiple file formats with maximal code reuse. 
+It uses an entity component system to build a layered architecture\cite{10.1145/3550355.3552452}, following a traditional \textit{Feature Execution Flow} with three steps.
 
+\begin{enumerate}
+  \item In the \textit{Parse} step of the server handles parsing the document (emitting potential syntax errors) and deriving defined triples and prefixes.
 
-In the \textit{Parse} step of the server handles parsing the document (emitting potential syntax errors) and deriving defined triples and prefixes.
+  \item The \textit{Traverse} step derives information from the triples, such as defined properties, classes and SHACL shapes. 
+        This step also fetches the used ontologies that are accessable from the defined prefixes,
+        this uses the public LOV api, when these documents are fetched they are added to the ECS.
+        The \textit{Traverse} step also emits dignostics, notifying the editor of potential mistakes in the document. 
+        These include undefined prefixes, or shape violations (using the Rudof\cite{labra2022rudof} library).
 
-The \textit{Traverse} step derives information from the triples, such as defined properties, classes and SHACL shapes, using Rudof\cite{labra2022rudof}. 
-This step also fetches linked documents, like fetching the ontologies that are accessable with the defined prefixes, this uses the public LOV api, when these documents are fetched they are added to the ECS.
-
-The \textit{Process} step extracts all required information for the current request and returns it to the editor.
-Currently SWLS handles diagnostics (syntax and shape violations), autocompletion (predicates, classes and prefixes), renaming and hover.
+  \item The \textit{Process} step extracts all required information from the previous steps and translates it into a response for the current request.
+        Currently SWLS handles autocompletion (predicates, classes and prefixes), renaming and hover.
+\end{enumerate}
  
+The ECS design enables reusing the systems for the \textit{Traverse} and \textit{Process} steps across different languages, 
+requiring only the \textit{Parse} step to be implemented for each file format.
 
 \section{Demo}
 
@@ -93,34 +100,26 @@ The app has four editor panes each with a different purpose.
 % All panes are treated equally, except for the query pane, which is designed for SPARQL rather than Turtle, but uses the same SWLS instance.
 
 \begin{enumerate}
-  \item The \textbf{data pane} presents an RDF dataset, where users can author and edit linked data. Errors detected via SHACL validation are highlighted, as shown in Figure \ref{hover}. Users can correct these errors either by adding missing triples or modifying the shape definitions in the shape pane.
-  \item The \textbf{ontology pane} contains a playground ontology that describes language servers. It is linked to the data pane using a prefix import, enabling autocompletion of relevant properties, as shown in Figure \ref{property_completion}.
-  \item The \textbf{query pane} allows users to write SPARQL queries against the data. While SWLS does not execute queries, it provides autocompletion for classes and properties, as depicted in Figure \ref{class_completion}.
-  \item The \textbf{shape pane} includes SHACL constraints imported into the data pane via the \texttt{owl:imports} property. As shown in Figure \ref{undefined_prefix}, SWLS alerts users to undefined prefixes, and typing a prefix triggers autocompletion suggestions, simplifying corrections.
+  \item The \textbf{data pane} presents an RDF dataset, where users can author and edit linked data.
+    Errors detected via SHACL validation are highlighted, as shown in Figure \ref{hover}.
+    Users can correct these errors either by adding missing triples or modifying the shape definitions in the shape pane.
+  \item The \textbf{ontology pane} contains a playground ontology that describes language servers.
+    It is linked to the data pane using a prefix import, enabling autocompletion of relevant properties, as shown in Figure \ref{property_completion}.
+  \item The \textbf{query pane} allows users to write SPARQL queries against the data. 
+    While SWLS does not execute queries, it provides autocompletion for classes and properties, as depicted in Figure \ref{class_completion}.
+  \item The \textbf{shape pane} includes SHACL constraints imported into the data pane via the \texttt{owl:imports} property. 
+    As shown in Figure \ref{undefined_prefix}, SWLS alerts users to undefined prefixes, and typing a prefix triggers autocompletion suggestions, adding the import statement.
 \end{enumerate}
-% The main pane is the data pane, here some data about a language server is present.
-% The user notices that two errors are present, coming from the shape validation, this is shown in Figure \ref{hover}.
-% The user can fix this error by either adding the correct triples, or changing the shape in the shape pane.
-%
-% The ontology pane brings a play ground ontology that is used to describe language servers.
-% The ontology is linked with the data pane with a prefix import, and enables autocompletion on properties, this is shown in Figure \ref{property_completion}.
-% Properties that align with the domain are shown at the top.
-%
-% The query pane enables to user to write queries about the data.
-% Note that there is no query exectuion support.
-% In Figure \ref{class_completion}, autocompletion for classes is depicted.
-%
-% Lastly, the shape pane contains a SHACL shape with shape constrains.
-% This shape is imported into the data pane with the \texttt{owl:imports} property.
-% Figure \ref{undefined_prefix} shows that the language server notifies the user about undefined prefixes.
-% To fix this, the user can start writing a prefix and is met with autocompletion suggestions, adding a prefix statement to the document.
 
 Users can also try the language server on local editors.
 For VSCodes, users can install the Semantic Web LSP\footnote{\url{https://marketplace.visualstudio.com/items?itemName=ajuvercr.semantic-web-lsp}}.
-Using the language server with NeoVim requires installing the language server with cargo and configuring the language server with \textit{lspconfig}.
+Seting the server up  with NeoVim requires installing the language server with cargo and configuring the language server with \textit{lspconfig}.
 
 \section{Conclusion}
 
-The Semantic Web Language Server (SWLS) introduces IDE-like functionalities for authoring Semantic Web documents, supporting multiple formats and providing a local development workflow. By integrating features such as real-time validation, context-aware autocompletion, and SHACL-based diagnostics, SWLS enhances the efficiency and confidence of both novice and experienced users. Unlike existing tools, SWLS runs locally and extends beyond SPARQL, offering a more flexible and powerful authoring experience. This work not only addresses current limitations in Semantic Web tooling but also paves the way for broader adoption of semantic technologies by reducing barriers and improving usability.
+The Semantic Web Language Server (SWLS) introduces IDE-like functionalities for authoring Semantic Web documents, supporting multiple formats and providing a local development workflow. 
+By integrating features such as real-time validation, context-aware autocompletion, and SHACL-based diagnostics, SWLS lowers the chance of errors in local documents.
+Unlike existing tools, SWLS runs locally and extends beyond Turtle, offering a more flexible and powerful authoring experience.
+This work not only addresses current limitations in Semantic Web tooling but also paves the way for broader adoption of semantic technologies by reducing barriers and improving usability.
 
 
