@@ -141,16 +141,16 @@ When the objects are parsed, systems are issued to derive prefixes and triples.
 Prefixes contain information about how to expand and shorten IRIs for the current document.
 Deriving triples does not only derive actual RDF triples, but in the case of SPARQL, also triple patterns with variables, which can be thought of as \textit{triples}.
 
-<<<<<<< HEAD
-After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
-Prefixes are one way, but the object value of the following triple also allows linking the document on the otherLocation with the current document.
-\begin{verbatim}
-  <> owl:imports <otherLocation>.
-\end{verbatim} 
-=======
+% <<<<<<< HEAD
+% After deriving prefixes, other systems will create a \texttt{LinkedDocuments} component, listing all documents that are linked in some way to this document.
+% Prefixes are one way, but the object value of the following triple also allows linking the document on the otherLocation with the current document.
+% \begin{verbatim}
+%   <> owl:imports <otherLocation>.
+% \end{verbatim} 
+% =======
 When the triples are derived, the next systems will derive properties and classes.
 These properties and classes are later used to suggest autocompletions and derive type hierarchies.
->>>>>>> f163990 (last changes)
+% >>>>>>> f163990 (last changes)
 
 SWLS introduces the concept of linked documents, documents that are related to the current document, which should be used for features like autocompletion.
 Prefix statements are one way to link documents, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also allows linking that other document with the current document.

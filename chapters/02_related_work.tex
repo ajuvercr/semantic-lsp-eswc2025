@@ -1,74 +1,26 @@
-% \section{Related Work}%
-% \label{sec:related_work}
-%
-% In this section we look at the related state of the art.
-% The state of the art is full of different implementations that handle some specific part of the semantic web.
-% From ontology designers like protege to Yasgui's sparql query editors.
-% This section covers the different IDE functionalities that can be implemented for the semantic web, Table 1 provides details on current and open-source implementations that implement parts of these functionalities.
-%
-% \paragraph*{Highlighting}
-%
-% Highlighting helps human brains parse data more easily.
-% There are two different parts of highlighting: syntactic highlighting and semantic highlighting.
-% The former only concerns itself with the syntax of a document. A lexer can handle this highlighting very effectively and allows for example to hightlight strings as green and namednodes as red.
-% Semnatic highlighting on the other hand can use document semantics. Semantics can be for example the term kind of a term, only inferable by extracting the actual triples or marking the type of an object in a different colour.
-%
-% Please note that undefined properties etc should not be highlighed differently by the semantic highlighter, undefined properties should be handled as diagnostics.
-%
-%
-% \paragraph*{Diagnostics}
-%
-% Diagnostics are of utmost importance, nothing is more draining than to check whether or not some data is correctly written at runtime.
-% The editor should be able to notify the user that the current document would not be parsed by parsers following the standard.
-%
-% Other diagnostics are also very relevant and can inform the user that the current data may not be what they expect.
-% For example the editor can notify the user when an undefined property is used, alerting the user that it could be a typo.
-% The editor can also notify the user about reasoning mistakes, when creating an ontology or creating data that should adhere to an ontology or to a SHACL shape.
-%
-%
-% \paragraph*{Formatting}
-%
-% It is expected that an IDE helps the developer to keep a consistent format over different documents, again helping the user parse the data more effectively.
-% Formatting however is a subjective matter and should be configurable by the user or codebase.
-%
-% \paragraph*{Renaming}
-% Often an editor allows the user to rename identifiers as a quality of life improvemt.
-% This allows the user to more easily iterate over data and aliviating the writer's block.
-%
-%
-% \paragraph*{Completion}
-%
-% Completion comes again in two flavours: completing keywords and already defined tokens and semantic completion.
-% Semantic completion can complete with defined properties and defined classes and can check the current context of the completion, answering the question "Is the user current writing a class or a property?".
-%
-% Naive completion can suggest all defined properties and defined classes but this is not always wanted, the editor should also be able to derive the type of the current subject for example and only suggest properties that are defined with that type as domain.
-% On the other hand when the user is writing an object, the editor can also suggest already defined entities that have the correct type checking the range of the property.
-%
-%
-%
-%
-%
-% \subsection*{Some words on ontology designing tools}
-% Their main helping functions~\cite{ComparingOntologyBuildingTools}.
-%
-% \subsection{Language Server Protocol}
-%
-% Language Servers using the Language Server Protocol~\cite{IntroToLsp} 
-% are cool ~\cite{GLSPFlexibility}.
-%
-
-
-%% GPT
 
 \section{State of the Art}%
 \label{sec:related_work}
 
-%PC: I’d consider renaming related work state of the art then!
 This section examines the state of the art in tools and functionalities that support developement and interaction with Semantic Web technologies. 
 Current implementations address various aspects of Semantic Web technologies, including for example, ontology modeling tools (e.g., Protégé) and SPARQL query editors (e.g., YASGUI).
 Next we describe a set of common IDE functionalities~\cite{HowAreJava} and discuss existing tools that (partially) cover them for Semantic Web-related formats.
 
-\paragraph*{Highlighting} enhances readability by leveraging visual cues, which assist developers in understanding complex data.
+
+\subsection{Language Server Protocol}
+
+The \textit{Language Server Protocol} (LSP), introduced by Microsoft, is designed primarily to facilitate reuse across different development environments.
+It defines a \textit{JSON-RPC}-based communication protocol that allows a single language server implementation to be utilized across multiple editors.
+
+Prior to the introduction of LSP, each combination of a programming language and an editor required a custom integration, leading to a complexity of \(\mathcal{O}(M \cdot N)\) for \(M\) editors and \(N\) languages\cite{Kj_r_Rask_2021}.
+By decoupling language-specific analysis from editor-specific implementations, LSP reduces this complexity to \(\mathcal{O}(M + N)\), as only one editor-side implementation per editor and one language server per language are required.
+
+In the following discussion of LSP features, we reference the corresponding \textit{JSON-RPC} requests where applicable.
+Additionally, we highlight that not all LSP requests are implemented in the \textit{Semantic Web Language Server} (SWLS).
+However, full implementation of all requests is not a strict requirement of the protocol, and is considered future work.
+
+
+\subsubsection{Highlighting} (\texttt{textDocument/semanticTokens/full}) enhances readability by leveraging visual cues, which assist developers in understanding complex data.
 For example by colouring differently reserved keywords (e.g., \texttt{a}, \texttt{@prefix} in the RDF Turtle syntax) and data types (e.g., strings, numbers, etc.).  
 % Semantic highlighters should avoid overloading the user with unnecessary information. 
 % Undefined properties, for example, should not be highlighted differently; such cases are better addressed by diagnostic features.~\todoCite{This needs to be backed by a citation. Otherwise just limit to explain what is highlighting and why is important.}
@@ -80,13 +32,13 @@ There are two primary types of highlighting: \textbf{syntactic} and \textbf{sema
       This type of highlighting does not require knowledge of the document's meaning.
       Syntactic highlighting is enabled on all software we considered, except for the 
       \textit{rdf-vocabularies-autocomplete} VSCode extension, VSCode handles syntactic highlighting already with the Tree-sitter project\footnote{\url{https://tree-sitter.github.io/tree-sitter/}}.
-    \item \textbf{Semantic highlighting}, in contrast, uses the local (and externally linked) semantics referenced in the document to differentiate terms based on their roles. 
+    \item \textbf{Semantic highlighting}, (introduced by D. Nodlen\cite{DNolden}) in contrast, uses the local (and externally linked) semantics referenced in the document to differentiate terms based on their roles. 
       For instance, terms declared in an ontology can be highlighted differently compared to locally defined terms.
       We found no semantic web tooling that implemented this feature.
 \end{itemize}
 
 
-\paragraph*{Diagnostics} are essential for identifying issues early in the development process. 
+\subsubsection{Diagnostics} (\texttt{textDocument/diagnostic}) are essential for identifying issues early in the development process. 
 Rather than deferring error detection to runtime, an IDE should provide immediate feedback on data validity and correctness.
 These features enable developers to maintain data accuracy and reduce time spent debugging. 
 The stardog language servers and the Yasgui query editor notify the users of syntax errors.
@@ -99,16 +51,16 @@ The stardog language servers and the Yasgui query editor notify the users of syn
 \end{itemize}
 
 
-\paragraph*{Formatting} 
+\subsubsection{Formatting} (\texttt{textDocument/formatting})
 Consistent formatting across documents can help enhancing readability and maintainability.
 IDEs assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.
 We found no semantic web tooling that implemented this feature.
 
-\paragraph*{Renaming} identifiers, such as classes or properties, is an important feature for iterative development.
+\subsubsection{Renaming} (\texttt{textDocument/rename}) identifiers, such as classes or properties, is an important feature for iterative development.
 This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.
 We found no semantic web tooling except for our previous work~\cite{JSONLD-LSP}, that handles renaming identifiers.
 
-\paragraph*{Completion} features, similar to highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
+\subsubsection{Completion} (\texttt{textDocument/completion}) features, similar to highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
 Simple semantic completion might suggest all possible terms, but a sophisticated system should filter suggestions based on the context, such as the inferred type of the current subject or object.
 All semantic web tooling we considered, included some kind of completion mechanism, none however applied typed completion.
 
@@ -122,10 +74,8 @@ All semantic web tooling we considered, included some kind of completion mechani
     \end{itemize}
 \end{itemize}
 
-In Table~\ref{tab:current_implementations} we show a summary of exisiting open-source tools that implement at least one of the aforementioned IDE functionalities for Semantic Web technologies.
-% PC: This is something you’d like the reader to accept indeed when you introduced the SOTA entirely. I’d put this sentence at the end.
-While these tools provide specialized capabilities, the integration of features typical of IDEs remains limited.
-With SWLS we aim on addressing this gap and in general, support the broader adoption of Semantic Web technologies. 
+Table~\ref{tab:current_implementations} provides an overview of existing open-source tools that implement at least one of the IDE functionalities discussed in this section.
+These tools focus on specific aspects, such as query editing, ontology modeling, or vocabulary completion, but none of them integrate a full set of IDE-like capabilities for Semantic Web technologies.
 
 % we might want to transpose the headers
 \begin{table}[h!]
@@ -143,7 +93,7 @@ With SWLS we aim on addressing this gap and in general, support the broader adop
 Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cmark & \cmark & \mmark & \xmark & \xmark & \xmark & \cmark \\
 RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
 query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
-yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \cmark & \xmark & \xmark \\
 Protégé                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
 rdf-vocabularies-autocomplete & N/A    & N/A    & N/A    & N/A    & N/A    & \xmark & \xmark & \cmark & \xmark & N/A    & N/A    & \xmark \\
 JSON-LD LSP                   & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
@@ -159,11 +109,38 @@ SWLS                          & \cmark & \cmark & \cmark & \cmark & \cmark & \cm
   }
 \end{table}
 
+\subsection{Integration of SWLS with Existing Ontology and Development Environments}
 
-\subsection*{Ontology Design Tools}
+The \textit{Semantic Web Language Server} (SWLS), based on the \textit{Language Server Protocol} (LSP), is not intended as a replacement for comprehensive ontology editors such as \textit{Protégé} or general-purpose integrated development environments (IDEs) like \textit{IntelliJ IDEA} and \textit{Eclipse}.
+Instead, it functions as a complementary tool that extends IDE-like capabilities to a broad range of text editors and development environments.
 
-Ontology design tools, such as Protégé~\cite{protege2015}, serve as the foundation for many Semantic Web development workflows. 
-Their primary functions include visualizing ontologies, defining classes and properties, and validating logical consistency through reaoning.
-These tools provide essential support but often lack the integrated functionality of modern IDEs, such as context-aware diagnostics or advanced refactoring capabilities~\cite{ComparingOntologyBuildingTools}.
+A key advantage of LSP-based solutions is their ability to integrate seamlessly with existing tools.
+Protégé, for instance, provides a rich graphical interface for ontology engineering but also allows users to open individual ontology files in a text-based format.
+When editing such files, SWLS can enhance the experience by offering syntax validation, autocompletion, and real-time diagnostics, 
+thereby bridging the gap between textual and graphical ontology development.
+
+Similarly, general-purpose IDEs such as IntelliJ IDEA and Eclipse, which support LSP, can leverage SWLS to provide semantic web-specific assistance when working with ontology files, SHACL constraints, or SPARQL queries. 
+This integration allows users to remain within their familiar development environment while still benefiting from specialized semantic web tooling.
+
+By adhering to the LSP standard, SWLS fosters interoperability between semantic web tools and mainstream development environments. 
+Rather than replacing established solutions, it extends their functionality, ensuring that users can leverage the strengths of both specialized ontology tools and general-purpose development platforms.
+
+
+\subsection{Comparison to Large Language Models for Semantic Web Assistance}
+
+Recent advances in \textit{Large Language Models} (LLMs), such as \textit{ChatGPT}, have demonstrated impressive capabilities in assisting users with code generation, query formulation, and ontology-related tasks. 
+However, while LLMs can serve as powerful aids in navigating the complexities of the Semantic Web, they also introduce challenges related to reliability and determinism.  
+
+A key distinction between SWLS and LLM-based approaches lies in their underlying data sources and guarantees.
+SWLS retrieves autocompletion suggestions, validation feedback, and syntax assistance directly from ontology files, ensuring that all recommendations align with formally defined schema and constraints.
+This deterministic behavior is essential for correctness in ontology engineering, where adherence to established standards is crucial. 
+In contrast, LLMs generate responses probabilistically based on their training data, which, while often useful, can lead to hallucinations or incorrect suggestions that do not conform to the given ontology.
+
+Despite these limitations, LLMs could complement SWLS by assisting users in discovering relevant ontologies.
+Given the vast number of existing ontologies and vocabularies, manually identifying the most appropriate resources can be challenging. 
+LLMs, trained on a broad range of semantic web content, could help users locate relevant ontologies based on natural language descriptions, which SWLS could then use as a structured source of truth for deterministic editing support.  
+
+Thus, while SWLS and LLM-based approaches serve different roles, they are not mutually exclusive. 
+A hybrid approach, leveraging SWLS for deterministic operations and LLMs for exploratory tasks, could provide a more comprehensive semantic web development experience.  
 
 
