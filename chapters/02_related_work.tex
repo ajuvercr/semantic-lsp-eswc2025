@@ -9,8 +9,6 @@ Next we describe a set of common IDE functionalities~\cite{HowAreJava} and discu
 
 \subsection{Language Server Protocol}
 
-\todo{introduce the graph beforehand and mention the refered to software}
-
 The \textit{Language Server Protocol} (LSP), introduced by Microsoft, is designed primarily to facilitate reuse across different development environments.
 It defines a \textit{JSON-RPC}-based communication protocol that allows a single language server implementation to be utilized across multiple editors.
 
@@ -19,6 +17,42 @@ By decoupling language-specific analysis from editor-specific implementations, L
 
 In the following discussion of LSP features, we reference the corresponding \textit{JSON-RPC} requests where applicable.
 Additionally, note that not all LSP requests are implemented in SWLS, as this is not a requirement of the protocol, and adding the remaining requests is considered future work.
+
+Table~\ref{tab:current_implementations} provides an overview of existing open-source tools that implement at least one of the IDE functionalities discussed in this section.
+These tools focus on specific aspects, such as query editing, ontology modeling, or vocabulary completion, but none of them integrate a full set of IDE-like capabilities.
+
+% we might want to transpose the headers
+\begin{table}[h!]
+    \centering
+  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|C|}
+\hline
+    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
+
+      LSP implementation                & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic} %highlighting
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ }  %diagnostics
+                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Simple} & \rotatebox{90}{Typed} % completion
+                                        & \rotatebox{90}{Formatting} 
+                                        & \rotatebox{90}{Renaming}
+                                        & \rotatebox{90}{Polyglot} \\ \hline
+Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cmark & \cmark & \mmark & \xmark & \xmark & \xmark & \cmark \\
+RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
+query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
+yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \cmark & \xmark & \xmark \\
+Protégé                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
+rdf-vocabularies-autocomplete & N/A    & N/A    & N/A    & N/A    & N/A    & \xmark & \xmark & \cmark & \xmark & N/A    & N/A    & \xmark \\
+JSON-LD LSP                   & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
+SWLS                          & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+\hline
+\end{tabularx}
+    \caption{\label{tab:current_implementations}
+    \mmark Stardog simple completion is based on a fixed list of items. 
+    \mmark RDFox syntax completion is only based on predefined for SPARQL functions.
+    Table listing IDE features of different Semantic Web tools.
+    All eligable software supports both highlighting and completion in one form of another, 
+    while no software supports formatting or renaming except for Protégé and JSONLD-LSP (our previous work). 
+  }
+\end{table}
+
 
 
 \subsubsection{Highlighting} (\texttt{textDocument/semanticTokens/full}) enhances readability by leveraging visual cues, which assist developers in understanding complex data.
@@ -73,40 +107,6 @@ All semantic web tooling we considered, included some kind of completion mechani
     \end{itemize}
 \end{itemize}
 
-Table~\ref{tab:current_implementations} provides an overview of existing open-source tools that implement at least one of the IDE functionalities discussed in this section.
-These tools focus on specific aspects, such as query editing, ontology modeling, or vocabulary completion, but none of them integrate a full set of IDE-like capabilities for Semantic Web technologies.
-
-% we might want to transpose the headers
-\begin{table}[h!]
-    \centering
-  \begin{tabularx}{\textwidth}{ |p{3cm}|C|C|C|C|C|C|C|C|C|C|C|C|}
-\hline
-    \multirow{2}{*}{} & \multicolumn{2}{c|}{Highlight} & \multicolumn{3}{c|}{Diagnostics} & \multicolumn{4}{c|}{Completion}  & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} \\ \cline{2-10} 
-
-      LSP implementation                & \rotatebox{90}{Syntactic} & \rotatebox{90}{Semantic} %highlighting
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Undefined} & \rotatebox{90}{Validation\ \ }  %diagnostics
-                                        & \rotatebox{90}{Syntax} & \rotatebox{90}{Tokens} & \rotatebox{90}{Simple} & \rotatebox{90}{Typed} % completion
-                                        & \rotatebox{90}{Formatting} 
-                                        & \rotatebox{90}{Renaming}
-                                        & \rotatebox{90}{Polyglot} \\ \hline
-Stardog                       & \cmark & \xmark & \cmark & \xmark & \xmark & \cmark & \cmark & \mmark & \xmark & \xmark & \xmark & \cmark \\
-RDFox                         & \cmark & \xmark & \xmark & \xmark & \xmark & \mmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark \\
-query.wikidata                & \cmark & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \xmark & \xmark & \xmark \\
-yasgui                        & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark & \cmark & \xmark & \xmark \\
-Protégé                       & N/A    & N/A    & N/A    & N/A    & \cmark & N/A    & \cmark & N/A    & N/A    & N/A    & \cmark & \xmark \\
-rdf-vocabularies-autocomplete & N/A    & N/A    & N/A    & N/A    & N/A    & \xmark & \xmark & \cmark & \xmark & N/A    & N/A    & \xmark \\
-JSON-LD LSP                   & \cmark & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
-SWLS                          & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
-\hline
-\end{tabularx}
-    \caption{\label{tab:current_implementations}
-    \mmark Stardog simple completion is based on a fixed list of items. 
-    \mmark RDFox syntax completion is only based on predefined for SPARQL functions.
-    Table listing IDE features of different Semantic Web tools.
-    All eligable software supports both highlighting and completion in one form of another, 
-    while no software supports formatting or renaming except for Protégé and JSONLD-LSP (our previous work). 
-  }
-\end{table}
 
 \subsection{Integration of SWLS with Existing Ontology and Development Environments}
 
@@ -126,8 +126,7 @@ This integration allows users to remain within their familiar development enviro
 
 \subsection{Comparison to Large Language Models for Semantic Web Assistance}
 
-\todo{add cite}
-Recent advances in \textit{Large Language Models} (LLMs), such as \textit{ChatGPT}, have demonstrated impressive capabilities in assisting users with code generation, query formulation, and ontology-related tasks. 
+Recent advances in \textit{Large Language Models} (LLMs), such as \textit{ChatGPT}, have demonstrated impressive capabilities in assisting users with code generation, query formulation, and ontology-related tasks\cite{Chad}. 
 However, while LLMs can serve as powerful aids in navigating the complexities of the Semantic Web, they also introduce challenges related to reliability and determinism.  
 
 A key distinction between SWLS and LLM-based approaches lies in their underlying data sources and guarantees.

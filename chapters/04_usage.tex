@@ -59,18 +59,16 @@ We first go over the key ways the SWLS might help users, then we will apply thes
     }\label{lst:Demo}
 \end{figure}
 
-The SWLS can significantly enhance development efficiency by incorporating robust autocompletion features, as shown in Figure \ref{class_completion} and Figure \ref{property_completion}.
-These features streamline the creation of semantic documents, enabling users to work faster and with fewer errors. 
-Whether defining ontologies, creating SHACL shapes, or writing SPARQL queries, the ability to suggest appropriate classes and properties reduces repetitive tasks and minimizes the cognitive load on users, allowing them to focus on the substance of their work.
-Autocompletions also helps user explore the current domain by providing context-aware suggestions.
+SWLS enhances development efficiency by providing robust autocompletion capabilities, as illustrated in Figures \ref{class_completion} and \ref{property_completion}.
+These features facilitate the creation of semantic documents by accelerating the authoring process and reducing the likelihood of errors.
+Whether defining ontologies, constructing SHACL shapes, or formulating SPARQL queries, context-aware suggestions for relevant classes and properties minimize repetitive tasks and cognitive effort, allowing users to concentrate on the conceptual aspects of their work.
+Additionally, autocompletion assists users in exploring the current domain by offering informed suggestions based on contextual information.
 
-SWLS also aims to improve comprehension by offering real-time feedback on semantic data.
-It improves confidence in both syntax and semantics, by marking undefiend prefixes as shown in Figure \ref{undefined_prefix}
-and alerting the user of shape violations as shown in Figure \ref{hover}.
-The hover feature (shown in Figure \ref{hover}), which displays detailed information such as associated classes,
-allows users to quickly grasp the structure and relationships within a document. 
-This instant access to contextual information and validation features reduces the need for external references and improves overall productivity,
-also providing educational feedback, aiding users in their journey to master Semantic Web technologies.
+Beyond efficiency, SWLS enhances comprehension by delivering real-time feedback on semantic data.
+It improves users' confidence in both syntax and semantics by identifying issues such as undefined prefixes (Figure \ref{undefined_prefix}) and SHACL constraint violations (Figure \ref{hover}).
+The hover feature (Figure \ref{hover}) provides detailed information, including associated classes, enabling users to quickly understand the structure and relationships within a document.
+This immediate access to contextual insights and validation mechanisms reduces reliance on external references and serves as an educational aid for mastering Semantic Web technologies.
+
 
 \subsection{User groups}
 
@@ -83,9 +81,9 @@ SWLS addresses these pain points by providing immediate feedback on syntax error
 The autocompletion feature offers guided support by suggesting relevant properties, allowing users to build confidence in creating semantic documents.
 Moreover, validation tools play an educational role: newcomers can intentionally trigger validation errors to understand what constitutes a faulty document, turning mistakes into valuable learning opportunities.
 
-\paragraph{Domain experts,} a subset of power users, focus on their specialized fields of knowledge. 
-While they share many of the same benefits as general power users, they primarily use SWLS to refine ontologies and ensure alignment with domain-specific standards. 
-The autocompletion and hover documentation features help domain experts ensure precision and consistency, facilitating the creation of detailed and accurate semantic models tailored to their expertise.
+\paragraph{Domain experts,} a specialized subset of power users, focus on assessing and curating domain-specific ontologies.
+By hovering over properties and classes (Figure \ref{hover}), domain experts can quickly verify descriptions and relationships, ensuring the ontology aligns with their domain knowledge.
+Autocompletion further aids in this process by completing relevant terms, helping experts assess whether the ontology feels correct in practice.
 
 \paragraph{Data engineers,} would primarily work with SPARQL queries to extract meaningful insights from semantic data. 
 For these users, SWLS provides support by offering autocompletion for classes and properties, as well as syntax validation to prevent errors during query formulation. 
