@@ -29,13 +29,13 @@
 % We believe that taking those concepts and expanding on them to support more semantic languages and focussing on a easy to use design that promotes extensibily is a great oportunity to advance the state of the art.
 
 The Semantic Web~\cite{Berners-Lee_SA_2001} has matured over the past two decades, yet its broad adoption remains a challenge.
-One of main critiques appears to be the usability of the technology and its accessibility to newcomers~\cite{10.3233/SW-190387}.
+One of main critiques appears to be the usability and accessibility to newcomers~\cite{10.3233/SW-190387}.
 It is difficult for users across varying levels of expertise to effectively create, manage, and query Semantic data, which we attribute mainly to a lack of proper tooling.
 This need becomes evident when considering distinct challenges faced by some key user groups:
 
 \begin{enumerate}
   \item \textbf{Power Users}\\
-    Experienced Semantic engineers require advanced tools to efficiently manage large datasets, develop and maintain ontologies, and perform reasoning tasks.
+    Experienced Semantic engineers require advanced tools to efficiently manage large dataset, and develop ontologies.
     While proficient, even these users benefit from features that reduce cognitive overhead, minimize manual errors, and accelerate routine operations.
     % PC: Next sentence commented: too early - this is not a sales pitch!
     %Tools like Semantic LSP provide real-time feedback, context-aware autocompletion, and error diagnostics, significantly streamlining their workflows.
@@ -47,6 +47,7 @@ This need becomes evident when considering distinct challenges faced by some key
     %Semantic LSP supports active learning by offering user-friendly features such as syntax highlighting, contextual autocompletion, and hover-based documentation, empowering newcomers to experiment confidently and overcome the steep learning curve.
 
 \item \textbf{Domain Experts}\\
+  \todo{This is not correct}
     Domain experts often need to interact with Semantic technologies to assess and curate domain-specific data models, typically relying on tools like Protégé. 
     However, such tools can introduce bottlenecks, particularly for smaller projects, due to setup complexity and steep learning curves. 
     %Semantic LSP offers a lightweight alternative by enabling ontology creation directly within text editors using Turtle.
@@ -59,18 +60,17 @@ This need becomes evident when considering distinct challenges faced by some key
     %These features reduce errors, improve query quality, and promote deeper engagement with semantic data.
 \end{enumerate}
 
-Integrated Development Environments (IDEs) are widely recognized for their ability to improve developer productivity, streamline workflows, and reduce common mistakes across various domains~\cite{javaEngineer}. 
-Features like syntax highlighting and diagnostics are not merely conveniences; they are essential tools for ensuring accuracy and maintaining consistency. 
-In recent years, the Language Server Protocol has become a de-facto standard\footnote{\url{https://microsoft.github.io/language-server-protocol/}}, supported in most IDEs to provide such features in an IDE-agnostic way.
-Thanks to LSPs, Visual Studio Code, Neovim or event the web-based Monaco editor for example, can be extended with language-specific functionalities by reusing the same Language Server implementation.
-%Despite these benefits, such productivity-enhancing features are underrepresented in semantic web tooling.
+% Integrated Development Environments (IDEs) are widely recognized for their ability to improve developer productivity, streamline workflows, and reduce common mistakes across various domains~\cite{javaEngineer}. 
+% Features like syntax highlighting and diagnostics are not merely conveniences; they are essential tools for ensuring accuracy and maintaining consistency. 
+% In recent years, the Language Server Protocol has become a de-facto standard\footnote{\url{https://microsoft.github.io/language-server-protocol/}}, supported in most IDEs to provide such features in an IDE-agnostic way.
+% Thanks to LSPs, Visual Studio Code, Neovim or event the web-based Monaco editor for example, can be extended with language-specific functionalities by reusing the same Language Server implementation.
 
-To address the challenges commonly faced by the aforementioned key user groups, we introduce the Semantic Web Language Server (SWLS).
+To address the challenges commonly faced by these user groups, we introduce the Semantic Web Language Server (SWLS).
 This is a language server designed to enhance the editing experience specifically for Semantic Web-related documents. 
 For power users, SWLS intends to provide real-time feedback, context-aware autocompletion, and error diagnostics, aiming to facilitate and streamline their workflows.
 For newcomers, SWLS aims to supports active learning by offering user-friendly features such as syntax highlighting, contextual autocompletion and hover-based documentation, empowering newcomers to experiment confidently and overcome the steep learning curve.
 For domain experts, SWLS aims to offer a lightweight alternative to for example Protégé, by enabling ontology creation and maintenance directly within text editors using e.g., Turtle or JSON-LD.
-This approach is especially beneficial for quick iterations and avoids the overhead of additional software installation and configuration.
+This approach is especially beneficial for quick iterations.
 Lastly, for data engineers crafting SPARQL queries, SWLS intends to help them with intelligent autocompletion, which suggests properties and classes based on context, and hover-based explanations that help users understand ontology structures.
 These features are intended to reduce errors, reduce the learning curve and in general, promote a deeper engagement with Semantic Web technologies.
 Concretely SWLS supports:

@@ -12,13 +12,12 @@ There are currently three ways to interact with SWLS:
 \begin{enumerate}
   \item Download the VSCode extension from the market place\footnote{\url{https://marketplace.visualstudio.com/items?itemName=ajuvercr.semantic-web-lsp}}.
   \item Download and compile the binary locally and integrate it into NeoVim\footnote{Installation instruction are available in the README \url{https://github.com/ajuvercr/semantic-web-lsp}}.
-  \item Go to the demo available on \url{https://ajuvercr.github.io/semantic-web-lsp/}.
+  \item Go to the demo available on \href{https://ajuvercr.github.io/semantic-web-lsp/}{ajuvercr.github.io/semantic-web-lsp/}.
 \end{enumerate}
 
-% \todo{Maybe add a screenshot of the editors}
 In the demo, users are presented with four distinct editors, each tailored to a specific use case.
 A toy ontology and its accompanying SHACL shapes serve as foundational resources for the other editors.
-One editor is designed for creating a small data sample based on the toy ontology, allowing users to explore how semantic concepts can be applied in practice.
+One editor is designed for creating a small dataset based on the toy ontology.
 Another editor showcases a simple SPARQL query, which, when executed using a SPARQL client, could provide insights from data structured according to the ontology.
 This setup allows users to immerse themselves in different personas, gaining hands-on experience with various aspects of semantic data workflows.
 
@@ -26,8 +25,7 @@ While all editors, except for the SPARQL editor, are functionally the same,
 the visual seperation improves the realism of the tasks at hand.
 Below, we discuss how SWLS benefits each user group and validate its utility in practice.
 
-We first go over the key ways the SWLS might help users, then we will apply these ways to the different user groups defined in Section \ref{sec:introduction}, 
-and how those users groups can be assisted by the SWLS.
+We first go over the key ways the SWLS might help users, then we will apply these ways to the different user groups defined in Section \ref{sec:introduction}, and how those users groups can be assisted by the SWLS.
 
 \subsection{Key Improvements by SWLS}
 
@@ -78,21 +76,19 @@ also providing educational feedback, aiding users in their journey to master Sem
 
 \paragraph{Power users,} who frequently interact with Semantic Web technologies, rely on their deep understanding of common properties and domain-specific knowledge to navigate tasks efficiently.
 SWLS enhances their workflows by providing robust autocompletion features that streamline document creation and reduce repetitive tasks.
-For these users, SWLS also offers a valuable tool for exploring new domains through property suggestions, enabling them to adapt to unfamiliar contexts more easily. 
 Additionally, the language server supports quality assurance by helping power users identify invalid entities (using shape validation), ensuring their semantic documents are both accurate and high quality.
 
 \paragraph{For newcomers to the Semantic Web,} engaging with these technologies can be daunting due to challenges with syntax, semantics, and validation. 
-SWLS addresses these pain points by providing immediate feedback on syntax errors, which helps users learn the correct structure and minimize frustration.
+SWLS addresses these pain points by providing immediate feedback on syntax errors, which helps users learn the correct structure and lessens frustration.
 The autocompletion feature offers guided support by suggesting relevant properties, allowing users to build confidence in creating semantic documents.
-Moreover, validation tools play an educational role: newcomers can intentionally trigger SHACL validation errors to understand what constitutes a faulty document,
-turning mistakes into valuable learning opportunities.
+Moreover, validation tools play an educational role: newcomers can intentionally trigger validation errors to understand what constitutes a faulty document, turning mistakes into valuable learning opportunities.
 
 \paragraph{Domain experts,} a subset of power users, focus on their specialized fields of knowledge. 
 While they share many of the same benefits as general power users, they primarily use SWLS to refine ontologies and ensure alignment with domain-specific standards. 
 The autocompletion and hover documentation features help domain experts ensure precision and consistency, facilitating the creation of detailed and accurate semantic models tailored to their expertise.
 
 \paragraph{Data engineers,} would primarily work with SPARQL queries to extract meaningful insights from semantic data. 
-For these users, SWLS provides critical support by offering autocompletion for classes and properties, as well as syntax validation to prevent errors during query formulation. 
+For these users, SWLS provides support by offering autocompletion for classes and properties, as well as syntax validation to prevent errors during query formulation. 
 These features significantly enhance productivity by reducing the time spent debugging queries and ensuring accurate results. 
 By streamlining the querying process, SWLS enables data engineers to focus on deriving insights rather than resolving technical challenges.
 

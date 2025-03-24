@@ -9,6 +9,8 @@ Next we describe a set of common IDE functionalities~\cite{HowAreJava} and discu
 
 \subsection{Language Server Protocol}
 
+\todo{introduce the graph beforehand and mention the refered to software}
+
 The \textit{Language Server Protocol} (LSP), introduced by Microsoft, is designed primarily to facilitate reuse across different development environments.
 It defines a \textit{JSON-RPC}-based communication protocol that allows a single language server implementation to be utilized across multiple editors.
 
@@ -16,8 +18,7 @@ Prior to the introduction of LSP, each combination of a programming language and
 By decoupling language-specific analysis from editor-specific implementations, LSP reduces this complexity to \(\mathcal{O}(M + N)\), as only one editor-side implementation per editor and one language server per language are required.
 
 In the following discussion of LSP features, we reference the corresponding \textit{JSON-RPC} requests where applicable.
-Additionally, we highlight that not all LSP requests are implemented in the \textit{Semantic Web Language Server} (SWLS).
-However, full implementation of all requests is not a strict requirement of the protocol, and is considered future work.
+Additionally, note that not all LSP requests are implemented in SWLS, as this is not a requirement of the protocol, and adding the remaining requests is considered future work.
 
 
 \subsubsection{Highlighting} (\texttt{textDocument/semanticTokens/full}) enhances readability by leveraging visual cues, which assist developers in understanding complex data.
@@ -28,10 +29,9 @@ There are two primary types of highlighting: \textbf{syntactic} and \textbf{sema
 
 \begin{itemize}
     \item \textbf{Syntactic highlighting} focuses on document syntax and is implemented using lexers (i.e. software that transforms text into tokens: keyswords, IRIs, blanknode identifiers, etc.).
-      For example in RDF Turtle, strings might appear in green, while named nodes are highlighted in red.
       This type of highlighting does not require knowledge of the document's meaning.
       Syntactic highlighting is enabled on all software we considered, except for the 
-      \textit{rdf-vocabularies-autocomplete} VSCode extension, VSCode handles syntactic highlighting already with the Tree-sitter project\footnote{\url{https://tree-sitter.github.io/tree-sitter/}}.
+      \textit{rdf-vocabularies-autocomplete} VSCode extension.
     \item \textbf{Semantic highlighting}, (introduced by D. Nodlen\cite{DNolden}) in contrast, uses the local (and externally linked) semantics referenced in the document to differentiate terms based on their roles. 
       For instance, terms declared in an ontology can be highlighted differently compared to locally defined terms.
       We found no semantic web tooling that implemented this feature.
@@ -54,10 +54,9 @@ The stardog language servers and the Yasgui query editor notify the users of syn
 \subsubsection{Formatting} (\texttt{textDocument/formatting})
 Consistent formatting across documents can help enhancing readability and maintainability.
 IDEs assist users in adhering to a defined style guide while allowing customization to accommodate different workflows or preferences.
-We found no semantic web tooling that implemented this feature.
+We found no semantic web tooling that implemented this feature, except Yasgui.
 
 \subsubsection{Renaming} (\texttt{textDocument/rename}) identifiers, such as classes or properties, is an important feature for iterative development.
-This functionality helps users manage data more efficiently and adapt to evolving project requirements without introducing errors.
 We found no semantic web tooling except for our previous work~\cite{JSONLD-LSP}, that handles renaming identifiers.
 
 \subsubsection{Completion} (\texttt{textDocument/completion}) features, similar to highlighting, can be categorized as \textbf{syntactic} or \textbf{semantic}:
@@ -111,23 +110,23 @@ SWLS                          & \cmark & \cmark & \cmark & \cmark & \cmark & \cm
 
 \subsection{Integration of SWLS with Existing Ontology and Development Environments}
 
-The \textit{Semantic Web Language Server} (SWLS), based on the \textit{Language Server Protocol} (LSP), is not intended as a replacement for comprehensive ontology editors such as \textit{Protégé} or general-purpose integrated development environments (IDEs) like \textit{IntelliJ IDEA} and \textit{Eclipse}.
+The \textit{Semantic Web Language Server} (SWLS), based on the \textit{Language Server Protocol} (LSP), is not intended as a replacement for comprehensive ontology editors such as \textit{Protégé} or general-purpose IDEs like \textit{IntelliJ IDEA} and \textit{Eclipse}.
 Instead, it functions as a complementary tool that extends IDE-like capabilities to a broad range of text editors and development environments.
 
 A key advantage of LSP-based solutions is their ability to integrate seamlessly with existing tools.
 Protégé, for instance, provides a rich graphical interface for ontology engineering but also allows users to open individual ontology files in a text-based format.
-When editing such files, SWLS can enhance the experience by offering syntax validation, autocompletion, and real-time diagnostics, 
-thereby bridging the gap between textual and graphical ontology development.
+When editing the actual ontology files, SWLS can enhance the experience by offering its features, thereby bridging the gap between textual and graphical ontology development.
 
-Similarly, general-purpose IDEs such as IntelliJ IDEA and Eclipse, which support LSP, can leverage SWLS to provide semantic web-specific assistance when working with ontology files, SHACL constraints, or SPARQL queries. 
+Similarly, general-purpose IDEs such as IntelliJ IDEA and Eclipse, which support LSP, can leverage SWLS to provide assistance. 
 This integration allows users to remain within their familiar development environment while still benefiting from specialized semantic web tooling.
 
-By adhering to the LSP standard, SWLS fosters interoperability between semantic web tools and mainstream development environments. 
-Rather than replacing established solutions, it extends their functionality, ensuring that users can leverage the strengths of both specialized ontology tools and general-purpose development platforms.
+% By adhering to the LSP standard, SWLS fosters interoperability between semantic web tools and mainstream development environments. 
+% Rather than replacing established solutions, it extends their functionality, ensuring that users can leverage the strengths of both specialized ontology tools and general-purpose development platforms.
 
 
 \subsection{Comparison to Large Language Models for Semantic Web Assistance}
 
+\todo{add cite}
 Recent advances in \textit{Large Language Models} (LLMs), such as \textit{ChatGPT}, have demonstrated impressive capabilities in assisting users with code generation, query formulation, and ontology-related tasks. 
 However, while LLMs can serve as powerful aids in navigating the complexities of the Semantic Web, they also introduce challenges related to reliability and determinism.  
 
@@ -137,10 +136,5 @@ This deterministic behavior is essential for correctness in ontology engineering
 In contrast, LLMs generate responses probabilistically based on their training data, which, while often useful, can lead to hallucinations or incorrect suggestions that do not conform to the given ontology.
 
 Despite these limitations, LLMs could complement SWLS by assisting users in discovering relevant ontologies.
-Given the vast number of existing ontologies and vocabularies, manually identifying the most appropriate resources can be challenging. 
 LLMs, trained on a broad range of semantic web content, could help users locate relevant ontologies based on natural language descriptions, which SWLS could then use as a structured source of truth for deterministic editing support.  
-
-Thus, while SWLS and LLM-based approaches serve different roles, they are not mutually exclusive. 
-A hybrid approach, leveraging SWLS for deterministic operations and LLMs for exploratory tasks, could provide a more comprehensive semantic web development experience.  
-
 
