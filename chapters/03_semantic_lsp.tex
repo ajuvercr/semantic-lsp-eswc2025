@@ -59,10 +59,6 @@ The \textit{Parse} schedule is activated whenever the user edits a document, not
 
 First, \texttt{Tokenize} derives tokens from the incoming text document. SWLS uses the logos crate\footnote{\url{https://docs.rs/logos/latest/logos/}}. 
 Each token corresponds to a terminal in the grammar. This system needs be implemented for each language.
-% We chose to let all semantic languages use the same \texttt{token} type. 
-% This allows for implementing token-based systems only once.
-% Note, that this does not mean SPARQL specific tokens (i.e. \texttt{?variable} or SPARQL keywords) are introduced into the Turtle language:  each language does their own tokenization, merging all tokens into one \texttt{token} type.
-% In Figure~\ref{fig:Parse}, \textit{tokenize} is the first system in the parsing schedule, this system is implemented for all supported languages. \textit{Tokenize} also reports on tokenization errors.
 
 The next system, \texttt{Parsing}, is implemented for each language and is responsible for transforming tokenized input into structured objects while reporting syntactic errors. 
 SWLS employs Chumsky\footnote{\url{https://docs.rs/chumsky/latest/chumsky/}} to construct parser combinators for this purpose.
@@ -87,101 +83,6 @@ Prefix statements are one way to link documents, but the object value of the tri
 To acquire useful properties and classes, SWLS looks for ontology files, however we noticed that dereferencing the location of a prefix statement and expecting an ontology file is actually quite rare, 
 so we introduced the LOV~\cite{LOV2017} service into SWLS.
 Given a prefered prefix, SWLS will try to retrieve an ontology file and insert it into the language server, triggering the the parsing schedule for that document, which derives the actual properties and classes.
-
-% SWLS uses LOV\cite{LOV2017} to access ontologies definitions that are imported as a prefix of a document.
-% These ontology documents are loaded into the language server as normal editor documents
-% This means that properties and classes are derived from ontology documents or local documents.
-% Prefixes are also used to load the correct LOV~\cite{LOV2017} defined ontologies, setting up documents containing property and class definitions.~\info{this comes out of the blue. We need to properly describe that LOV is used internally used to support a richer set of ontologies and specially those that are not dereferenceable.}
-%
-% The language server protocol allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
-% Earlier versions of the SWLS required the entire document every time, given that documents are usually small and reprasing the entire document could be done with an acceptable performance.
-% However, we noticed that this hampered the implementation, in Turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
-% An example is shown in Figure~\ref{lst:GroupedListing}.
-%   (i) The user at figure \ref{code1} types the named node \texttt{<b>}. The language server should determine that triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>} and should suggest objects that fulfill the range of predicate \texttt{<b>}. 
-%   (ii) The user at figure \ref{code2} types the named node \texttt{<c>}. The language server should identify that the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}. Although token-wise documents in figures~\ref{code1} and \ref{code2} are the same, in this case the suggestion should result in a semicolon.
-%   (iii) The user at figure \ref{code3} just wrote subject \texttt{<a>}, invoking the subject completion defined in the next section.
-%      The language server might incorrectly suggest to add a comma after \texttt{<c>} to build a syntactically correct document. 
-%      This however would be a mistake as triple \texttt{<b> <c> <d>} has \texttt{<b>} as subject, not \texttt{<c>}.
-%   (iv) The user at figure \ref{code4} is typing the predicate \texttt{<b>} for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at figure~\ref{code3}, where \texttt{<b>} is subject thus not suggesting the property completion as explained in the next section.
-%
-%   Adding partial parsing can deal with these issues as the language server understand which tokens are added or deleted and leaving the original interpretation of the surrounding tokens untouched.
-
-% \begin{figure}[tb]
-%     \centering
-%     % code1
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option1.ttl}
-%       \caption{User types predicate \texttt{<b>}}
-%       \label{code1}
-%     \end{subfigure}
-%     \hfill
-%     % code 2
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option2.ttl}
-%       \caption{User types object \texttt{<c>}}
-%       \label{code2}
-%     \end{subfigure}
-%     \hfill
-%     % code 3
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option3.ttl}
-%       \caption{User types subject \texttt{<a>}}
-%       \label{code3}
-%     \end{subfigure}
-%     \hfill
-%     % code 4
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option4.ttl}
-%       \caption{User types predicate \texttt{<b>}}
-%       \label{code4}
-%     \end{subfigure}
-%     \caption{Different code samples showing that it is the indentation/intent of the user that dictates how tokens should be parsed. (a) and (b) show five terms that result in different triples. (c) and (d) show four terms, triples with subject \texttt{<a>} and \texttt{<b>} and both triples with subject \texttt{<a>} resulting in different semantics.    }\label{lst:GroupedListing}
-% \end{figure}
-% The language server protocol allows the server to specify wether it requires only the (minimal) changes or the entire document every time.
-% Earlier versions of the SWLS required the entire document every time, given that documents are usually small and reprasing the entire document could be done with an acceptable performance.
-% However, we noticed that this hampered the implementation, in Turtle specifically there are patterns that cannot be parsed correctly and brings incorrect and frustrating feedback to the user, and partial parsing helps in this regard.
-% An example is shown in Figure~\ref{lst:GroupedListing}.
-%   (i) The user at figure \ref{code1} types the named node \texttt{<b>}. The language server should determine that triple \texttt{<c> <d> <e>} has nothing to do with named node \texttt{<b>} and should suggest objects that fulfill the range of predicate \texttt{<b>}. 
-%   (ii) The user at figure \ref{code2} types the named node \texttt{<c>}. The language server should identify that the are two triples \texttt{<a> <b> <c>} and \texttt{<a> <d> <e>}. Although token-wise documents in figures~\ref{code1} and \ref{code2} are the same, in this case the suggestion should result in a semicolon.
-%   (iii) The user at figure \ref{code3} just wrote subject \texttt{<a>}, invoking the subject completion defined in the next section.
-%      The language server might incorrectly suggest to add a comma after \texttt{<c>} to build a syntactically correct document. 
-%      This however would be a mistake as triple \texttt{<b> <c> <d>} has \texttt{<b>} as subject, not \texttt{<c>}.
-%   (iv) The user at figure \ref{code4} is typing the predicate \texttt{<b>} for the subject \texttt{<a>}, the language server might incorrectly parse the document as seen at figure~\ref{code3}, where \texttt{<b>} is subject thus not suggesting the property completion as explained in the next section.
-%
-%   Adding partial parsing can deal with these issues as the language server understand which tokens are added or deleted and leaving the original interpretation of the surrounding tokens untouched.
-%
-% \begin{figure}[tb]
-%     \centering
-%     % code1
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option1.ttl}
-%       \caption{User types predicate \texttt{<b>}}
-%       \label{code1}
-%     \end{subfigure}
-%     \hfill
-%     % code 2
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option2.ttl}
-%       \caption{User types object \texttt{<c>}}
-%       \label{code2}
-%     \end{subfigure}
-%     \hfill
-%     % code 3
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option3.ttl}
-%       \caption{User types subject \texttt{<a>}}
-%       \label{code3}
-%     \end{subfigure}
-%     \hfill
-%     % code 4
-%     \begin{subfigure}{0.21\textwidth}
-%       \lstinputlisting{./code/option4.ttl}
-%       \caption{User types predicate \texttt{<b>}}
-%       \label{code4}
-%     \end{subfigure}
-%     \caption{Different code samples showing that it is the indentation/intent of the user that dictates how tokens should be parsed. (a) and (b) show five terms that result in different triples. (c) and (d) show four terms, triples with subject \texttt{<a>} and \texttt{<b>} and both triples with subject \texttt{<a>} resulting in different semantics.    }\label{lst:GroupedListing}
-% \end{figure}
-
 
 
 \subsubsection{Completion}
