@@ -2,36 +2,45 @@
 \label{sec:conclusion}
 % \info{Something missing for me is a clear list of what is supported and what is not. From the text I understand that Turtle and JSON-LD are supported for RDF, but not N-Triples, RDF/XML, Trig, etc. Perhaps mention it either in the Introduction or in Section 3 and reiterate here?}
 
-In this paper we introduced SWLS to bridge the gap between semantic technologies and their practical application by offering an extensible and editor-agnostic tool tailored to diverse user groups.
-By providing autocompletion, validation, highlighting, and contextual documentation, SWLS aims on enhancing productivity, improving the quality of semantic documents, and lowering the entry barrier for newcomers.
-Its integration of foundational editors for creating ontologies, designing SHACL shapes, writing SPARQL queries, and authoring sample data allows users to experience the full spectrum of semantic workflows in an intuitive and accessible environment.
+% In this paper we introduced SWLS to bridge the gap between semantic technologies and their practical application by offering an extensible and editor-agnostic tool tailored to diverse user groups.
+% By providing autocompletion, validation, highlighting, and contextual documentation, SWLS aims on enhancing productivity, improving the quality of semantic documents, and lowering the entry barrier for newcomers.
+% Its integration of foundational editors for creating ontologies, designing SHACL shapes, writing SPARQL queries, and authoring sample data allows users to experience the full spectrum of semantic workflows in an intuitive and accessible environment.
+%
+% Through its ability to streamline domain exploration, improve semantic understanding, and foster confidence in document quality, SWLS demonstrates its potential to support both beginners and seasoned experts in Semantic Web technologies.
+% Its modular design, which builds upon existing libraries such as \texttt{rudof}, ensures that it is not only a powerful standalone tool but also a platform capable of evolving with advancements in the field.
+%
+% Thanks to the ECS design pattern, SWLS has an extensible architecture ensuring that new features and improvements can be integrated.
+% SWLS is in this way ready for developers to tackle more specialized scenarios.
+% This could include for example, writing configuration files for the RDF-based dependency injection framework ComponentsJS (CJS)~\cite{01GPAWNQ5ZS2DAY0J9JMPQHM9C} or authoring YARRRML knowledge graph construction files~\cite{Heyvaert2018Declarative}.
+%
+% For example, users working with CJS configurations often encounter challenges when validating their configurations, frequently resorting to runtime checks for correctness.
+% Standard JSON-LD editors struggle with CJS configurations due to their reliance on Linked Software Dependencies~\cite{CJS2}, which need to be resolved against local \texttt{node\_modules} directories.
+% By extending SWLS with the following capabilities, CJS users could benefit from the same powerful IDE support already available to Semantic Web developers by: (i) implementing a mechanism to resolve JSON-LD contexts by referencing configuration files in \texttt{node\_modules}; (ii)deriving properties directly from CJS component definitions to streamline autocompletion; and (iii) validating configurations by ensuring all parameters are defined and conform to the correct data types and ranges.
+% % \todo{PC - I would leave this out. Update JR: Is a bit too detailed but not harmful IMO. Remove it if struggling for space.}
+%
+% Beyond these specialized enhancements, SWLS can also be improved by refining its existing systems.
+% For example, the current type inference mechanism relies solely on the \texttt{rdf:type} predicate to determine entity types.
+% Expanding this capability with reasoning support would enhance the accuracy of autocompletions and hover information, making the language server even more effective for users.
+%
+% The SWLS can be further enhanced by expanding its support for additional semantic languages.
+% For instance, incorporating Trig support would require minimal effort, as it mainly involves extending the existing Turtle tokenizer and parser.
+% Once this extension is in place, the majority of SWLS’s current functionality would work seamlessly with TRiG.
+%
+% In contrast, adding support for a language like N3 presents a more significant challenge.
+% N3’s parser is notably more complex than simpler formats such as Turtle, and users of SWLS would naturally expect the editor to support basic reasoning tasks inherent to the N3 language.
+% Implementing such reasoning capabilities opens a vast field of possibilities, limited only by the scope of future development efforts.
+%
+% However, SWLS does not exist in isolation but benefits from a collaborative ecosystem.
+% Just as SWLS leverages the \texttt{rudof} crate for SHACL and ShEx validation, it is anticipated that other Semantic Web libraries will emerge.
+% The design of SWLS should ensure that these new tools can be easily integrated, enabling the system to evolve alongside the broader Semantic Web landscape.
+% By building on existing tools and fostering compatibility with new ones, SWLS can continue to meet the diverse needs of its users and maintain its relevance in this rapidly advancing field.
+%
 
-Through its ability to streamline domain exploration, improve semantic understanding, and foster confidence in document quality, SWLS demonstrates its potential to support both beginners and seasoned experts in Semantic Web technologies.
-Its modular design, which builds upon existing libraries such as \texttt{rudof}, ensures that it is not only a powerful standalone tool but also a platform capable of evolving with advancements in the field.
+In this paper, we introduced SWLS as an extensible, editor-agnostic tool designed to enhance productivity and accessibility in Semantic Web technologies. By providing autocompletion, validation, highlighting, and contextual documentation, SWLS streamlines ontology creation, SHACL shape design, SPARQL query formulation, and sample data authoring, benefiting both newcomers and experienced users.
 
-Thanks to the ECS design pattern, SWLS has an extensible architecture ensuring that new features and improvements can be integrated.
-SWLS is in this way ready for developers to tackle more specialized scenarios.
-This could include for example, writing configuration files for the RDF-based dependency injection framework ComponentsJS (CJS)~\cite{01GPAWNQ5ZS2DAY0J9JMPQHM9C} or authoring YARRRML knowledge graph construction files~\cite{Heyvaert2018Declarative}.
+The modular architecture, built on the ECS pattern and leveraging 	exttt{rudof}, ensures that SWLS can evolve alongside Semantic Web advancements. This extensibility enables specialized applications, such as improving validation for ComponentsJS~\cite{01GPAWNQ5ZS2DAY0J9JMPQHM9C} configurations or supporting YARRRML knowledge graph construction~\cite{Heyvaert2018Declarative}, reducing the need for runtime checks and manual corrections.
 
-For example, users working with CJS configurations often encounter challenges when validating their configurations, frequently resorting to runtime checks for correctness.
-Standard JSON-LD editors struggle with CJS configurations due to their reliance on Linked Software Dependencies~\cite{CJS2}, which need to be resolved against local \texttt{node\_modules} directories.
-By extending SWLS with the following capabilities, CJS users could benefit from the same powerful IDE support already available to Semantic Web developers by: (i) implementing a mechanism to resolve JSON-LD contexts by referencing configuration files in \texttt{node\_modules}; (ii)deriving properties directly from CJS component definitions to streamline autocompletion; and (iii) validating configurations by ensuring all parameters are defined and conform to the correct data types and ranges.
-% \todo{PC - I would leave this out. Update JR: Is a bit too detailed but not harmful IMO. Remove it if struggling for space.}
+Future enhancements include refining type inference with reasoning support, improving autocompletions and hover information. Expanding support for additional semantic languages, such as Trig and N3, presents varying degrees of complexity, with N3 requiring deeper integration of reasoning capabilities.
 
-Beyond these specialized enhancements, SWLS can also be improved by refining its existing systems.
-For example, the current type inference mechanism relies solely on the \texttt{rdf:type} predicate to determine entity types.
-Expanding this capability with reasoning support would enhance the accuracy of autocompletions and hover information, making the language server even more effective for users.
-
-The SWLS can be further enhanced by expanding its support for additional semantic languages.
-For instance, incorporating Trig support would require minimal effort, as it mainly involves extending the existing Turtle tokenizer and parser.
-Once this extension is in place, the majority of SWLS’s current functionality would work seamlessly with TRiG.
-
-In contrast, adding support for a language like N3 presents a more significant challenge.
-N3’s parser is notably more complex than simpler formats such as Turtle, and users of SWLS would naturally expect the editor to support basic reasoning tasks inherent to the N3 language.
-Implementing such reasoning capabilities opens a vast field of possibilities, limited only by the scope of future development efforts.
-
-However, SWLS does not exist in isolation but benefits from a collaborative ecosystem.
-Just as SWLS leverages the \texttt{rudof} crate for SHACL and ShEx validation, it is anticipated that other Semantic Web libraries will emerge.
-The design of SWLS should ensure that these new tools can be easily integrated, enabling the system to evolve alongside the broader Semantic Web landscape.
-By building on existing tools and fostering compatibility with new ones, SWLS can continue to meet the diverse needs of its users and maintain its relevance in this rapidly advancing field.
+SWLS does not exist in isolation but as part of a collaborative ecosystem. By maintaining compatibility with emerging Semantic Web libraries, it ensures continued relevance and adaptability. Its extensible design enables seamless integration of new tools, fostering innovation and supporting the evolving needs of the Semantic Web community.
 
