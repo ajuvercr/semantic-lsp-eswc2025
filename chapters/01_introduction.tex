@@ -47,8 +47,8 @@ This need becomes evident when considering distinct challenges faced by some key
     %Semantic LSP supports active learning by offering user-friendly features such as syntax highlighting, contextual autocompletion, and hover-based documentation, empowering newcomers to experiment confidently and overcome the steep learning curve.
 
 \item \textbf{Domain Experts}\\
-   Domain experts frequently engage with Semantic Web technologies to evaluate and refine domain-specific data models, often utilizing tools such as Protégé.
-    SWLS complements this workflow by enabling experts to efficiently create small datasets and interactively explore their ontology, allowing them to assess whether property descriptions and relationships are coherent.
+   Domain experts frequently engage with Semantic Web technologies to evaluate and refine domain-specific data models, relying often on tools such as the open-source Protégé~\footnote{\url{https://protege.stanford.edu/}} and VocBench\footnote{\url{https://vocbench.uniroma2.it/}}, or the commercial TopBraid Composer~\footnote{\url{https://www.topquadrant.com/topbraid-edg/}}.
+   Although these tools already provide a rich set of features, users could benefit further from additional capabilities that provide live guidance and cohenrence assessment of e.g., property descriptions and relationships, especially when interacting with unfamiliar data models.
     % Additionally, SWLS can be used in conjunction with existing ontology development tools to refine ontology documents or, alternatively, serve as a lightweight, standalone solution for ontology authoring and validation.
     % However, such tools can introduce bottlenecks, particularly for smaller projects, due to setup complexity and steep learning curves. 
     % SWLS also offers a lightweight alternative by enabling ontology creation directly within text editors using Turtle.
@@ -67,26 +67,25 @@ This need becomes evident when considering distinct challenges faced by some key
 % Thanks to LSPs, Visual Studio Code, Neovim or event the web-based Monaco editor for example, can be extended with language-specific functionalities by reusing the same Language Server implementation.
 
 To address the challenges commonly faced by these user groups, we introduce the Semantic Web Language Server (SWLS).
-This is a language server designed to enhance the editing experience specifically for Semantic Web-related documents. 
+This is a language server based on the Language Server Protocol (LSP) (de-facto) standard, designed to enhance the editing experience specifically for Semantic Web-related documents. 
 For power users, SWLS intends to provide real-time feedback, context-aware autocompletion, and error diagnostics, aiming to facilitate and streamline their workflows.
 For newcomers, SWLS aims to supports active learning by offering user-friendly features such as syntax highlighting, contextual autocompletion and hover-based documentation, empowering newcomers to experiment confidently and overcome the steep learning curve.
-For domain experts, SWLS aims to offer a lightweight alternative to for example Protégé, by enabling ontology creation and maintenance directly within text editors using e.g., Turtle or JSON-LD.
-This approach is especially beneficial for quick iterations.
+For domain experts, SWLS aims to offer a lightweight alternative beneficial for quick iterations, by enabling ontology creation and maintenance directly through text editors using e.g., Turtle or JSON-LD. Being a LSP-based tool, also offers the possibility of integration with existing ontology development tools and enhace user experience with a complementary set of features.
 Lastly, for data engineers crafting SPARQL queries, SWLS intends to help them with intelligent autocompletion, which suggests properties and classes based on context, and hover-based explanations that help users understand ontology structures.
 These features are intended to reduce errors, reduce the learning curve and in general, promote a deeper engagement with Semantic Web technologies.
-Concretely SWLS supports:
+Concretely SWLS currently provides supports for:
 \begin{itemize}
   \item Turtle, JSON-LD and SPARQL
   \item Semantic and syntactic highlighting
-  \item Suggest autocompletions from properties (ordered on domain), classes, already defined prefixes and suggestions for new prefixes coming from Prefix.cc
-  \item Show diagnostics, including undefined prefixes, incorrect syntax and shape violations
+  \item Autocompletion suggestions from properties (ordered on domain), classes, already defined prefixes and suggestions for new prefixes coming from Prefix.cc\footnote{\url{https://prefix.cc/}}
+  \item Display of diagnostics, including undefined prefixes, incorrect syntax and SHACL shape violations
   \item Formatting and renaming
   \item Hover functionality showing additional type information
 \end{itemize}
 
 Previous efforts, such as YASGUI for SPARQL query editing, have shown the value of lowering entry barriers by improving usability~\cite{10.3233/SW-150197,10.1007/978-3-642-41242-4_7}. 
 SWLS builds on these successes, expanding support to multiple Semantic Web languages and emphasizing a user-friendly, extensible design. 
-By addressing the needs of our user groups, we aim to advance the state of the art in Semantic Web tooling and foster its broader adoption.
+By addressing the needs of different user groups, we aim to advance the state of the art in Semantic Web tooling and foster its broader adoption.
 
 The reaminder of this paper, presents first in Section~\ref{sec:related_work} the state of the art in tooling currently available to different user groups.
 We then introduce in Section~\ref{sec:semantic_lsp} the SWLS covering its capabilities and our implementation approach.
