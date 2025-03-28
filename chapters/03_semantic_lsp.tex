@@ -5,7 +5,7 @@ This section is divided into two parts. The first outlines the key architectural
 
 \subsection{Architecture design decisions}
 
-The architectural design of the Semantic Web Language Server (SWLS) adheres to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,10.1145/3550355.3552452,Bour_2018}, resulting in a \textit{Layered Architecture} containing three steps:
+The architectural design of the Semantic Web Language Server (SWLS) adheres to state-of-the-art implementation practices to ensure modularity, scalability, and maintainability~\cite{10.1145/3550355.3552452,10.1145/3563834.3567537,Bour_2018}, resulting in a \textit{Layered Architecture} containing three steps:
 
 \begin{enumerate}
   \item In the \textit{Parse} step, the server handles parsing the document, which is language specific and deriving defined triples and prefixes.
@@ -20,7 +20,7 @@ An ECS is a software design pattern that organizes a program into four key eleme
 In SWLS, \textit{entities} represent the semantic documents. 
 \textit{Components} store data associated with the entity, such as the document's contents, file location, or derived triples. 
 \textit{Systems} are functions designed to process specific components, potentially adding other components to the entities.
-\textit{Systems} are bundled in \textit{Schedules}. \todo{this is quite lame}
+\textit{Systems} are bundled into \textit{Schedules} to achieve distinct tasks.
 \textit{Resources} are global components that are not linked to a specific entity.
 For example, SWLS uses a resource to keep track of the hierarchy of discovered types, as types are not document specific.
 
@@ -65,25 +65,21 @@ SWLS employs Chumsky\footnote{\url{https://docs.rs/chumsky/latest/chumsky/}} to 
 Significant effort has been invested in ensuring the parser can process faulty documents without discarding tokens: even isolated terms are expanded into full triples, facilitating downstream processing in subsequent stages.
 
 However, expanding syntactically incorrect input introduces ambiguity.
-For instance, the term \texttt{<a> <b> <c> <d>} could be expanded in multiple ways, such as: \texttt{<a> <b> <c>. <d> <x> <y>.}, \texttt{<a> <b> <c>; <d> <x>.}, or \texttt{<a> <b> <c>, <d>}.
-
+For instance, the term \texttt{<a> <b> <c> <d>} could be expanded in multiple ways, such as: (i) \texttt{<a> <b> <c>. <d> <x> <y>.}, (ii) \texttt{<a> <b> <c>; <d> <x>.}, or (iii) \texttt{<a> <b> <c>, <d>}.
 While the third option involves the fewest modifications, it does not always align with the expected behavior.
 This ambiguity could be mitigated by leveraging partial parsing, which enables the parser to make more informed decisions based on incremental input changes.
 However, this approach has not yet been implemented and remains an area for future work.
 
 When the objects are parsed, language-specific systems derive prefixes and \textit{expanded} triples. 
-Prefixes contain information about how to expand and shorten IRIs for the current document.
-
+Prefixes contain information about how to expand and shorten IRIs for the current document. 
 After deriving triples, the next systems will derive properties and classes.
 These properties and classes are later used to suggest autocompletions and derive type hierarchies.
 
 SWLS introduces the concept of linked documents, documents that are related to the current document, which should be used for features like autocompletion.
 Prefix statements are one way to link documents, but the object value of the triple \texttt{<> owl:imports <otherLocation>.}, also allows linking documents with the current document.
-
 To acquire useful properties and classes, SWLS looks for ontology files, however we noticed that dereferencing the location of a prefix statement and expecting an ontology file is actually quite rare, 
 so we introduced the LOV~\cite{LOV2017} service into SWLS.
 Given a prefered prefix, SWLS will try to retrieve an ontology file and insert it into the language server, triggering the the parsing schedule for that document, which derives the actual properties and classes.
-
 
 \subsubsection{Completion}
 
@@ -116,7 +112,6 @@ SWLS tries to determine the type of the current subject, then SWLS orders proper
 and visually distinguishes them from other properties.
 When the user is typing an object and the predicate of the current triple is \texttt{rdf:type}, SWLS suggests defined classes.
 
-
 \subsubsection{Diagnostics}
 
 The \textit{Diagnostics} component of SWLS comprises several focused systems that analyze parsed data to identify issues and provide feedback to users.
@@ -138,7 +133,7 @@ To demonstrate the capabilities of the diagnostics system, we highlight three ke
   \item \textit{Syntax Diagnostics:}
     During the tokenization and parsing phases, errors such as syntax mismatches or malformed input are detected and recorded, along with their locations.
   \item \textit{SHACL Validation:} 
-    With the on save schedule, the server uses the Rudof library\footnote{\url{https://github.com/rudof-project/rudof}} to validate the current RDF document against SHACL and SHEX shapes~\cite{labra2022rudof}.
+    With the on save schedule, the server uses the Rudof library\footnote{\url{https://github.com/rudof-project/rudof}} to validate the current RDF document against SHACL and ShEx shapes~\cite{labra2022rudof}.
     Shapes are extracted from the document itself (if present), as well as other linked documents.
     This system ensures that the semantic data conforms to expected structural constraints, enabling robust validation.
   \item \textit{Basic Validation:}
@@ -153,7 +148,7 @@ Together, these systems provide comprehensive diagnostic support, catering to bo
 Beyond core functionalities, SWLS offers additional schedules that enhance the user experience and round out its capabilities.
 These schedules are smaller in scope, generally focusing on presentation or user interaction rather than deriving new information.
 
-The most notable are as follows:
+The most notable are the following:
 \begin{enumerate}
   \item \textit{Formatting:}
     A consistent document structure improves readability and reduces the cognitive load required to parse data visually.
