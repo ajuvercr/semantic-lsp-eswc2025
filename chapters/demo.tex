@@ -22,8 +22,8 @@ These formats enable representing semi-structured data in an interoperable way.
 However, authoring and editing documents following these formats is prone to human error, which can lead to non-interoperability, validation failures or incorrect reasoning outcomes.
 For instance, mistyping the URI of a prefix can alter the entire meaning of an RDF document, rendering it non-interoperable with other datasets. 
 
-Some open services such as Linked Open Vocabularies (LOV)\cite{LOV2017} or \href{https://prefix.cc}{prefix.cc} provide both human-oriented and programmatic interfaces to look up exact definitions of predicates and classes, offering a reliable reference for avoiding such errors.
-Tools such as YASGUI\cite{yasgui,10.1007/978-3-642-41242-4_7} and \href{https://query.wikidata.org/}{query.wikidata.org} provide robust web-based functionalities for editing SPARQL queries.
+Some open services such as Linked Open Vocabularies (LOV)~\cite{LOV2017} or \href{https://prefix.cc}{prefix.cc} provide both human-oriented and programmatic interfaces to look up exact definitions of predicates and classes, offering a reliable reference for avoiding such errors.
+Tools such as YASGUI~\cite{yasgui,10.1007/978-3-642-41242-4_7} and \href{https://query.wikidata.org/}{query.wikidata.org} provide robust web-based functionalities for editing SPARQL queries.
 However these do not integrate into local development environments nor support multiple formats.
 
 In this demo paper, we showcase the Semantic Web Language Server (SWLS), a language server based on the Language Server Protocol (LSP), designed to assist editors in handling Semantic Web documents. 
@@ -32,26 +32,27 @@ Moreover, SWLS supports multiple Semantic Web formats such as Turtle, SPARQL and
 It is also designed with extensibility in mind, making it a versatile solution. 
 This demo paper accompanies an accepted ESWC 2025 resource paper, where more details about the SWLS architecture design can be found.
 
+All code is licensed under the MIT License and available on GitHub\footnote{\url{https://github.com/ajuvercr/semantic-web-lsp}}.
+
 \section{Semantic Web Language Server}
 
-SWLS follows the Language Server Protocol (LSP)\cite{IntroToLsp}\footnote{\url{https://microsoft.github.io/language-server-protocol/}},
+SWLS follows the Language Server Protocol (LSP)~\cite{IntroToLsp}\footnote{\url{https://microsoft.github.io/language-server-protocol/}},
 a protocol allowing one server implementation to interact with different editors, reducing complexity from $O(M*N)$ to $O(M+N)$,
 with $M$ editors and $N$ languages.
 
 The server communicates using JSON-RPC, enabling bidirectional messaging between the editor and server for handling features such as autocompletion, highlighting, and diagnostics.
 Most modern editors support LSP, including Visual Studio Code and NeoVim.
-The server is implemented in Rust, and allows to be compiled to WASM to integrate into browsers.
+The server is implemented in Rust, and allows to be compiled to WASM (portable low level byte code) that integrates into browsers.
 
 SWLS is designed for flexibility, allowing support for multiple file formats with maximal code reuse. 
-It uses an entity component system (ECS) to build a layered architecture\cite{10.1145/3550355.3552452}, following a traditional \textit{Feature Execution Flow}.
+It uses an entity component system (ECS) to build a layered architecture~\cite{10.1145/3550355.3552452}, following a traditional \textit{Feature Execution Flow}.
 
 \begin{enumerate}
-  \item In the \textit{Parse} step of the server handles parsing the document (emitting potential syntax errors) and deriving defined triples and prefixes.
+  \item The \textit{Parse} step handles parsing the document (emitting potential syntax errors) and deriving defined triples and prefixes.
 
   \item The \textit{Traverse} step derives information from the triples, such as defined properties, classes and SHACL shapes. 
-        This step also fetches the used ontologies that are accessible from the defined prefixes,
-        this uses the public LOV api, when ontologies are fetched and added to the ECS.
-        The \textit{Traverse} step also emits dignostics, notifying the editor of potential mistakes in the document, including undefined prefixes, and shape violations (using the Rudof\cite{labra2022rudof} library).
+    Starting from the defined prefixes, this step also finds the used ontologies using the public LOV api, these ontologies are added to the ECS, functioning as sources for defined properties and classes.
+        This step also emits dignostics, notifying the editor of potential mistakes in the document, including undefined prefixes, and shape violations (using the Rudof~\cite{labra2022rudof} library).
 
   \item The \textit{Process} step extracts all required information from the previous steps and translates it into a response for the current request.
         Currently SWLS handles autocompletion (predicates, classes and prefixes), renaming and hover.
@@ -92,7 +93,7 @@ requiring only the \textit{Parse} step to be implemented for each file format.
 \end{figure}
 
 The demo consists of an online application at \url{https://ajuvercr.github.io/semantic-web-lsp/}.
-The app has four editor panels each with a different purpose and runs entirely in browser, the editors use the opensource Monaco editor\footnote{\url{https://github.com/microsoft/monaco-editor}}
+The app has four editor panels, each with a different purpose, and runs entirely in browser. The editors use the opensource Monaco editor\footnote{\url{https://github.com/microsoft/monaco-editor}}
 that communicate with the language server compiled to WASM.
 % : a data pane for authoring RDF data, an ontology pane for vocabulary management, a shape pane for SHACL constraints, and a query pane for SPARQL queries.
 %
@@ -112,7 +113,7 @@ that communicate with the language server compiled to WASM.
 
 Users can also try the language server on local editors.
 For VSCode, users can install the Semantic Web LSP\footnote{\url{https://marketplace.visualstudio.com/items?itemName=ajuvercr.semantic-web-lsp}}.
-Seting the server up  with NeoVim requires installing the language server with cargo and configuring the language server with \textit{lspconfig}.
+Setting up the server with NeoVim requires installing the language server with cargo (Rust's package manager) and configuring the language server with \textit{lspconfig}.
 
 \section{Conclusion}
 
