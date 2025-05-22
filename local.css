@@ -1,0 +1,110 @@
+.slide pre code {
+  width: unset;
+}
+
+.slide.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+}
+
+.right {
+  right: 0.5em;
+}
+
+.large {
+  font-size: 1.5em;
+}
+
+.image-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-evenly;
+}
+
+.image-row img {
+  flex: 1;
+  max-width: 20%;
+  height: auto;
+}
+
+.bg-inspirational {
+  background-color: black;
+  padding: 0;
+  color: white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-inspirational figure img {
+  min-width: 100%;
+}
+
+.overlay {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  max-width: 80%;
+}
+
+.overlay h1 {
+  font-size: 3rem;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.overlay strong {
+  font-weight: 700;
+  font-size: 3.5rem;
+  display: block;
+  margin-top: 1rem;
+}
+
+.token.url {
+  background: unset;
+}
+
+.token.operator {
+  background: unset;
+
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.fitting {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.fits {
+  object-fit: contain;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: space-evenly;
+}
+
+.row>* {
+  width: 45%;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 1.5em;
+}
