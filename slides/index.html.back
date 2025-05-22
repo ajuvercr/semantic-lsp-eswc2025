@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shower Presentation Engine</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="node_modules/@shower/ribbon/styles/styles.css">
+    <link href="./prism.css" rel="stylesheet" />
+    <link href="./local.css" rel="stylesheet" />
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+
+<body class="shower list line-numbers">
+
+    <header class="caption">
+        <h1>Semantic Web Language Server (SWLS)</h1>
+        <p>Enhancing the Developer Experience for Semantic Web Practitioners</p>
+    </header>
+
+    <section class="slide">
+        <h2>Introduction</h2>
+        <ul>
+            <li>Semantic Web enables rich data interactions using RDF, SPARQL, SHACL, etc.</li>
+            <li>Authoring documents is error-prone and complex.</li>
+            <li>SWLS: Language Server Protocol (LSP) implementation for the Semantic Web.</li>
+        </ul>
+        <pre><code class="language-css ">p { color: red }</code></pre>
+    </section>
+
+    <section class="slide">
+        <h2>Motivation</h2>
+        <ul>
+            <li>Existing editors lack guidance and feedback.</li>
+            <li>High entry barrier, especially for newcomers.</li>
+            <li>Need cross-editor, semantic-aware tooling.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Target User Groups</h2>
+        <ul>
+            <li><strong>Power Users</strong>: Validation, efficiency.</li>
+            <li><strong>Newcomers</strong>: Learn through feedback.</li>
+            <li><strong>Domain Experts</strong>: Explore/edit ontologies.</li>
+            <li><strong>Data Engineers</strong>: SPARQL autocompletion, validation.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Language Server Protocol</h2>
+        <ul>
+            <li>Standard JSON-RPC protocol.</li>
+            <li>Cross-editor language support (VSCode, NeoVim, etc.).</li>
+            <li>Reduces integration complexity: <em>O(M+N)</em> instead of <em>O(M×N)</em>.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>State of the Art Tools</h2>
+        <ul>
+            <li>Protégé, YASGUI, RDFox offer partial support.</li>
+            <li>Few tools support semantic highlighting or diagnostics.</li>
+            <li>No tool offers full IDE experience.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>What is SWLS?</h2>
+        <ul>
+            <li>LSP implementation in Rust (Bevy ECS-based).</li>
+            <li>Supports Turtle, JSON-LD, SPARQL.</li>
+            <li>Features: completion, diagnostics, highlighting, formatting, hover.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Architecture Overview</h2>
+        <ul>
+            <li><strong>Parse</strong>: Tokens & syntax.</li>
+            <li><strong>Traverse</strong>: Derive classes, properties, shapes.</li>
+            <li><strong>Process</strong>: Respond to LSP requests.</li>
+            <li>Modular ECS design (Bevy).</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Core Features</h2>
+        <ul>
+            <li>Syntactic & semantic highlighting.</li>
+            <li>Context-aware autocompletion.</li>
+            <li>SHACL and syntax diagnostics (on edit/save).</li>
+            <li>Hover for types, domains, descriptions.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Demo Screenshots</h2>
+        <ul>
+            <li>Class completion suggestions.</li>
+            <li>Property suggestions (based on domain).</li>
+            <li>Undefined prefix warnings.</li>
+            <li>Type + description shown on hover.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Editor Integration</h2>
+        <ul>
+            <li>VSCode Extension (Marketplace).</li>
+            <li>NeoVim (via LSP integration).</li>
+            <li>Web-based demo: 4 editors, tailored views.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>User Benefits</h2>
+        <ul>
+            <li><strong>Power Users</strong>: Fast workflows, QA help.</li>
+            <li><strong>Newcomers</strong>: Learn by doing (error feedback).</li>
+            <li><strong>Domain Experts</strong>: Validate and curate ontologies.</li>
+            <li><strong>Data Engineers</strong>: Faster, safer SPARQL development.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Related Work</h2>
+        <ul>
+            <li>YASGUI, Protégé: Important predecessors.</li>
+            <li>SWLS adds typed, context-aware features.</li>
+            <li>LLMs are useful but not deterministic — SWLS is ontology-driven.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Future Work</h2>
+        <ul>
+            <li>Support Trig, N3 formats.</li>
+            <li>Better type inference via reasoning.</li>
+            <li>Stronger integration with linked vocabularies.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Conclusion</h2>
+        <ul>
+            <li>SWLS boosts accessibility and productivity.</li>
+            <li>Editor-agnostic and modular.</li>
+            <li>Open source: <a href="https://github.com/ajuvercr/semantic-web-lsp">GitHub</a>.</li>
+            <li>Try the online demo!</li>
+        </ul>
+    </section>
+
+    <footer class="badge">
+        <a href="https://github.com/shower/shower">Fork me on GitHub</a>
+    </footer>
+
+    <div class="progress"></div>
+
+    <script src="node_modules/@shower/core/dist/shower.js"></script>
+    <script src="./prism.js"></script>
+</body>
+
+</html>
