@@ -10,5 +10,9 @@
   "dependencies": {
     "@shower/core": "^3.3.0",
     "@shower/ribbon": "^3.5.2"
+  },
+  "devDependencies": {
+    "@shower/cli": "^0.3.1",
+    "pug-cli": "^1.0.0-alpha6"
   }
 }
