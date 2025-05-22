@@ -25,19 +25,19 @@ html
       h2 Context
       ul
         li Semantic Web comes in many forms: Turtle, SPARQL, etc
-        li Semantic Data is highly sensitive to human errors
-        li The source of truth is #[strong available] [1]
+        li When editing Linked Data, a human error is quickly made
+        li Thanks to best practices, the source of truth is often #[strong available] [1]
       h4 We introduce the Semantic Web Language Server (SWLS).
-      p.footer [1]: #[a(href="https://lov.linkeddata.es/dataset/lov/") Linked Open Vocabularies (LOV)]
+      p.footer [1]: #[a(href="https://lov.linkeddata.es/dataset/lov/") lov.linkeddata.es/dataset/lov/]
 
     section.slide
       h2 Motivation
-      p Other tools exists but are limited
+      p Other tools exist but are limited
       ul
         li Focus on a single language, Yasgui [2]
-        li Focus on a single dataset, https://query.wikidata.org/
+        li Focus on a single dataset, #[a(href="https://query.wikidata.org/") query.wikidata.org]
         li Most lack local integrations
-      p.footer [2]: #[a(href="https://yasgui.org/") Yasgui]
+      p.footer [2]: #[a(href="https://yasgui.org/") yasgui.org/]
 
     section.slide.bg-inspirational
       .overlay
@@ -88,10 +88,10 @@ html
       pre
         code(class="language-turtle").
           @prefix foaf: &lt;http://xmlns.com/foaf/0.1/>.
-          <#me> a foaf:Person;
+          <#you> a foaf:Person;
             foaf:knows [
-              foaf:name "Pieter";
-              foaf:lastName "Colpaert";
+              foaf:name "Arthur";
+              foaf:lastName "Vercruysse";
             ].
 
     section.slide
@@ -254,32 +254,15 @@ html
         li #[strong NeoVim:] Binary to install and configure with #[em nvim-lspconfig]
         li #[strong Web demo:] Demonstrates capabilities with 4 different editor panels
 
-
-    // section.slide
-      h2 User Benefits
-      ul
-        li #[strong Newcomers:] Learn by doing (error feedback)
-        li #[strong Power Users:] Fast workflows, QA help
-        li #[strong Domain Experts:] Validate and curate ontologies
-        li #[strong Data Engineers:] Faster, safer SPARQL development
-      br
-      blockquote.slide-quote Early validation reduces downstream integration errors.
-
-    // section.slide
-    //   h2 Future Work
-    //   ul
-    //     li Support more formats, ie Trig, N3, RDF/XML.
-    //     li Better type inference via reasoning.
-    //     li Stronger integration with linked vocabularies.
-
     section.slide
       h2 Conclusion
       ul
         li SWLS boosts accessibility and productivity.
         li Editor-agnostic and modular.
-        li Try the online #[a(href="https://ajuvercr.github.io/semantic-web-lsp/") Demo]!
-        li Open source: #[a(href="https://github.com/ajuvercr/semantic-web-lsp") GitHub]. (Pull requests are welcome)
-
+        li Try the online  Demo][3]!
+        li Open source: pull requests are welcome #[br] #[a(href="https://github.com/ajuvercr/semantic-web-lsp") github.com/ajuvercr/semantic-web-lsp].
+      .p.footer [1]: #[a(href="https://ajuvercr.github.io/semantic-web-lsp/") ajuvercr.github.io/semantic-web-lsp/]
+          
 
     script(src="node_modules/@shower/core/dist/shower.js")
     script(src="./prism.js")
