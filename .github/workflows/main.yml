@@ -37,7 +37,7 @@ jobs:
         run: npx shower bundle output
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3.0.1        
         with:
           path: slides/output
 
