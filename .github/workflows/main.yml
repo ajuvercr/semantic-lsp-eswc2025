@@ -1,0 +1,50 @@
+name: Deploy Shower Slides
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-path: slides/output
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        working-directory: slides
+        run: npm install
+
+      - name: Render Pug to HTML
+        working-directory: slides
+        run: npx pug index.pug
+
+      - name: Bundle with Shower
+        working-directory: slides
+        run: npx shower bundle output
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: slides/output
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
