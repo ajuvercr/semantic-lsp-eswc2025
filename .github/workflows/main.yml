@@ -10,41 +10,26 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    outputs:
-      artifact-path: slides/output
-
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
         with:
-          node-version: '16'
+          persist-credentials: false
 
-      - name: Install dependencies
-        working-directory: slides
-        run: npm install
+      - name: Install and Build 🔧
+        run: |
+          cd slides
+          npm install
+          npx pug index.pug
+          npx shower bundle
 
-      - name: Render Pug to HTML
-        working-directory: slides
-        run: npx pug index.pug
-
-      - name: Bundle with Shower
-        working-directory: slides
-        run: npx shower bundle output
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3.0.1        
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
-          path: slides/output
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: slides/bundled
+          CLEAN: true
+   
