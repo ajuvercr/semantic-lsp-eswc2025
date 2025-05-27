@@ -75,13 +75,13 @@ html
 
     section.slide
       h2 Entity Component System (ECS)
-      p Originally created to handle data management in games, following composition over inheritance, all data is present in the #[em world]
+      //p Originally created to handle data management in games, following composition over inheritance, all data is present in the #[em world]
       ul
-        li #[strong Entities:] documents in the editor
-        li #[strong Components:] data linked to entities
-        li #[strong Systems:] function that acts on entities with the desired components
-        li #[strong Resources:] static data linked to the #[em world]
-      p Different systems are bundled in #[em schedules].
+        li #[strong Entities:] bundles of components, here documents in the editor
+        li #[strong Components:] objects part of an entity
+        li #[strong Systems:] functions that acts on entities with the desired components
+        //li #[strong Resources:] static data linked to the #[em world]
+      //p Different systems are bundled in #[em schedules].
 
     section.slide
       h2 File #[em index.ttl]
@@ -96,92 +96,90 @@ html
 
     section.slide
       h2 Entity Component System (ECS)
-      table
-        tr
-          each val in ["", "Source", "TurtleLang"]
-            th= val
-        tr
-          each val in ["index.ttl", "The Source Code", "Exists"]
-            td= val
-
-    section.slide
-      h2 Turtle Parse System
-      pre
-        code(class="language-rust").
-          pub fn parse_source(
-              query: Query<
-                (Entity, &Source), (Changed&lt;Source>, With&lt;TurtleLang>)
-              >,
-           ) {
-              // Parse the source, add tokens, AST and prefixes to entity
-           }
+      .entities 
+        .entity
+          header index.ttl
+          .component.bold Source Code
+          .component.bold TurtleLang
 
 
     section.slide
-      h2 Entity Component System (ECS)
-      table
-        tr
-          each val in ["", "Turtle", "Triples", "Prefixes", "Open"]
-            th= val
-        tr
-          each val in ["index.ttl", "AST", "5", "1", "Exists"]
-            td= val
-
-    section.slide
-      h2 LOV System
-      pre
-        code(class="language-rust").
-           pub fn fetch_lov_properties<C: Client + Resource>(
-              query: Query&lt;&Prefixes, (Changed&lt;Prefixes>, With&lt;Open>)>,
-              mut prefixes: Local&lt;HashSet&lt;String>>,
-           ) {
-              // Fetch LOV
-              // Add document to ECS __world__
-           }
-
+      h2 Parse Systems
+      .row 
+        .system
+          header.correct Parse Turtle
+          section Parses the Turtle source code
+          section.input
+            span Source Code
+            br
+            span.bold.correct Turtle Lang
+          section.output
+            span Triples
+            br
+            span Prefixes
+        .system
+          header Parse JSON-LD
+          section Parses the JSON-LD source code
+          section.input
+            span Source Code
+            br
+            span.bold.faulty JSON-LD Lang
+          section.output
+            span Triples
+            br
+            span Prefixes
 
     section.slide
       h2 Entity Component System (ECS)
-      table
-        tr
-          each val in ["", "Turtle", "Triples", "Prefixes", "Open", "Links"]
-            th= val
-        tr
-          each val in ["index.ttl", "AST", "5", "1", "Exists", "foaf.ttl"]
-            td= val
-        tr
-          each val in ["foaf.ttl", "AST", "1042", "5", "-", "-"]
-            td= val
+      .entities 
+        .entity
+          header index.ttl
+          .component Source Code
+          .component TurtleLang
+          .component.bold Triples
+          .component.bold Prefixes
 
     section.slide
-      h2 Derive Classes
-      pre
-        code(class="language-rust").
-          pub fn derive_classes(
-              query: Query<
-                (Entity, &Triples), (Changed&lt;Triples>, Without&lt;Dirty>)
-              >,
-           ) {
-              // Extract classes from triples and add them to the entity
-           }
+      h2 Other Systems
+      .row 
+        .system
+          header LOV services
+          section Fetch ontologies from LOV according to the defined prefixes. #[br] Adds these documents to the ECS.
+          section.input
+            span Prefixes
+          section.output
+        .system
+          header Derive Classes
+          section Extracts #[code owl:Class] objects. #[br] Extracts #[code owl:Property] objects.
+          section.input
+            span Triples
+          section.output
+            span Derived Classes
+            br
+            span Derived Properties
 
     section.slide
       h2 Entity Component System (ECS)
-      table
-        tr
-          each val in ["", "Turtle", "Triples", "Prefixes", "Open", "Links", "Properties", "Classes"]
-            th= val
-        tr
-          each val in ["index.ttl", "AST", "5", "1", "Exists","foaf.ttl",  "-", "-" ]
-            td= val
-        tr
-          each val in ["foaf.ttl", "AST", "1042", "5", "-", "-", "64", "5"]
-            td= val
+      .entities 
+        .entity
+          header index.ttl
+          .component Source Code
+          .component TurtleLang
+          .component Triples
+          .component Prefixes
+        .entity.next
+          header foaf.ttl
+          .component Source Code
+          .component TurtleLang
+          .component.next Triples
+          .component.next Prefixes
+          .component.bold.next Derived Classes
+          .component.bold.next Derived Properties
 
     section.slide
       h2 Entity Component System (ECS)
       p 
-        | Other operations like autocompletion work the same way:
+        | Other operations like autocompletion work the same way.
         br
         | Multiple small systems find their required data and transform that into the expected data structure.
       p #[strong Autocompletion] is powered by things like the #[strong defined classes] and #[strong properties] from linked entities but also by other services like prefix.cc
